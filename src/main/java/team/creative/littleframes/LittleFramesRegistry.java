@@ -15,6 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 import team.creative.littleframes.common.block.BECreativePictureFrame;
 import team.creative.littleframes.common.block.BlockCreativePictureFrame;
 
+@Deprecated
 public class LittleFramesRegistry {
     
     // ITEMS
@@ -35,7 +36,7 @@ public class LittleFramesRegistry {
     
     // BLOCK_ENTITY
     
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, LittleFrames.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, LittleFrames.MODID);
     
     public static final RegistryObject<BlockEntityType<BECreativePictureFrame>> BE_CREATIVE_FRAME = registerBlockEntity("creative_pic_frame", () -> BlockEntityType.Builder
             .of(BECreativePictureFrame::new, CREATIVE_PICTURE_FRAME.get()));

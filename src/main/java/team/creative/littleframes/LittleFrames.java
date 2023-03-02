@@ -1,5 +1,6 @@
 package team.creative.littleframes;
 
+import net.minecraft.world.item.CreativeModeTab;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,9 +55,9 @@ public class LittleFrames {
                     .register("little_picture_frame", LittlePictureFrame.class, LittlePictureFrame::new, new LittleAttributeBuilder().tickRendering().ticking()), "frame"));
         }
     }
-    
-    private void registerTabs(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(LittleFramesRegistry.CREATIVE_PICTURE_FRAME.get());
-    }
+
+//    private void registerTabs(CreativeModeTab.BuildContents event) {
+//        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS)
+//            event.accept(LittleFramesRegistry.CREATIVE_PICTURE_FRAME.get());
+//    }
 }
