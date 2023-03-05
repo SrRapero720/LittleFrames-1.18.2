@@ -3,6 +3,7 @@ package team.creative.littletiles.client.render.tile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -41,7 +42,7 @@ public class LittleRenderBoxItem extends LittleRenderBox {
     }
     
     @Override
-    public List<BakedQuad> getBakedQuad(LevelAccessor level, BlockPos pos, BlockPos offset, BlockState state, BakedModel blockModel, Facing facing, RenderType layer, RandomSource rand, boolean overrideTint, int defaultColor) {
+    public List<BakedQuad> getBakedQuad(LevelAccessor level, BlockPos pos, BlockPos offset, BlockState state, BakedModel blockModel, Facing facing, RenderType layer, Random rand, boolean overrideTint, int defaultColor) {
         if (facing != structure.facing)
             return Collections.EMPTY_LIST;
         BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(structure.stack, null, null, 0);

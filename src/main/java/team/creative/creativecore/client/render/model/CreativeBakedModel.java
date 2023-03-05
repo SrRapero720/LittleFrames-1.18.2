@@ -1,7 +1,9 @@
 package team.creative.creativecore.client.render.model;
 
 import java.util.List;
+import java.util.Random;
 
+import net.minecraftforge.client.extensions.IForgeBakedModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,11 +19,11 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
+import java.util.Random;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelDataMap;
 
 public class CreativeBakedModel implements BakedModel {
     
@@ -51,13 +53,8 @@ public class CreativeBakedModel implements BakedModel {
     }
     
     @Override
-    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData data, @Nullable RenderType renderType) {
-        return get().getQuads(state, side, rand, data, renderType);
-    }
-    
-    @Override
     public boolean useAmbientOcclusion() {
-        return get().useAmbientOcclusion();
+        return get().useAmbientOcclusion(null);
     }
     
     @Override
@@ -91,14 +88,7 @@ public class CreativeBakedModel implements BakedModel {
     }
     
     @Override
-    public BakedModel applyTransform(ItemTransforms.TransformType transformType, PoseStack poseStack, boolean applyLeftHandTransform) {
-        if (renderedStack != null)
-            item.applyCustomOpenGLHackery(poseStack, renderedStack, transformType);
-        return BakedModel.super.applyTransform(transformType, poseStack, applyLeftHandTransform);
-    }
-    
-    @Override
-    public List<BakedQuad> getQuads(BlockState state, Direction direction, RandomSource source) {
+    public List<BakedQuad> getQuads(BlockState state, Direction direction, Random source) {
         return get().getQuads(state, direction, source);
     }
     

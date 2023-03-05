@@ -1,8 +1,10 @@
 package team.creative.creativecore.client.render.model;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormatElement;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.core.Direction;
-import net.minecraftforge.client.model.IQuadTransformer;
+import net.minecraftforge.client.model.QuadTransformer;
 import team.creative.creativecore.client.render.box.RenderBox;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 
@@ -33,9 +35,14 @@ public class CreativeBakedQuad extends BakedQuad {
         if (alpha == 255)
             return;
         for (int k = 0; k < 4; k++) {
-            int index = k * IQuadTransformer.STRIDE + IQuadTransformer.COLOR;
+            int index = k * DefaultVertexFormat.BLOCK.getIntegerSize() + findOffset(DefaultVertexFormat.ELEMENT_COLOR);
             getVertices()[index] = ColorUtils.setAlpha(getVertices()[index], alpha);
         }
     }
-    
+
+    private static int findOffset(VertexFormatElement element) {
+        // Divide by 4 because we want the int offset
+        var index = DefaultVertexFormat.BLOCK.getElements().indexOf(element);
+        return index < 0 ? -1 : DefaultVertexFormat.BLOCK.getOffset(index) / 4;
+    }
 }
