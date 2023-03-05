@@ -28,10 +28,9 @@ public abstract class VertexBufferMixin implements VertexBufferExtender {
         this.manager = manager;
     }
     
-    @Inject(at = @At("TAIL"), method = "upload(Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;)V")
+    @Inject(at = @At("TAIL"), method = "upload(Lcom/mojang/blaze3d/vertex/BufferBuilder;)V")
     public void upload(CallbackInfo info) {
-        if (!((VertexBuffer) (Object) this).isInvalid() && manager != null)
-            manager.uploaded();
+        if (manager != null) manager.uploaded();
     }
     
     @Override
@@ -40,6 +39,6 @@ public abstract class VertexBufferMixin implements VertexBufferExtender {
     
     @Override
     @Accessor
-    public abstract int getVertexBufferId();
+    public abstract int getVertextBufferId();
     
 }

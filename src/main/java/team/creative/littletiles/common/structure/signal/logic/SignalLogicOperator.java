@@ -595,11 +595,12 @@ public enum SignalLogicOperator {
             }
             
             SignalState result = size.create();
-            for (int i = 0; i < state.length; i++) {
+            for (SignalState signalState : state) {
                 switch (size) {
-                    case SINGLE -> result = result.set(0, operator().perform(result.any(), state[i].any()));
-                    case INT -> result = result.setNumber(operator().perform(result.number(), state[i].number()));
-                    case LONG -> result = result.setLongNumber(operator().perform(result.longNumber(), state[i].longNumber()));
+                    case SINGLE -> result = result.set(0, operator().perform(result.any(), signalState.any()));
+                    case INT -> result = result.setNumber(operator().perform(result.number(), signalState.number()));
+                    case LONG ->
+                            result = result.setLongNumber(operator().perform(result.longNumber(), signalState.longNumber()));
                 }
             }
             return result;

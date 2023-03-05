@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.event.RegistryEvent;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -27,7 +32,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.RandomSource;
+import java.util.Random;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -121,7 +126,7 @@ public class LittleTilesClient {
         bus.addListener(LittleTilesClient::modelLoader);
     }
     
-    private static void registerKeys(RegisterKeyMappingsEvent event) {
+    private static void registerKeys(FMLClientSetupEvent event) {
         up = new KeyMapping("key.rotateup", GLFW.GLFW_KEY_UP, "key.categories.littletiles");
         down = new KeyMapping("key.rotatedown", GLFW.GLFW_KEY_DOWN, "key.categories.littletiles");
         right = new KeyMapping("key.rotateright", GLFW.GLFW_KEY_RIGHT, "key.categories.littletiles");
@@ -134,17 +139,18 @@ public class LittleTilesClient {
         
         undo = new KeyMapping("key.little.undo", KeyConflictContext.UNIVERSAL, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, InputConstants.KEY_Z, "key.categories.littletiles");
         redo = new KeyMapping("key.little.redo", KeyConflictContext.UNIVERSAL, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, InputConstants.KEY_Y, "key.categories.littletiles");
+
+        ClientRegistry.registerKeyBinding(up);
+        ClientRegistry.registerKeyBinding(up);
+        ClientRegistry.registerKeyBinding(down);
+        ClientRegistry.registerKeyBinding(right);
+        ClientRegistry.registerKeyBinding(left);
+        ClientRegistry.registerKeyBinding(flip);
+        ClientRegistry.registerKeyBinding(mark);
+        ClientRegistry.registerKeyBinding(configure);
         
-        event.register(up);
-        event.register(down);
-        event.register(right);
-        event.register(left);
-        event.register(flip);
-        event.register(mark);
-        event.register(configure);
-        
-        event.register(undo);
-        event.register(redo);
+        ClientRegistry.registerKeyBinding(undo);
+        ClientRegistry.registerKeyBinding(redo);
     }
     
     private static void setup(final FMLClientSetupEvent event) {
@@ -197,10 +203,7 @@ public class LittleTilesClient {
         ItemProperties.register(LittleTilesRegistry.YELLOW_COLOR.get(), filled, function);
     }
     
-    public static void modelLoader(RegisterAdditional event) {
-        event.register(new ModelResourceLocation(LittleTiles.MODID, "glove_background", "inventory"));
-        event.register(new ModelResourceLocation(LittleTiles.MODID, "chisel_background", "inventory"));
-        event.register(new ModelResourceLocation(LittleTiles.MODID, "blueprint_background", "inventory"));
+    public static void modelLoader(ModelRegistryEvent event) {
     }
     
     public static void modelEvent(RegisterGeometryLoaders event) {

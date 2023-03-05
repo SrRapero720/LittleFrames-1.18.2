@@ -1,0 +1,41 @@
+{
+  "required": true,
+  "package": "team.creative.littletiles.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "littletiles.mixins.refmap.json",
+  "mixins": [
+    "common.block.StateHolderAccessor",
+    "common.collision.BlockCollisionsMixin",
+    "common.entity.EntityMixin",
+    "common.entity.PlayerBedMixin",
+    "common.entity.PrimedTntAccessor",
+    "common.level.BlockBehaviourAccessor",
+    "server.level.ChunkSerializerAccessor",
+    "server.level.MinecraftServerAccessor",
+    "server.level.ServerChunkCacheMixin",
+    "server.level.ServerChunkCacheAccessor",
+    "server.level.ServerLevelMixin",
+    "server.level.ChunkMapAccessor",
+    "server.network.ServerGamePacketListenerImplAccessor",
+    "server.network.ServerGamePacketListenerImplMixin"
+  ],
+  "client": [
+    "client.MinecraftMixin",
+    "client.MultiPlayerGameModeAccessor",
+    "client.level.ClientLevelAccessor",
+    "client.level.ClientLevelMixin",
+    "client.level.ClientChunkCacheAccessor",
+    "client.network.ClientPacketListenerAccessor",
+    "client.render.RebuildTaskMixin",
+    "client.render.RenderChunkMixin",
+    "client.render.VertexBufferMixin",
+    "client.render.CompiledChunkAccessor",
+    "client.render.LevelRendererMixin",
+    "client.render.LevelRendererAccessor",
+    "client.render.ViewAreaAccessor",
+    "client.render.ParticleEngineAccessor",
+    "client.render.LightTextureAccessor",
+    "client.render.GameRendererAccessor"
+  ],
+  "minVersion": "0.8"
+}

@@ -1,19 +1,7 @@
 package team.creative.littletiles.server.level.little;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.util.Either;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
@@ -27,32 +15,35 @@ import net.minecraft.util.VisibleForDebug;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.util.thread.BlockableEventLoop;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.NaturalSpawner;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.storage.ChunkScanAccess;
 import net.minecraft.world.level.entity.ChunkStatusUpdateListener;
-import net.minecraft.world.level.levelgen.RandomState;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess;
 import team.creative.creativecore.common.util.type.itr.FunctionIterator;
 import team.creative.littletiles.mixin.server.level.ServerChunkCacheAccessor;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 public class LittleServerChunkCache extends ServerChunkCache implements Iterable<LevelChunk> {
     
     private final HashMap<Long, LittleChunkHolder> chunks = new HashMap<>();
     private final MainThreadExecutor mainThreadProcessor;
     
-    public LittleServerChunkCache(LittleServerLevel level, LevelStorageAccess storageAccess, DataFixer dataFixer, StructureTemplateManager structureTemplate, Executor exe, ChunkGenerator generator, int viewDistance, int simulationDistance, boolean sync, ChunkProgressListener progress, ChunkStatusUpdateListener status, Supplier<DimensionDataStorage> supplier) {
+    public LittleServerChunkCache(LittleServerLevel level, LevelStorageAccess storageAccess, DataFixer dataFixer, StructureManager structureTemplate, Executor exe, ChunkGenerator generator, int viewDistance, int simulationDistance, boolean sync, ChunkProgressListener progress, ChunkStatusUpdateListener status, Supplier<DimensionDataStorage> supplier) {
         super(level, storageAccess, dataFixer, structureTemplate, exe, generator, viewDistance, simulationDistance, sync, progress, status, supplier);
         mainThreadProcessor = new MainThreadExecutor(level);
     }
@@ -168,12 +159,7 @@ public class LittleServerChunkCache extends ServerChunkCache implements Iterable
     public ChunkGenerator getGenerator() {
         return null;
     }
-    
-    @Override
-    public RandomState randomState() {
-        return null;
-    }
-    
+
     @Override
     public int getLoadedChunksCount() {
         return chunks.size();
@@ -292,11 +278,6 @@ public class LittleServerChunkCache extends ServerChunkCache implements Iterable
     public boolean runDistanceManagerUpdates2() {
         this.chunkMap.getDistanceManager().runAllUpdates(this.chunkMap);
         return false;
-    }
-    
-    @Override
-    public ChunkGeneratorStructureState getGeneratorState() {
-        return null;
     }
     
     public final class MainThreadExecutor extends BlockableEventLoop<Runnable> {

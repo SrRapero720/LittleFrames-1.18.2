@@ -56,13 +56,13 @@ public class ChunkLayerUploadManager {
             return;
         Supplier<Boolean> run = () -> {
             synchronized (this) {
-                if (Minecraft.getInstance().level == null || uploaded == null || ((VertexBufferExtender) buffer).getVertexBufferId() == -1) {
+                if (Minecraft.getInstance().level == null || uploaded == null || ((VertexBufferExtender) buffer).getVertextBufferId() == -1) {
                     if (uploaded != null)
                         uploaded.discard();
                     uploaded = null;
                     return false;
                 }
-                GlStateManager._glBindBuffer(GL15.GL_ARRAY_BUFFER, ((VertexBufferExtender) buffer).getVertexBufferId());
+                GlStateManager._glBindBuffer(GL15.GL_ARRAY_BUFFER, ((VertexBufferExtender) buffer).getVertextBufferId());
                 try {
                     ByteBuffer uploadedData = RenderUploader.glMapBufferRange(uploaded.totalSize());
                     if (uploadedData != null)

@@ -2,11 +2,9 @@ package team.creative.littletiles.api.common.block;
 
 import javax.annotation.Nullable;
 
-import org.joml.Vector3d;
-
+import com.mojang.math.Vector3d;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -57,8 +55,6 @@ public interface LittleBlock {
     public float getExplosionResistance(LittleTile tile);
     
     public void exploded(IParentCollection parent, LittleTile tile, Explosion explosion);
-    
-    public void randomDisplayTick(IParentCollection parent, LittleTile tile, RandomSource rand);
     
     public boolean canInteract();
     

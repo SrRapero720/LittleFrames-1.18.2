@@ -1,9 +1,7 @@
 package team.creative.littletiles;
 
-import java.util.function.Supplier;
-
 import net.minecraft.Util;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.datafix.fixes.References;
@@ -17,6 +15,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,30 +24,14 @@ import net.minecraftforge.registries.RegistryObject;
 import team.creative.littletiles.common.block.entity.BESignalConverter;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.entity.BETilesRendered;
-import team.creative.littletiles.common.block.mc.BlockArrow;
-import team.creative.littletiles.common.block.mc.BlockFlowingLava;
-import team.creative.littletiles.common.block.mc.BlockFlowingWater;
-import team.creative.littletiles.common.block.mc.BlockLava;
-import team.creative.littletiles.common.block.mc.BlockSignalConverter;
-import team.creative.littletiles.common.block.mc.BlockTile;
-import team.creative.littletiles.common.block.mc.BlockWater;
+import team.creative.littletiles.common.block.mc.*;
 import team.creative.littletiles.common.entity.EntitySit;
 import team.creative.littletiles.common.entity.PrimedSizedTnt;
 import team.creative.littletiles.common.entity.level.LittleLevelEntity;
-import team.creative.littletiles.common.item.ItemBlockIngredient;
-import team.creative.littletiles.common.item.ItemColorIngredient;
+import team.creative.littletiles.common.item.*;
 import team.creative.littletiles.common.item.ItemColorIngredient.ColorIngredientType;
-import team.creative.littletiles.common.item.ItemLittleBag;
-import team.creative.littletiles.common.item.ItemLittleBlueprint;
-import team.creative.littletiles.common.item.ItemLittleChisel;
-import team.creative.littletiles.common.item.ItemLittleGlove;
-import team.creative.littletiles.common.item.ItemLittleHammer;
-import team.creative.littletiles.common.item.ItemLittlePaintBrush;
-import team.creative.littletiles.common.item.ItemLittleSaw;
-import team.creative.littletiles.common.item.ItemLittleScrewdriver;
-import team.creative.littletiles.common.item.ItemLittleWrench;
-import team.creative.littletiles.common.item.ItemMultiTiles;
-import team.creative.littletiles.common.item.ItemPremadeStructure;
+
+import java.util.function.Supplier;
 
 public class LittleTilesRegistry {
     
@@ -56,19 +39,19 @@ public class LittleTilesRegistry {
     
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, LittleTiles.MODID);
     
-    public static final RegistryObject<Item> HAMMER = ITEMS.register("hammer", () -> new ItemLittleHammer());
-    public static final RegistryObject<Item> BLUEPRINT = ITEMS.register("blueprint", () -> new ItemLittleBlueprint());
-    public static final RegistryObject<Item> ITEM_TILES = ITEMS.register("multi_tiles", () -> new ItemMultiTiles());
-    public static final RegistryObject<Item> SAW = ITEMS.register("saw", () -> new ItemLittleSaw());
-    public static final RegistryObject<Item> BAG = ITEMS.register("bag", () -> new ItemLittleBag());
-    public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", () -> new ItemLittleWrench());
-    public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver", () -> new ItemLittleScrewdriver());
-    public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel", () -> new ItemLittleChisel());
-    public static final RegistryObject<Item> PAINT_BRUSH = ITEMS.register("paint_brush", () -> new ItemLittlePaintBrush());
-    public static final RegistryObject<Item> GLOVE = ITEMS.register("glove", () -> new ItemLittleGlove());
-    public static final RegistryObject<Item> PREMADE = ITEMS.register("premade", () -> new ItemPremadeStructure());
+    public static final RegistryObject<Item> HAMMER = ITEMS.register("hammer", ItemLittleHammer::new);
+    public static final RegistryObject<Item> BLUEPRINT = ITEMS.register("blueprint", ItemLittleBlueprint::new);
+    public static final RegistryObject<Item> ITEM_TILES = ITEMS.register("multi_tiles", ItemMultiTiles::new);
+    public static final RegistryObject<Item> SAW = ITEMS.register("saw", ItemLittleSaw::new);
+    public static final RegistryObject<Item> BAG = ITEMS.register("bag", ItemLittleBag::new);
+    public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", ItemLittleWrench::new);
+    public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver", ItemLittleScrewdriver::new);
+    public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel", ItemLittleChisel::new);
+    public static final RegistryObject<Item> PAINT_BRUSH = ITEMS.register("paint_brush", ItemLittlePaintBrush::new);
+    public static final RegistryObject<Item> GLOVE = ITEMS.register("glove", ItemLittleGlove::new);
+    public static final RegistryObject<Item> PREMADE = ITEMS.register("premade", ItemPremadeStructure::new);
     
-    public static final RegistryObject<Item> BLOCK_INGREDIENT = ITEMS.register("blockingredient", () -> new ItemBlockIngredient());
+    public static final RegistryObject<Item> BLOCK_INGREDIENT = ITEMS.register("blockingredient", ItemBlockIngredient::new);
     
     public static final RegistryObject<Item> BLACK_COLOR = ITEMS.register("bottle_black", () -> new ItemColorIngredient(ColorIngredientType.black));
     public static final RegistryObject<Item> CYAN_COLOR = ITEMS.register("bottle_cyan", () -> new ItemColorIngredient(ColorIngredientType.cyan));
@@ -123,10 +106,10 @@ public class LittleTilesRegistry {
     
     public static final RegistryObject<Block> SINGLE_CABLE = BLOCKS.register("cable_single", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.DECORATION)));
     
-    public static final RegistryObject<Block> INPUT_ARROW = BLOCKS.register("arrow_input", () -> new BlockArrow());
-    public static final RegistryObject<Block> OUTPUT_ARROW = BLOCKS.register("arrow_output", () -> new BlockArrow());
+    public static final RegistryObject<Block> INPUT_ARROW = BLOCKS.register("arrow_input", BlockArrow::new);
+    public static final RegistryObject<Block> OUTPUT_ARROW = BLOCKS.register("arrow_output", BlockArrow::new);
     
-    public static final RegistryObject<Block> SIGNAL_CONVERTER = register("signal_converter", () -> new BlockSignalConverter());
+    public static final RegistryObject<Block> SIGNAL_CONVERTER = register("signal_converter", BlockSignalConverter::new);
     
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<? extends T> sup) {
         RegistryObject<T> ret = BLOCKS.register(name, sup);
@@ -136,7 +119,7 @@ public class LittleTilesRegistry {
     
     // BLOCK_ENTITY
     
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, LittleTiles.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, LittleTiles.MODID);
     
     public static final RegistryObject<BlockEntityType<BETiles>> BE_TILES_TYPE = registerBlockEntity("tiles", () -> BlockEntityType.Builder
             .of(BETiles::new, BLOCK_TILES.get(), BLOCK_TILES_TICKING.get()));
@@ -151,7 +134,7 @@ public class LittleTilesRegistry {
     
     // ENTITIES
     
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, LittleTiles.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, LittleTiles.MODID);
     
     public static final RegistryObject<EntityType<PrimedSizedTnt>> SIZED_TNT_TYPE = ENTITIES
             .register("primed_size_tnt", () -> EntityType.Builder.<PrimedSizedTnt>of(PrimedSizedTnt::new, MobCategory.MISC).build("primed_size_tnt"));
@@ -163,6 +146,6 @@ public class LittleTilesRegistry {
     
     // DIMENSION
     
-    public static final ResourceKey FAKE_DIMENSION = ResourceKey.create(Registries.DIMENSION_TYPE, new ResourceLocation(LittleTiles.MODID, "fake"));
+    public static final ResourceKey<DimensionType> FAKE_DIMENSION = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(LittleTiles.MODID, "fake"));
     
 }

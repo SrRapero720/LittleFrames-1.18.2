@@ -87,8 +87,9 @@ public class RenderUploader {
                     
                     builder.setQuadSortOrigin(f - chunk.getOrigin().getX(), f1 - chunk.getOrigin().getY(), f2 - chunk.getOrigin().getZ());
                 }
-                
-                uploadBuffer.upload(builder.end());
+
+                builder.end();
+                uploadBuffer.upload(builder);
                 if (compiled != CompiledChunk.UNCOMPILED)
                     ((CompiledChunkAccessor) compiled).getHasBlocks().add(layer);
                 

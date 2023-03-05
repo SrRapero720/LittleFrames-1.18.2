@@ -1,7 +1,5 @@
 package team.creative.littletiles.client.level.little;
 
-import java.util.function.Supplier;
-
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
@@ -9,9 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -26,9 +23,7 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.level.entity.TransientEntitySectionManager;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.BlackholeTickAccess;
 import net.minecraft.world.ticks.LevelTickAccess;
 import net.minecraftforge.api.distmarker.Dist;
@@ -40,6 +35,8 @@ import team.creative.littletiles.common.level.little.BlockUpdateLevelSystem;
 import team.creative.littletiles.common.level.little.LevelBoundsListener;
 import team.creative.littletiles.common.level.little.LittleLevel;
 import team.creative.littletiles.mixin.client.level.ClientLevelAccessor;
+
+import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class LittleClientLevel extends ClientLevel implements LittleLevel {
@@ -56,7 +53,7 @@ public abstract class LittleClientLevel extends ClientLevel implements LittleLev
     public final LittleClientConnection connection;
     
     protected LittleClientLevel(LittleClientPacketListener listener, ClientLevelData data, ResourceKey<Level> dimension, Supplier<ProfilerFiller> supplier, boolean debug, long seed, RegistryAccess access) {
-        super(listener, data, dimension, access.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(LittleTilesRegistry.FAKE_DIMENSION), 3, 3, supplier, null, debug, seed);
+        super(listener, data, dimension, access.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getHolderOrThrow(LittleTilesRegistry.FAKE_DIMENSION), 3, 3, supplier, null, debug, seed);
         this.access = access;
         this.connection = createConnection();
         if (listener != null)
@@ -148,9 +145,9 @@ public abstract class LittleClientLevel extends ClientLevel implements LittleLev
                 CrashReportCategory crashreportcategory = crashreport.addCategory("Block being updated");
                 crashreportcategory.setDetail("Source block type", () -> {
                     try {
-                        return String.format("ID #%s (%s // %s)", BuiltInRegistries.BLOCK.getKey(block), block.getDescriptionId(), block.getClass().getCanonicalName());
+                        return String.format("ID #%s (%s // %s)", "BuiltInRegistries.BLOCK.getKey(block)", block.getDescriptionId(), block.getClass().getCanonicalName());
                     } catch (Throwable throwable1) {
-                        return "ID #" + BuiltInRegistries.BLOCK.getKey(block);
+                        return "ID #" + "BuiltInRegistries.BLOCK.getKey(block)";
                     }
                 });
                 CrashReportCategory.populateBlockDetails(crashreportcategory, this, pos, blockstate);
@@ -212,7 +209,7 @@ public abstract class LittleClientLevel extends ClientLevel implements LittleLev
     }
     
     @Override
-    public void gameEvent(GameEvent event, Vec3 pos, Context context) {}
+    public void gameEvent(Entity entity, GameEvent event, BlockPos pos) {}
     
     @Override
     public Iterable<Entity> entities() {

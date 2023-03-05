@@ -1,18 +1,9 @@
 package team.creative.littletiles.common.block.little.tile;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.joml.Vector3d;
-
+import com.mojang.math.Vector3d;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -47,6 +38,12 @@ import team.creative.littletiles.common.math.box.LittleBoxCombiner;
 import team.creative.littletiles.common.math.box.volume.LittleBoxReturnedVolume;
 import team.creative.littletiles.common.math.face.ILittleFace;
 import team.creative.littletiles.common.math.vec.LittleVec;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public final class LittleTile extends LittleElement implements Iterable<LittleBox> {
     
@@ -267,7 +264,6 @@ public final class LittleTile extends LittleElement implements Iterable<LittleBo
                 }
             }
         }
-        
         return changed;
     }
     
@@ -415,10 +411,6 @@ public final class LittleTile extends LittleElement implements Iterable<LittleBo
         block.exploded(parent, this, explosion);
     }
     
-    public void randomDisplayTick(IParentCollection parent, RandomSource rand) {
-        block.randomDisplayTick(parent, this, rand);
-    }
-    
     public boolean canInteract() {
         return block.canInteract();
     }
@@ -448,6 +440,7 @@ public final class LittleTile extends LittleElement implements Iterable<LittleBo
     }
     
     public Vector3d getFogColor(IParentCollection parent, Entity entity, Vector3d originalColor, float partialTicks) {
+
         return block.getFogColor(parent, this, entity, originalColor, partialTicks);
     }
     

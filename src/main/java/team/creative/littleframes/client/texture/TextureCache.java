@@ -1,31 +1,29 @@
 package team.creative.littleframes.client.texture;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import com.madgag.gif.fmsware.GifDecoder;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littleframes.LittleFrames;
 import team.creative.littleframes.client.display.FrameDisplay;
 import team.creative.littleframes.client.display.FramePictureDisplay;
 import team.creative.littleframes.client.display.FrameVideoDisplay;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class TextureCache {
     
@@ -56,8 +54,8 @@ public class TextureCache {
     }
     
     @SubscribeEvent
-    public static void unload(LevelEvent.Unload event) {
-        if (event.getLevel().isClientSide()) {
+    public static void unload(ChunkEvent.Unload event) {
+        if (event.getWorld().isClientSide()) {
             for (TextureCache cache : cached.values())
                 cache.remove();
             cached.clear();

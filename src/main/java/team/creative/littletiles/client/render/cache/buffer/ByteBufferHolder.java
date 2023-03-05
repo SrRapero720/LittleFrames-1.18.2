@@ -3,6 +3,7 @@ package team.creative.littletiles.client.render.cache.buffer;
 import java.nio.ByteBuffer;
 
 import com.mojang.blaze3d.platform.MemoryTracker;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferBuilder.RenderedBuffer;
 
 public class ByteBufferHolder implements BufferHolder {
@@ -17,7 +18,7 @@ public class ByteBufferHolder implements BufferHolder {
         this.vertexCount = vertexCount;
     }
     
-    public ByteBufferHolder(RenderedBuffer buffer) {
+    public ByteBufferHolder(BufferBuilder buffer) {
         this.length = buffer.drawState().vertexBufferSize();
         this.buffer = MemoryTracker.create(length);
         this.buffer.put(buffer.vertexBuffer());

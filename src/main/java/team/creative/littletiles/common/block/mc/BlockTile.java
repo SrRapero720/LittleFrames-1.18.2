@@ -383,8 +383,8 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     public Optional<Vec3> getRespawnPosition(BlockState state, EntityType<?> type, LevelReader level, BlockPos pos, float orientation, @Nullable LivingEntity entity) {
         LittleStructure bed = getBed(level, pos, entity);
         if (bed != null && level instanceof Level && level.dimensionType().bedWorks())
-            return BedBlock.findStandUpPosition(type, level, pos, bed.getBedDirection(), orientation);
-        
+            return BedBlock.findStandUpPosition(type, level, pos, orientation);
+
         return Optional.empty();
     }
     
@@ -464,17 +464,6 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
             
         }
         return false;
-    }
-    
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
-        if (LittleTiles.CONFIG.rendering.enableRandomDisplayTick) {
-            BETiles be = loadBE(level, pos);
-            if (be != null)
-                for (Pair<IParentCollection, LittleTile> pair : be.allTiles())
-                    pair.value.randomDisplayTick(pair.key, rand);
-        }
     }
     
     @Override

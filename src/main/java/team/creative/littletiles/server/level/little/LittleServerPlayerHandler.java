@@ -2,17 +2,19 @@ package team.creative.littletiles.server.level.little;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.*;
+import net.minecraft.commands.arguments.UuidArgument;
+import net.minecraft.network.PacketListener;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
-import net.minecraft.ReportedException;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -115,11 +117,12 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
+import org.apache.logging.log4j.core.util.UuidUtil;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.packet.level.LittleLevelPacket;
 import team.creative.littletiles.mixin.server.network.ServerGamePacketListenerImplAccessor;
 
-public class LittleServerPlayerHandler implements ServerPlayerConnection, TickablePacketListener, ServerGamePacketListener {
+public class LittleServerPlayerHandler implements ServerPlayerConnection, PacketListener, ServerGamePacketListener {
     
     private static final Logger LOGGER = LittleTiles.LOGGER;
     private final MinecraftServer server;
@@ -196,9 +199,9 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Tickab
     public void handleSetCommandBlock(ServerboundSetCommandBlockPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (!this.server.isCommandBlockEnabled())
-            this.player.sendSystemMessage(Component.translatable("advMode.notEnabled"));
+            this.player.sendMessage(new TranslatableComponent("advMode.notEnabled"), ChatType.SYSTEM, Util.NIL_UUID);
         else if (!this.player.canUseGameMasterBlocks())
-            this.player.sendSystemMessage(Component.translatable("advMode.notAllowed"));
+            this.player.sendMessage(new TranslatableComponent("advMode.notAllowed"), ChatType.SYSTEM, Util.NIL_UUID);
         else {
             BaseCommandBlock basecommandblock = null;
             CommandBlockEntity commandblockentity = null;
@@ -240,7 +243,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Tickab
                 
                 basecommandblock.onUpdated();
                 if (!StringUtil.isNullOrEmpty(s))
-                    this.player.sendSystemMessage(Component.translatable("advMode.setCommand.success", s));
+                    this.player.sendMessage(new TranslatableComponent("advMode.setCommand.success"), ChatType.SYSTEM, Util.NIL_UUID);
             }
             
         }
@@ -250,9 +253,9 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Tickab
     public void handleSetCommandMinecart(ServerboundSetCommandMinecartPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (!this.server.isCommandBlockEnabled())
-            this.player.sendSystemMessage(Component.translatable("advMode.notEnabled"));
+            this.player.sendMessage(new TranslatableComponent("advMode.notEnabled"), ChatType.SYSTEM, Util.NIL_UUID);
         else if (!this.player.canUseGameMasterBlocks())
-            this.player.sendSystemMessage(Component.translatable("advMode.notAllowed"));
+            this.player.sendMessage(new TranslatableComponent("advMode.notAllowed"), ChatType.SYSTEM, Util.NIL_UUID);
         else {
             BaseCommandBlock basecommandblock = packet.getCommandBlock(level);
             if (basecommandblock != null) {
@@ -262,7 +265,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Tickab
                     basecommandblock.setLastOutput((Component) null);
                 
                 basecommandblock.onUpdated();
-                this.player.sendSystemMessage(Component.translatable("advMode.setCommand.success", packet.getCommand()));
+                this.player.sendMessage(new TranslatableComponent("advMode.setCommand.success"), ChatType.SYSTEM, Util.NIL_UUID);
             }
             
         }
@@ -307,23 +310,24 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Tickab
                     String s = structure.getStructureName();
                     if (packet.getUpdateType() == StructureBlockEntity.UpdateType.SAVE_AREA)
                         if (structure.saveStructure())
-                            this.player.displayClientMessage(Component.translatable("structure_block.save_success", s), false);
+                            
+                            this.player.displayClientMessage(new TranslatableComponent("structure_block.save_success", s), false);
                         else
-                            this.player.displayClientMessage(Component.translatable("structure_block.save_failure", s), false);
+                            this.player.displayClientMessage(new TranslatableComponent("structure_block.save_failure", s), false);
                     else if (packet.getUpdateType() == StructureBlockEntity.UpdateType.LOAD_AREA)
                         if (!structure.isStructureLoadable())
-                            this.player.displayClientMessage(Component.translatable("structure_block.load_not_found", s), false);
+                            this.player.displayClientMessage(new TranslatableComponent("structure_block.load_not_found", s), false);
                         else if (structure.loadStructure(level))
-                            this.player.displayClientMessage(Component.translatable("structure_block.load_success", s), false);
+                            this.player.displayClientMessage(new TranslatableComponent("structure_block.load_success", s), false);
                         else
-                            this.player.displayClientMessage(Component.translatable("structure_block.load_prepare", s), false);
+                            this.player.displayClientMessage(new TranslatableComponent("structure_block.load_prepare", s), false);
                     else if (packet.getUpdateType() == StructureBlockEntity.UpdateType.SCAN_AREA)
                         if (structure.detectSize())
-                            this.player.displayClientMessage(Component.translatable("structure_block.size_success", s), false);
+                            this.player.displayClientMessage(new TranslatableComponent("structure_block.size_success", s), false);
                         else
-                            this.player.displayClientMessage(Component.translatable("structure_block.size_failure"), false);
+                            this.player.displayClientMessage(new TranslatableComponent("structure_block.size_failure"), false);
                 } else
-                    this.player.displayClientMessage(Component.translatable("structure_block.invalid_structure_name", packet.getName()), false);
+                    this.player.displayClientMessage(new TranslatableComponent("structure_block.invalid_structure_name", packet.getName()), false);
                 
                 structure.setChanged();
                 level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
@@ -464,13 +468,13 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Tickab
                         if (((ServerGamePacketListenerImplAccessor) getVanilla()).getAwaitingPositionFromClient() == null && level.mayInteract(this.player, blockpos)) {
                             InteractionResult interactionresult = useItemOn(this.player, itemstack, interactionhand, blockhitresult);
                             if (direction == Direction.UP && !interactionresult.consumesAction() && blockpos.getY() >= i - 1 && wasBlockPlacementAttempt(this.player, itemstack)) {
-                                Component component = Component.translatable("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
-                                this.player.sendSystemMessage(component, true);
+                                Component component = new TranslatableComponent("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
+                                this.player.sendMessage(component, ChatType.SYSTEM, Util.NIL_UUID);
                             } else if (interactionresult.shouldSwing())
                                 this.player.swing(interactionhand, true);
                         }
                     } else {
-                        Component component1 = Component.translatable("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
+                        Component component1 = new TranslatableComponent("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
                         this.player.sendSystemMessage(component1, true);
                     }
                     
@@ -489,7 +493,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Tickab
         InteractionHand interactionhand = packet.getHand();
         ItemStack itemstack = this.player.getItemInHand(interactionhand);
         this.player.resetLastActionTime();
-        if (!itemstack.isEmpty() && itemstack.isItemEnabled(level.enabledFeatures()))
+        if (!itemstack.isEmpty())
             if (useItem(this.player, itemstack, interactionhand).shouldSwing())
                 this.player.swing(interactionhand, true);
     }

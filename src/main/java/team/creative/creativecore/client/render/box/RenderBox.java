@@ -12,13 +12,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement.Usage;
 
+import com.mojang.math.Vector3d;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
+import java.util.Random;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -388,7 +389,7 @@ public class RenderBox extends AlignedBox {
         }
     }
     
-    public void renderLines(PoseStack pose, BufferBuilder builder, int alpha, Vec3d center, double grow) {
+    public void renderLines(PoseStack pose, BufferBuilder builder, int alpha, Vector3d center, double grow) {
         int red = ColorUtils.red(color);
         int green = ColorUtils.green(color);
         int blue = ColorUtils.blue(color);
@@ -425,11 +426,11 @@ public class RenderBox extends AlignedBox {
         return !state.getMaterial().isSolidBlocking() || !state.getMaterial().isSolid();
     }
     
-    protected List<BakedQuad> getBakedQuad(LevelAccessor level, BakedModel blockModel, BlockState state, Facing facing, BlockPos pos, RenderType layer, RandomSource rand) {
+    protected List<BakedQuad> getBakedQuad(LevelAccessor level, BakedModel blockModel, BlockState state, Facing facing, BlockPos pos, RenderType layer, Random rand) {
         return OptifineHelper.getBakedQuad(blockModel.getQuads(state, facing.toVanilla(), rand), level, state, facing, pos, layer, rand);
     }
     
-    public List<BakedQuad> getBakedQuad(LevelAccessor level, @Nullable BlockPos pos, BlockPos offset, BlockState state, BakedModel blockModel, Facing facing, RenderType layer, RandomSource rand, boolean overrideTint, int defaultColor) {
+    public List<BakedQuad> getBakedQuad(LevelAccessor level, @Nullable BlockPos pos, BlockPos offset, BlockState state, BakedModel blockModel, Facing facing, RenderType layer, Random rand, boolean overrideTint, int defaultColor) {
         if (pos != null)
             rand.setSeed(state.getSeed(pos));
         

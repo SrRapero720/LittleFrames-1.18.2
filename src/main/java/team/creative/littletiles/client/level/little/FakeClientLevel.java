@@ -1,14 +1,11 @@
 package team.creative.littletiles.client.level.little;
 
-import java.util.UUID;
-import java.util.function.Supplier;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -24,6 +21,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
 import team.creative.creativecore.common.util.math.matrix.VecOrigin;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
+
+import java.util.UUID;
+import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public class FakeClientLevel extends LittleClientLevel {
@@ -63,7 +63,7 @@ public class FakeClientLevel extends LittleClientLevel {
     
     @Override
     public Holder<Biome> getUncachedNoiseBiome(int p_225604_1_, int p_225604_2_, int p_225604_3_) {
-        return this.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
+        return this.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getHolderOrThrow(Biomes.PLAINS);
     }
     
     @Override

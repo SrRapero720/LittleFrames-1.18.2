@@ -10,6 +10,6 @@ public interface VertexBufferExtender {
     
     public int getIndexCount();
     
-    public int getVertexBufferId();
+    public int getVertextBufferId();
     
 }

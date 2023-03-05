@@ -69,7 +69,7 @@ public class BlockBufferCache {
         uploaded.put(layer, cache.add(builder, holder));
     }
     
-    public void set(RenderType layer, BufferBuilder.RenderedBuffer buffer) {
+    public void set(RenderType layer, BufferBuilder.DrawState buffer) {
         synchronized (this) {
             if (buffer == null && additional == null)
                 uploaded.remove(layer);
