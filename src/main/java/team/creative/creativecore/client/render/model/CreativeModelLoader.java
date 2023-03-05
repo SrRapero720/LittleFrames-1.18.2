@@ -5,11 +5,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
+//import net.minecraftforge.client.model.geometry.IGeometryLoader;
 
-public class CreativeModelLoader implements IGeometryLoader<CreativeUnbakedModel> {
-    
-    @Override
+public class CreativeModelLoader /*implements IGeometryLoader<CreativeUnbakedModel>*/ {
+
     public CreativeUnbakedModel read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
         ResourceLocation block = null;
         if (jsonObject.has("block"))

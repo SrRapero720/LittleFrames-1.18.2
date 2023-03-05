@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import com.mojang.blaze3d.platform.MemoryTracker;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferBuilder.RenderedBuffer;
+//import com.mojang.blaze3d.vertex.BufferBuilder.RenderedBuffer;
 
 public class ByteBufferHolder implements BufferHolder {
     
@@ -19,12 +19,14 @@ public class ByteBufferHolder implements BufferHolder {
     }
     
     public ByteBufferHolder(BufferBuilder buffer) {
-        this.length = buffer.drawState().vertexBufferSize();
+//        THIS IS BROKEN, BRUH
+
+        this.length = buffer.currentElement().getByteSize();
         this.buffer = MemoryTracker.create(length);
-        this.buffer.put(buffer.vertexBuffer());
+        this.buffer.put(buffer.popNextBuffer().getSecond());
         this.buffer.rewind();
-        this.vertexCount = buffer.drawState().vertexCount();
-        buffer.release();
+        this.vertexCount = buffer.currentElement().getCount();
+        //buffer.release();
     }
     
     @Override

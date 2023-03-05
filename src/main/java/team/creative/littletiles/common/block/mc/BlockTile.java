@@ -16,7 +16,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -64,6 +63,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IBlockRenderProperties;
 import net.minecraftforge.client.extensions.common.IClientBlockExtensions;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IPlantable;
@@ -170,13 +170,12 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> definition) {
         definition.add(WATERLOGGED);
     }
-    
+
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void initializeClient(Consumer<IClientBlockExtensions> consumer) {
+    public void initializeClient(Consumer<IBlockRenderProperties> consumer) {
         consumer.accept(BlockTileRenderProperties.INSTANCE);
     }
-    
+
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
@@ -349,9 +348,10 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
         return super.isPathfindable(state, level, pos, type);
     }
-    
+
+    @org.jetbrains.annotations.Nullable
     @Override
-    public @org.jetbrains.annotations.Nullable BlockPathTypes getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @org.jetbrains.annotations.Nullable Mob mob) {
+    public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter level, BlockPos pos, @org.jetbrains.annotations.Nullable Mob entity) {
         return state.getBlock() == Blocks.LAVA ? BlockPathTypes.LAVA : state.isBurning(level, pos) ? BlockPathTypes.DAMAGE_FIRE : null;
     }
     
@@ -843,7 +843,7 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     
     @Override
     public double bound(LittleLevel level, BlockPos pos, Facing facing) {
-        BETiles te = loadBE(level, pos);
+        BETiles te = loadBE(level.asLevel(), pos);
         if (te != null) {
             int value = facing.positive ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             for (Pair<IParentCollection, LittleTile> pair : te.allTiles()) {

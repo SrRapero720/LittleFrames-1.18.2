@@ -1,9 +1,6 @@
 package team.creative.littletiles.client.render.block;
 
-import java.util.Random;
-
-import org.joml.Vector3d;
-
+import com.mojang.math.Vector3d;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
@@ -19,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.client.extensions.common.IClientBlockExtensions;
+import net.minecraftforge.client.IBlockRenderProperties;
 import team.creative.creativecore.common.util.type.list.Pair;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
@@ -28,7 +25,9 @@ import team.creative.littletiles.common.block.little.tile.parent.IParentCollecti
 import team.creative.littletiles.common.block.mc.BlockTile;
 import team.creative.littletiles.common.math.box.LittleBox;
 
-public class BlockTileRenderProperties implements IClientBlockExtensions {
+import java.util.Random;
+
+public class BlockTileRenderProperties implements IBlockRenderProperties {
     
     private final Random random = new Random();
     
