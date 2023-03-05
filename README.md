@@ -1,20 +1,11 @@
-# LittleFrames
-In dev backport and wrap of LittleFrames + Dependencies 
-¿Why i do that?
-In firts place, i haven't enought time to learn how to use CreativeCore-1.18 
-and do a backport of 2 mods (littletiles included).
-So, wrap everything is my "easy" way to skip that.
+# LittleFrames - 1.18.2
+## WARNING - STILL  IN DEV
+Backport of LittleFrames to 1.18.2 and LittleTiles and some functions from
+CreativeCore-1.19.2 (Still requires CreativeCore-1.18.2)
 
-No clone repo or make a custom build if is not released any dev build.
+No need more dependencies, everything is wrapped here (vlcj and vlcj-natives)
+I just want to make functional this backport. No port every new change from the original
+mod
 
-
-# LittleFrames | Old desc
-Note of SrRapero720: No longer works
-
-In order to make it work you need to build https://github.com/CreativeMD/vlcj + https://github.com/CreativeMD/vlcj-natives yourself.
-
-Steps
-* Clone these two repositories to your computer
-* Add them to your eclipse (or any other development software) workspace
-* In Eclipse right click project -> Run As -> Maven install
-* If it compiles successfully you are done!
+# WATERCoRE
+In a no longer future, this mod gonna depends of [WATERCoRE](https://github.com/SrRapero720/WATERCoRE)
