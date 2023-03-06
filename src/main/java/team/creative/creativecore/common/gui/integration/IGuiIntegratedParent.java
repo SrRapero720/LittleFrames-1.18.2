@@ -1,17 +1,13 @@
 package team.creative.creativecore.common.gui.integration;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ContainerScreenEvent.Render.Background;
+import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import team.creative.creativecore.client.render.GuiRenderHelper;
 import team.creative.creativecore.common.gui.GuiControl;
@@ -22,19 +18,22 @@ import team.creative.creativecore.common.gui.event.GuiTooltipEvent;
 import team.creative.creativecore.common.network.CreativePacket;
 import team.creative.creativecore.common.util.math.geo.Rect;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface IGuiIntegratedParent extends IGuiParent {
     
-    public GuiLayer EMPTY = new GuiLayer("empty") {
+    GuiLayer EMPTY = new GuiLayer("empty") {
         
         @Override
         public void create() {}
     };
     
-    public List<GuiLayer> getLayers();
+    List<GuiLayer> getLayers();
     
-    public GuiLayer getTopLayer();
+    GuiLayer getTopLayer();
     
-    public default boolean isOpen(Class<? extends GuiLayer> clazz) {
+    default boolean isOpen(Class<? extends GuiLayer> clazz) {
         for (GuiLayer layer : getLayers())
             if (clazz.isInstance(layer))
                 return true;
@@ -42,7 +41,7 @@ public interface IGuiIntegratedParent extends IGuiParent {
     }
     
     @OnlyIn(value = Dist.CLIENT)
-    public default void render(PoseStack matrixStack, Screen screen, ScreenEventListener listener, int mouseX, int mouseY) {
+    default void render(PoseStack matrixStack, Screen screen, ScreenEventListener listener, int mouseX, int mouseY) {
         int width = screen.width;
         int height = screen.height;
         
@@ -56,9 +55,9 @@ public interface IGuiIntegratedParent extends IGuiParent {
             if (i == layers.size() - 1) {
                 RenderSystem.disableDepthTest();
                 if (layer.hasGrayBackground())
-                    GuiRenderHelper.verticalGradientRect(matrixStack, 0, 0, width, height, -1072689136, -804253680);
+                    GuiRenderHelper.gradientRect(matrixStack, 0, 0, width, height, -1072689136, -804253680);
                 if (screen instanceof AbstractContainerScreen)
-                    MinecraftForge.EVENT_BUS.post(new Background((AbstractContainerScreen<?>) screen, matrixStack, mouseX, mouseY));
+                    MinecraftForge.EVENT_BUS.post(new ContainerScreenEvent.DrawBackground((AbstractContainerScreen<?>) screen, matrixStack, mouseX, mouseY));
             }
             
             matrixStack.pushPose();
@@ -68,7 +67,7 @@ public interface IGuiIntegratedParent extends IGuiParent {
             
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             Rect controlRect = new Rect(offX, offY, offX + layer.getWidth(), offY + layer.getHeight());
-            layer.render(matrixStack, null, controlRect, screenRect.intersection(controlRect), 1, mouseX, mouseY);
+            layer.render(matrixStack, null, controlRect, screenRect.intersection(controlRect), mouseX, mouseY);
             matrixStack.popPose();
             
             RenderSystem.disableScissor();
@@ -116,25 +115,25 @@ public interface IGuiIntegratedParent extends IGuiParent {
         return null;
     }
     
-    @Override
-    public default Rect toScreenRect(GuiControl control, Rect rect) {
-        if (control instanceof GuiLayer layer) {
-            int offX = (Minecraft.getInstance().getWindow().getGuiScaledWidth() - layer.getWidth()) / 2;
-            int offY = (Minecraft.getInstance().getWindow().getGuiScaledHeight() - layer.getHeight()) / 2;
-            rect.move(offX, offY);
-        }
-        return rect;
-    }
-    
-    @Override
-    public default Rect toLayerRect(GuiControl control, Rect rect) {
-        return rect;
-    }
-    
-    @Override
-    public default IGuiIntegratedParent getIntegratedParent() {
-        return this;
-    }
+//    @Override
+//    default Rect toScreenRect(GuiControl control, Rect rect) {
+//        if (control instanceof GuiLayer layer) {
+//            int offX = (Minecraft.getInstance().getWindow().getGuiScaledWidth() - layer.getWidth()) / 2;
+//            int offY = (Minecraft.getInstance().getWindow().getGuiScaledHeight() - layer.getHeight()) / 2;
+//            rect.inside(offX, offY);
+//        }
+//        return rect;
+//    }
+
+//    @Override
+//    public default Rect toLayerRect(GuiControl control, Rect rect) {
+//        return rect;
+//    }
+//
+//    @Override
+//    public default IGuiIntegratedParent getIntegratedParent() {
+//        return this;
+//    }
     
     public void send(CreativePacket message);
     
