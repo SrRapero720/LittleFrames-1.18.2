@@ -1,10 +1,9 @@
 package team.creative.littletiles.api.common.block;
 
-import org.joml.Vector3d;
 
+import com.mojang.math.Vector3d;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -27,9 +26,11 @@ import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.mixin.common.level.BlockBehaviourAccessor;
 
+import java.util.Random;
+
 public interface ILittleMCBlock extends LittleBlock {
     
-    static final RandomSource RANDOM = RandomSource.create();
+    static final Random RANDOM = new Random();
     
     public static boolean isTranslucent(Block block) {
         return !block.defaultBlockState().getMaterial().isSolid() || !block.defaultBlockState().getMaterial().isSolid() || block.defaultBlockState().canOcclude();
@@ -101,7 +102,7 @@ public interface ILittleMCBlock extends LittleBlock {
     public default void exploded(IParentCollection parent, LittleTile tile, Explosion explosion) {}
     
     @Override
-    public default void randomDisplayTick(IParentCollection parent, LittleTile tile, RandomSource rand) {}
+    public default void randomDisplayTick(IParentCollection parent, LittleTile tile, Random rand) {}
     
     @Override
     public default int getLightValue() {

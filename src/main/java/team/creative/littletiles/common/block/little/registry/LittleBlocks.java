@@ -7,7 +7,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +34,8 @@ import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
 
+import java.util.Random;
+
 public class LittleBlocks {
     
     static {
@@ -42,7 +43,7 @@ public class LittleBlocks {
             
             @Override
             @OnlyIn(Dist.CLIENT)
-            public void randomDisplayTick(IParentCollection parent, LittleTile tile, RandomSource rand) {
+            public void randomDisplayTick(IParentCollection parent, LittleTile tile, Random rand) {
                 Minecraft mc = Minecraft.getInstance();
                 ItemStack itemstack = mc.player.getMainHandItem();
                 if (mc.player.isCreative() && itemstack.is(Blocks.BARRIER.asItem()))

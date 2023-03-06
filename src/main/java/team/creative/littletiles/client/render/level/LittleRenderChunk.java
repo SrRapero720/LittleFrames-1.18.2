@@ -1,11 +1,6 @@
 package team.creative.littletiles.client.render.level;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,7 +38,6 @@ import net.minecraft.client.renderer.chunk.VisibilitySet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
@@ -364,7 +358,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
             if (renderchunkregion != null) {
                 ModelBlockRenderer.enableCaching();
                 renderTypes = new ReferenceArraySet<>(RenderType.chunkBufferLayers().size());
-                RandomSource randomsource = RandomSource.create();
+                Random randomsource = new Random();
                 BlockRenderDispatcher blockrenderdispatcher = Minecraft.getInstance().getBlockRenderer();
 
                 for (BlockPos blockpos2 : BlockPos.betweenClosed(pos, maxPos)) {

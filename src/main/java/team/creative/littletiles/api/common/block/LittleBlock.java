@@ -26,6 +26,8 @@ import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
 
+import java.util.Random;
+
 public interface LittleBlock {
     
     public boolean isTranslucent();
@@ -83,5 +85,7 @@ public interface LittleBlock {
     public void entityCollided(IParentCollection parent, LittleTile tile, Entity entity);
     
     public boolean shouldUseStateForRenderType();
+
+    public default void randomDisplayTick(IParentCollection parent, LittleTile tile, Random rand) {}
     
 }
