@@ -263,8 +263,7 @@ public class RecipeOverlapTest extends RecipeTestModule {
         @Override
         public Component description() {
             int volume = boxes.littleVolume();
-            if (volume >= boxes.grid.count3d)
-                return GuiControl.translatable("gui.recipe.test.overlap.desc.large", TooltipUtils.print(boxes.grid.pixelVolume * volume));
+            if (volume >= boxes.grid.count3d) return GuiControl.translatable("gui.recipe.test.overlap.desc.large", TooltipUtils.print(boxes.grid.pixelVolume * volume));
             return GuiControl.translatable("gui.recipe.test.overlap.desc.small", TooltipUtils.print(volume), boxes.grid);
         }
         
