@@ -16,19 +16,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketUtils;
-import net.minecraft.network.protocol.game.ClientboundBlockDestructionPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockEventPacket;
-import net.minecraft.network.protocol.game.ClientboundDisconnectPacket;
-import net.minecraft.network.protocol.game.ClientboundExplodePacket;
-import net.minecraft.network.protocol.game.ClientboundLevelEventPacket;
-import net.minecraft.network.protocol.game.ClientboundLoginPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundResourcePackPacket;
-import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.RunningOnDifferentThreadException;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
@@ -43,7 +31,7 @@ public class LittleClientPacketListener extends ClientPacketListener {
     }
     
     public LittleClientPacketListener(Minecraft mc, Connection con) {
-        super(mc, null, con, null, null, null);
+        super(mc, null, con, null, null);
     }
     
     public void init(Minecraft mc, ClientLevel level, ClientLevelData data, Connection con) {
@@ -95,13 +83,8 @@ public class LittleClientPacketListener extends ClientPacketListener {
     }
     
     @Override
-    public void handlePlayerInfoUpdate(ClientboundPlayerInfoUpdatePacket packet) {
-        getVanillaListener().handlePlayerInfoUpdate(packet);
-    }
-    
-    @Override
-    public void handlePlayerInfoRemove(ClientboundPlayerInfoRemovePacket packet) {
-        getVanillaListener().handlePlayerInfoRemove(packet);
+    public void handlePlayerInfo(ClientboundPlayerInfoPacket packet) {
+        getVanillaListener().handlePlayerInfo(packet);
     }
     
     @Override
@@ -149,16 +132,14 @@ public class LittleClientPacketListener extends ClientPacketListener {
     @Override
     public void handleSoundEvent(ClientboundSoundPacket packet) {
         ensureRunningOnSameThread(packet);
-        level().playSeededSound(mc().player, packet.getX(), packet.getY(), packet.getZ(), packet.getSound(), packet.getSource(), packet.getVolume(), packet.getPitch(), packet
-                .getSeed());
+        level().playSound(mc().player, packet.getX(), packet.getY(), packet.getZ(), packet.getSound(), packet.getSource(), packet.getVolume(), packet.getPitch());
     }
     
     @Override
     public void handleSoundEntityEvent(ClientboundSoundEntityPacket packet) {
         ensureRunningOnSameThread(packet);
         Entity entity = this.level().getEntity(packet.getId());
-        if (entity != null)
-            level().playSeededSound(mc().player, entity, packet.getSound(), packet.getSource(), packet.getVolume(), packet.getPitch(), packet.getSeed());
+        if (entity != null) level().playSound(mc().player, entity, packet.getSound(), packet.getSource(), packet.getVolume(), packet.getPitch());
     }
     
     @Override

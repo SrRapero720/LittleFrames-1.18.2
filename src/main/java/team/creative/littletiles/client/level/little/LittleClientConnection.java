@@ -1,21 +1,22 @@
 package team.creative.littletiles.client.level.little;
 
+import java.net.SocketAddress;
+
+import javax.annotation.Nullable;
+import javax.crypto.Cipher;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.Connection;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.PacketListener;
+import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.level.little.LittleLevel;
 import team.creative.littletiles.common.packet.level.LittleLevelPacket;
-
-import javax.crypto.Cipher;
-import java.net.SocketAddress;
 
 public class LittleClientConnection extends Connection {
     
@@ -45,19 +46,13 @@ public class LittleClientConnection extends Connection {
     public void send(Packet<?> packet) {
         LittleTiles.NETWORK.sendToServer(new LittleLevelPacket(level, packet));
     }
-
+    
     @Override
-    public void send(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> listener) {
-        super.send(packet, listener);
+    public void send(Packet<?> packet, @Nullable PacketSendListener listener) {
+        send(packet);
+        if (listener != null)
+            listener.onSuccess();
     }
-
-//    CANT BE USABLE IN 1.18.2 (overrides nothing)
-//    @Override
-//    public void send(Packet<?> packet, @Nullable PacketListener listener) {
-//        send(packet);
-//        if (listener != null)
-//            listener.getConnection().send(packet);
-//    }
     
     @Override
     public void tick() {}

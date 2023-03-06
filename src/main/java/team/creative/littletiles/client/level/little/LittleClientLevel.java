@@ -40,18 +40,18 @@ import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class LittleClientLevel extends ClientLevel implements LittleLevel {
-    
+
     public Entity holder;
     public IVecOrigin origin;
-    
+
     public final BlockUpdateLevelSystem blockUpdate = new BlockUpdateLevelSystem(this);
-    
+
     public boolean preventNeighborUpdate = false;
-    
+
     private RegistryAccess access;
     public LittleLevelRenderManager renderManager = new LittleLevelRenderManager(this);
     public final LittleClientConnection connection;
-    
+
     protected LittleClientLevel(LittleClientPacketListener listener, ClientLevelData data, ResourceKey<Level> dimension, Supplier<ProfilerFiller> supplier, boolean debug, long seed, RegistryAccess access) {
         super(listener, data, dimension, access.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getHolderOrThrow(LittleTilesRegistry.FAKE_DIMENSION), 3, 3, supplier, null, debug, seed);
         this.access = access;
@@ -59,54 +59,55 @@ public abstract class LittleClientLevel extends ClientLevel implements LittleLev
         if (listener != null)
             listener.init(Minecraft.getInstance(), this, data, connection);
     }
-    
+
     protected abstract LittleClientConnection createConnection();
-    
+
     @Override
     public BlockUpdateLevelSystem getBlockUpdateLevelSystem() {
         return blockUpdate;
     }
-    
+
     @Override
-    public void stopTracking(ServerPlayer player) {}
-    
+    public void stopTracking(ServerPlayer player) {
+    }
+
     @Override
     public LittleClientPacketListener getPacketListener(Player player) {
         return (LittleClientPacketListener) ((ClientLevelAccessor) this).getConnection();
     }
-    
+
     @Override
     public LevelEntityGetter<Entity> getEntities() {
         return super.getEntities();
     }
-    
+
     @Override
     public void sendBlockUpdated(BlockPos pos, BlockState actualState, BlockState setState, int p_104688_) {
         this.renderManager.blockChanged(this, pos, actualState, setState, p_104688_);
     }
-    
+
     @Override
     public void setBlocksDirty(BlockPos pos, BlockState actualState, BlockState setState) {
         this.renderManager.setBlockDirty(pos, actualState, setState);
         blockUpdate.blockChanged(pos, setState);
     }
-    
+
     @Override
     public void setSectionDirtyWithNeighbors(int x, int y, int z) {
         this.renderManager.setSectionDirtyWithNeighbors(x, y, z);
     }
-    
+
     @Override
     public void setLightReady(int x, int z) {
         LevelChunk levelchunk = this.getChunkSource().getChunk(x, z, false);
         if (levelchunk != null)
             levelchunk.setClientLightReady(true);
     }
-    
+
     public TransientEntitySectionManager<Entity> getEStorage() {
         return ((ClientLevelAccessor) this).getEntityStorage();
     }
-    
+
     public void onChunkLoaded(LevelChunk chunk) {
         this.getEStorage().startTicking(chunk.getPos());
         chunk.setClientLightReady(true);
@@ -115,29 +116,29 @@ public abstract class LittleClientLevel extends ClientLevel implements LittleLev
             if (!section[i].hasOnlyAir())
                 this.renderManager.setSectionDirty(chunk.getPos().x, chunk.getSectionYFromSectionIndex(i), chunk.getPos().z);
     }
-    
+
     @Override
     public Entity getHolder() {
         return holder;
     }
-    
+
     @Override
     public void setHolder(Entity entity) {
         this.holder = entity;
     }
-    
+
     @Override
     public void registerLevelBoundListener(LevelBoundsListener listener) {
         this.blockUpdate.registerLevelBoundListener(listener);
     }
-    
+
     @Override
     public void neighborChanged(BlockPos pos, Block block, BlockPos fromPos) {
         if (preventNeighborUpdate)
             return;
         if (this.isClientSide) {
             BlockState blockstate = this.getBlockState(pos);
-            
+
             try {
                 blockstate.neighborChanged(this, pos, block, fromPos, false);
             } catch (Throwable throwable) {
@@ -156,76 +157,77 @@ public abstract class LittleClientLevel extends ClientLevel implements LittleLev
         } else
             super.neighborChanged(pos, block, fromPos);
     }
-    
+
     @Override
     public void updateNeighborsAtExceptFromFacing(BlockPos pos, Block block, Direction facing) {
         if (preventNeighborUpdate)
             return;
         super.updateNeighborsAtExceptFromFacing(pos, block, facing);
     }
-    
+
     @Override
     public void updateNeighborsAt(BlockPos pos, Block block) {
         if (preventNeighborUpdate)
             return;
         super.updateNeighborsAt(pos, block);
     }
-    
+
     @Override
     public LittleClientChunkCache getChunkSource() {
         return (LittleClientChunkCache) super.getChunkSource();
     }
-    
+
     @Override
     public void unload(LevelChunk chunk) {
         chunk.clearAllBlockEntities();
         this.getChunkSource().getLightEngine().enableLightSources(chunk.getPos(), false);
     }
-    
+
     @Override
     public void unload() {
         if (renderManager != null)
             renderManager.unload();
     }
-    
+
     @Override
     public int getFreeMapId() {
         return 0;
     }
-    
+
     @Override
     public void destroyBlockProgress(int id, BlockPos pos, int progress) {
         renderManager.destroyBlockProgress(id, pos, progress);
     }
-    
+
     @Override
     public LevelTickAccess<Block> getBlockTicks() {
         return BlackholeTickAccess.emptyLevelList();
     }
-    
+
     @Override
     public LevelTickAccess<Fluid> getFluidTicks() {
         return BlackholeTickAccess.emptyLevelList();
     }
-    
+
     @Override
-    public void gameEvent(Entity entity, GameEvent event, BlockPos pos) {}
-    
+    public void gameEvent(Entity entity, GameEvent event, BlockPos pos) {
+    }
+
     @Override
     public Iterable<Entity> entities() {
         return getEntities().getAll();
     }
-    
+
     @Override
     public RegistryAccess registryAccess() {
         return access;
     }
-    
+
     @Override
     public Iterable<? extends ChunkAccess> chunks() {
         return getChunkSource().all();
     }
-    
+
     @Override
     public void tick() {
         tickBlockEntities();

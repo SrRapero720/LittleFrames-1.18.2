@@ -4,8 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 
-import org.joml.Matrix4f;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 
+import com.mojang.math.Matrix4f;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.PrioritizeChunkUpdates;
@@ -40,15 +39,15 @@ import team.creative.littletiles.client.render.level.LittleRenderChunk;
 import team.creative.littletiles.common.entity.level.LittleEntity;
 
 public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
-    
+
     public static Minecraft mc = Minecraft.getInstance();
     public static LittleLevelEntityRenderer INSTANCE;
-    
+
     public LittleLevelEntityRenderer(EntityRendererProvider.Context context) {
         super(context);
         INSTANCE = this;
     }
-    
+
     @Override
     public boolean shouldRender(LittleEntity animation, Frustum frustum, double camX, double camY, double camZ) {
         if (!animation.hasLoaded())
@@ -57,19 +56,19 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
             animation.getRenderManager().isInSight = animation.shouldRender(camX, camY, camZ) && frustum.isVisible(animation.getRealBB().inflate(0.5D));
         return animation.getRenderManager().isInSight;
     }
-    
+
     @Override
     public ResourceLocation getTextureLocation(LittleEntity animation) {
         return InventoryMenu.BLOCK_ATLAS;
     }
-    
+
     public void compileChunks(LittleEntity animation) {
         mc.getProfiler().push("compile_animation_chunks");
         LittleLevelRenderManager manager = animation.getRenderManager();
         List<LittleRenderChunk> schedule = Lists.newArrayList();
-        
+
         Level level = (Level) animation.getSubLevel();
-        
+
         for (LittleRenderChunk chunk : manager) {
             ChunkPos chunkpos = new ChunkPos(chunk.pos);
             if (chunk.isDirty() && (!animation.isReal() || level.getChunk(chunkpos.x, chunkpos.z).isClientLightReady())) {
@@ -78,9 +77,9 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                     immediate = chunk.isDirtyFromPlayer();
                 else if (mc.options.prioritizeChunkUpdates().get() == PrioritizeChunkUpdates.NEARBY) {
                     immediate = !ForgeConfig.CLIENT.alwaysSetupTerrainOffThread
-                            .get() && (chunk.pos.offset(8, 8, 8).distSqr(manager.getCameraBlockPos()) < 768.0D || chunk.isDirtyFromPlayer()); // the target is the else block below, so invert the forge addition to get there early
+                        .get() && (chunk.pos.offset(8, 8, 8).distSqr(manager.getCameraBlockPos()) < 768.0D || chunk.isDirtyFromPlayer()); // the target is the else block below, so invert the forge addition to get there early
                 }
-                
+
                 if (immediate) {
                     chunk.compile();
                     chunk.setNotDirty();
@@ -88,15 +87,15 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                     schedule.add(chunk);
             }
         }
-        
+
         for (LittleRenderChunk chunk : schedule) {
             chunk.compileASync();
             chunk.setNotDirty();
         }
-        
+
         mc.getProfiler().pop();
     }
-    
+
     public MultiBufferSource prepareBlockEntity(PoseStack pose, LittleClientLevel level, BlockPos pos, MultiBufferSource bufferSource) {
         SortedSet<BlockDestructionProgress> sortedset = level.renderManager.getDestructionProgress(pos);
         MultiBufferSource newSource = bufferSource;
@@ -105,24 +104,24 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
             if (j1 >= 0) {
                 PoseStack.Pose posestack$pose1 = pose.last();
                 VertexConsumer vertexconsumer = new SheetedDecalTextureGenerator(mc.renderBuffers().crumblingBufferSource()
-                        .getBuffer(ModelBakery.DESTROY_TYPES.get(j1)), posestack$pose1.pose(), posestack$pose1.normal(), 1.0F);
-                
+                    .getBuffer(ModelBakery.DESTROY_TYPES.get(j1)), posestack$pose1.pose(), posestack$pose1.normal(), 1.0F);
+
                 newSource = (type) -> type.affectsCrumbling() ? VertexMultiConsumer.create(vertexconsumer, bufferSource.getBuffer(type)) : bufferSource.getBuffer(type);
             }
         }
         return newSource;
     }
-    
+
     public void renderBlockEntitiesAndDestruction(PoseStack pose, LittleEntity animation, Frustum frustum, Vec3 cam, float frameTime, MultiBufferSource bufferSource) {
         pose.pushPose();
         animation.getOrigin().setupRendering(pose, animation, frameTime);
         LittleClientLevel level = (LittleClientLevel) animation.getSubLevel();
-        
+
         for (LittleRenderChunk chunk : animation.getRenderManager()) {
             List<BlockEntity> list = chunk.getCompiledChunk().getRenderableBlockEntities();
             if (list.isEmpty())
                 continue;
-            
+
             for (BlockEntity blockentity : list) {
                 if (!frustum.isVisible(blockentity.getRenderBoundingBox()))
                     continue;
@@ -130,11 +129,11 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                 pose.pushPose();
                 pose.translate(blockpos4.getX() - cam.x, blockpos4.getY() - cam.y, blockpos4.getZ() - cam.z);
                 mc.getBlockEntityRenderDispatcher()
-                        .render(blockentity, frameTime, pose, prepareBlockEntity(pose, (LittleClientLevel) animation.getSubLevel(), blockpos4, bufferSource));
+                    .render(blockentity, frameTime, pose, prepareBlockEntity(pose, (LittleClientLevel) animation.getSubLevel(), blockpos4, bufferSource));
                 pose.popPose();
             }
         }
-        
+
         for (Long2ObjectMap.Entry<SortedSet<BlockDestructionProgress>> entry : animation.getRenderManager().getDestructions()) {
             BlockPos blockpos2 = BlockPos.of(entry.getLongKey());
             double d3 = blockpos2.getX() - cam.x;
@@ -148,7 +147,7 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                     pose.translate(blockpos2.getX() - cam.x, blockpos2.getY() - cam.y, blockpos2.getZ() - cam.z);
                     PoseStack.Pose last = pose.last();
                     VertexConsumer consumer = new SheetedDecalTextureGenerator(mc.renderBuffers().crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(k1)), last
-                            .pose(), last.normal(), 1.0F);
+                        .pose(), last.normal(), 1.0F);
                     ModelData modelData = level.getModelDataManager().getAt(blockpos2);
                     mc.getBlockRenderer().renderBreakingTexture(level.getBlockState(blockpos2), blockpos2, level, pose, consumer, modelData == null ? ModelData.EMPTY : modelData);
                     pose.popPose();
@@ -157,7 +156,7 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
         }
         pose.popPose();
     }
-    
+
     public void resortTransparency(LittleEntity animation, RenderType layer, double x, double y, double z) {
         int i = 0;
         for (LittleRenderChunk chunk : animation.getRenderManager().visibleChunks()) {
@@ -167,14 +166,14 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                 i++;
         }
     }
-    
+
     public void renderChunkLayer(LittleEntity animation, RenderType layer, PoseStack pose, double x, double y, double z, Matrix4f projectionMatrix) {
         LittleLevelRenderManager manager = animation.getRenderManager();
-        
+
         ShaderInstance shaderinstance = RenderSystem.getShader();
         Uniform uniform = shaderinstance.CHUNK_OFFSET;
-        
-        for (Iterator<LittleRenderChunk> iterator = layer == RenderType.translucent() ? manager.visibleChunksInverse() : manager.visibleChunks().iterator(); iterator.hasNext();) {
+
+        for (Iterator<LittleRenderChunk> iterator = layer == RenderType.translucent() ? manager.visibleChunksInverse() : manager.visibleChunks().iterator(); iterator.hasNext(); ) {
             LittleRenderChunk chunk = iterator.next();
             if (!chunk.getCompiledChunk().isEmpty(layer)) {
                 VertexBuffer vertexbuffer = chunk.getVertexBuffer(layer);
@@ -182,14 +181,14 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                     uniform.set((float) (chunk.pos.getX() - x), (float) (chunk.pos.getY() - y), (float) (chunk.pos.getZ() - z));
                     uniform.upload();
                 }
-                
+
                 vertexbuffer.bind();
                 vertexbuffer.draw();
             }
         }
-        
+
         if (uniform != null)
             uniform.set(0F, 0F, 0F);
     }
-    
+
 }

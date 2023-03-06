@@ -15,9 +15,9 @@ import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.item.tooltip.IItemTooltip;
 
 public class TooltipOverlay {
-    
+
     private static Minecraft mc = Minecraft.getInstance();
-    
+
     @SubscribeEvent
     public static void onRender(RenderTickEvent event) {
         if (event.phase == Phase.END && LittleTiles.CONFIG.rendering.showTooltip && mc.isWindowActive() && !mc.options.hideGui) {
@@ -25,14 +25,14 @@ public class TooltipOverlay {
             if (player != null && player.getMainHandItem().getItem() instanceof IItemTooltip) {
                 ItemStack stack = player.getMainHandItem();
                 String tooltipKey = stack.getItem().builtInRegistryHolder().key().location().getNamespace() + "." + stack.getItem().builtInRegistryHolder().key().location()
-                        .getPath() + ".tooltip";
+                    .getPath() + ".tooltip";
                 if (LanguageUtils.can(tooltipKey)) {
                     String[] lines = LanguageUtils.translate(tooltipKey, ((IItemTooltip) stack.getItem()).tooltipData(stack)).split("\\\\n");
                     PoseStack pose = new PoseStack();
                     int y = mc.getWindow().getGuiScaledHeight() - 2;
                     for (int i = lines.length - 1; i >= 0; i--) {
                         String s = lines[i];
-                        
+
                         if (!Strings.isNullOrEmpty(s)) {
                             y -= mc.font.lineHeight;
                             int k = mc.font.width(s);
@@ -45,5 +45,5 @@ public class TooltipOverlay {
             }
         }
     }
-    
+
 }
