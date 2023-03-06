@@ -34,32 +34,7 @@ import team.creative.littletiles.common.item.ItemColorIngredient.ColorIngredient
 import java.util.function.Supplier;
 
 public class LittleTilesRegistry {
-    
-    // ITEMS
-    
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, LittleTiles.MODID);
-    
-    public static final RegistryObject<Item> HAMMER = ITEMS.register("hammer", ItemLittleHammer::new);
-    public static final RegistryObject<Item> BLUEPRINT = ITEMS.register("blueprint", ItemLittleBlueprint::new);
-    public static final RegistryObject<Item> ITEM_TILES = ITEMS.register("multi_tiles", ItemMultiTiles::new);
-    public static final RegistryObject<Item> SAW = ITEMS.register("saw", ItemLittleSaw::new);
-    public static final RegistryObject<Item> BAG = ITEMS.register("bag", ItemLittleBag::new);
-    public static final RegistryObject<Item> WRENCH = ITEMS.register("wrench", ItemLittleWrench::new);
-    public static final RegistryObject<Item> SCREWDRIVER = ITEMS.register("screwdriver", ItemLittleScrewdriver::new);
-    public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel", ItemLittleChisel::new);
-    public static final RegistryObject<Item> PAINT_BRUSH = ITEMS.register("paint_brush", ItemLittlePaintBrush::new);
-    public static final RegistryObject<Item> GLOVE = ITEMS.register("glove", ItemLittleGlove::new);
-    public static final RegistryObject<Item> PREMADE = ITEMS.register("premade", ItemPremadeStructure::new);
-
-    public static final RegistryObject<Item> BLOCK_INGREDIENT = ITEMS.register("blockingredient", ItemBlockIngredient::new);
-
-    public static final RegistryObject<Item> BLACK_COLOR = ITEMS.register("bottle_black", () -> new ItemColorIngredient(ColorIngredientType.black));
-    public static final RegistryObject<Item> CYAN_COLOR = ITEMS.register("bottle_cyan", () -> new ItemColorIngredient(ColorIngredientType.cyan));
-    public static final RegistryObject<Item> MAGENTA_COLOR = ITEMS.register("bottle_magenta", () -> new ItemColorIngredient(ColorIngredientType.magenta));
-    public static final RegistryObject<Item> YELLOW_COLOR = ITEMS.register("bottle_yellow", () -> new ItemColorIngredient(ColorIngredientType.yellow));
-    
     // BLOCKS
-    
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, LittleTiles.MODID);
     
     public static final RegistryObject<Block> BLOCK_TILES = BLOCKS.register("tiles", () -> new BlockTile(Material.STONE, false, false));
@@ -113,7 +88,6 @@ public class LittleTilesRegistry {
     
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<? extends T> sup) {
         RegistryObject<T> ret = BLOCKS.register(name, sup);
-        ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties()));
         return ret;
     }
     

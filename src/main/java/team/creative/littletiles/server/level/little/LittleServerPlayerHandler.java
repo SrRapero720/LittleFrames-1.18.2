@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.*;
 import net.minecraft.commands.arguments.UuidArgument;
+import net.minecraft.core.Registry;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TextComponent;
@@ -347,7 +348,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
             if (blockentity instanceof JigsawBlockEntity jigsaw) {
                 jigsaw.setName(packet.getName());
                 jigsaw.setTarget(packet.getTarget());
-                jigsaw.setPool(ResourceKey.create(Registries.TEMPLATE_POOL, packet.getPool()));
+                jigsaw.setPool(packet.getPool());
                 jigsaw.setFinalState(packet.getFinalState());
                 jigsaw.setJoint(packet.getJoint());
                 jigsaw.setChanged();
@@ -450,41 +451,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     
     @Override
     public void handleUseItemOn(ServerboundUseItemOnPacket packet) {
-        PacketUtils.ensureRunningOnSameThread(packet, this, level);
-        ackBlockChangesUpTo(packet.getSequence());
-        InteractionHand interactionhand = packet.getHand();
-        ItemStack itemstack = this.player.getItemInHand(interactionhand);
-        if (itemstack.isItemEnabled(level.enabledFeatures())) {
-            BlockHitResult blockhitresult = packet.getHitResult();
-            Vec3 vec3 = blockhitresult.getLocation();
-            BlockPos blockpos = blockhitresult.getBlockPos();
-            Vec3 vec31 = Vec3.atCenterOf(blockpos);
-            if (this.player.canInteractWith(blockpos, 3)) {
-                Vec3 vec32 = vec3.subtract(vec31);
-                if (Math.abs(vec32.x()) < 1.0000001D && Math.abs(vec32.y()) < 1.0000001D && Math.abs(vec32.z()) < 1.0000001D) {
-                    Direction direction = blockhitresult.getDirection();
-                    this.player.resetLastActionTime();
-                    int i = level.getMaxBuildHeight();
-                    if (blockpos.getY() < i) {
-                        if (((ServerGamePacketListenerImplAccessor) getVanilla()).getAwaitingPositionFromClient() == null && level.mayInteract(this.player, blockpos)) {
-                            InteractionResult interactionresult = useItemOn(this.player, itemstack, interactionhand, blockhitresult);
-                            if (direction == Direction.UP && !interactionresult.consumesAction() && blockpos.getY() >= i - 1 && wasBlockPlacementAttempt(this.player, itemstack)) {
-                                Component component = new TranslatableComponent("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
-                                this.player.sendMessage(component, ChatType.SYSTEM, Util.NIL_UUID);
-                            } else if (interactionresult.shouldSwing())
-                                this.player.swing(interactionhand, true);
-                        }
-                    } else {
-                        Component component1 = new TranslatableComponent("build.tooHigh", i - 1).withStyle(ChatFormatting.RED);
-                        this.player.sendSystemMessage(component1, true);
-                    }
-                    
-                    send(new ClientboundBlockUpdatePacket(level, blockpos));
-                    send(new ClientboundBlockUpdatePacket(level, blockpos.relative(direction)));
-                } else
-                    LOGGER.warn("Rejecting UseItemOnPacket from {}: Location {} too far away from hit block {}.", this.player.getGameProfile().getName(), vec3, blockpos);
-            }
-        }
+
     }
     
     @Override
