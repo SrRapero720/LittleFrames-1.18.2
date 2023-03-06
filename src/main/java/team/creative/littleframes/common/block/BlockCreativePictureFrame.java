@@ -51,6 +51,7 @@ public class BlockCreativePictureFrame extends BaseEntityBlock implements BlockG
     }
     
     public BlockCreativePictureFrame() {
+
         super(BlockBehaviour.Properties.of(Material.WOOD).explosionResistance(2.5F).destroyTime(2.0F).noOcclusion());
     }
     
