@@ -5,6 +5,8 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -168,7 +170,7 @@ public class ItemLittleGlove extends Item implements ILittlePlacer, IItemTooltip
     
     @Override
     public Object[] tooltipData(ItemStack stack) {
-        return new Object[] { Component.translatable(getMode(stack).title), LittleTilesClient.configure.getTranslatedKeyMessage() };
+        return new Object[] { new TranslatableComponent(getMode(stack).title), LittleTilesClient.configure.getTranslatedKeyMessage() };
     }
     
     public static abstract class GloveMode {
@@ -380,7 +382,7 @@ public class ItemLittleGlove extends Item implements ILittlePlacer, IItemTooltip
         @Override
         public void addExtraInformation(CompoundTag nbt, List<Component> tooltip) {
             super.addExtraInformation(nbt, tooltip);
-            tooltip.add(Component.literal(TooltipUtils.printColor(ItemLittleGlove.SimpleMode.getElement(nbt).color)));
+            tooltip.add(new TextComponent(TooltipUtils.printColor(ItemLittleGlove.SimpleMode.getElement(nbt).color)));
         }
         
         @Override

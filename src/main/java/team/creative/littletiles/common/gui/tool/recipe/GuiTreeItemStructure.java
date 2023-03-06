@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.gui.GuiParent;
@@ -252,7 +253,7 @@ public class GuiTreeItemStructure extends GuiTreeItem {
         if (errors != null && !errors.isEmpty())
             name = ChatFormatting.RED + name;
         
-        setTitle(Component.literal(name));
+        setTitle(new TextComponent(name));
     }
     
     public void updateTooltip() {

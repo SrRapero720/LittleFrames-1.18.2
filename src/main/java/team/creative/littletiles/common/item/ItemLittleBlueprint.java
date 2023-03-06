@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +50,7 @@ public class ItemLittleBlueprint extends Item implements ILittlePlacer, IItemToo
     public Component getName(ItemStack stack) {
         if (stack.getOrCreateTag().contains(CONTENT_KEY) && stack.getOrCreateTagElement(CONTENT_KEY).contains(LittleGroup.STRUCTURE_KEY) && stack.getOrCreateTagElement(CONTENT_KEY)
                 .getCompound(LittleGroup.STRUCTURE_KEY).contains("name"))
-            return Component.literal(stack.getOrCreateTagElement(CONTENT_KEY).getCompound(LittleGroup.STRUCTURE_KEY).getString("name"));
+            return new TextComponent(stack.getOrCreateTagElement(CONTENT_KEY).getCompound(LittleGroup.STRUCTURE_KEY).getString("name"));
         return super.getName(stack);
     }
     

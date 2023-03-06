@@ -8,6 +8,7 @@ import com.google.common.math.IntMath;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import team.creative.creativecore.common.util.text.TextMapBuilder;
 import team.creative.littletiles.common.math.LittleUtils;
 import team.creative.littletiles.common.math.box.LittleBox;
@@ -53,7 +54,7 @@ public class LittleGrid {
             names.add(grids[i].count + "");
         names = Collections.unmodifiableList(names);
         
-        map = new TextMapBuilder<LittleGrid>().addComponent(grids, x -> Component.literal("" + x.count));
+        map = new TextMapBuilder<LittleGrid>().addComponent(grids, x -> new TextComponent("" + x.count));
     }
     
     public static int getScale() {

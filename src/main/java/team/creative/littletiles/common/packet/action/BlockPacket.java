@@ -2,9 +2,11 @@ package team.creative.littletiles.common.packet.action;
 
 import java.util.UUID;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -77,7 +79,7 @@ public class BlockPacket extends CreativePacket {
             
             @Override
             public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
-                player.sendSystemMessage(Component.literal("grid:" + be.getGrid()));
+                player.sendMessage(new TextComponent("grid:" + be.getGrid()), Util.NIL_UUID);
                 be.combineTiles();
                 be.convertBlockToVanilla();
                 be.updateTiles();
@@ -92,7 +94,7 @@ public class BlockPacket extends CreativePacket {
                     try {
                         String info = context.parent.getStructure().info();
                         if (!info.isEmpty())
-                            player.sendSystemMessage(Component.literal(info));
+                            player.sendMessage(new TextComponent(info), Util.NIL_UUID);
                     } catch (CorruptedConnectionException | NotYetConnectedException e) {}
             }
             

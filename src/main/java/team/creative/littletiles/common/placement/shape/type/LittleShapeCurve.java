@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.gui.GuiControl;
@@ -91,7 +92,7 @@ public class LittleShapeCurve extends LittleShape {
     
     @Override
     public void addExtraInformation(CompoundTag nbt, List<Component> list) {
-        list.add(Component.translatable("gui.interpolation").append(": ").append(Component.translatable("gui." + interpolationTypes[nbt.getInt("interpolation")])));
+        list.add(new TranslatableComponent("gui.interpolation").append(": ").append(new TranslatableComponent("gui." + interpolationTypes[nbt.getInt("interpolation")])));
     }
     
     @Override

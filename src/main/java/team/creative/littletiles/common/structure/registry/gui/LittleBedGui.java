@@ -3,6 +3,7 @@ package team.creative.littletiles.common.structure.registry.gui;
 import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.simple.GuiStateButtonMapped;
 import team.creative.creativecore.common.util.math.base.Facing;
@@ -39,7 +40,7 @@ public class LittleBedGui extends LittleStructureGuiControl {
         if (structure instanceof LittleBed)
             facing = ((LittleBed) structure).direction;
         GuiStateButtonMapped<Facing> button = new GuiStateButtonMapped<Facing>("direction", new TextMapBuilder<Facing>()
-                .addComponent(Facing.HORIZONTA_VALUES, x -> Component.literal(x.name)));
+                .addComponent(Facing.HORIZONTA_VALUES, x -> new TextComponent(x.name)));
         button.select(facing);
         left.add(button);
         

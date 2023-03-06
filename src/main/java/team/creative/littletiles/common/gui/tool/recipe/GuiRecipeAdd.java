@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -294,7 +295,7 @@ public class GuiRecipeAdd extends GuiLayer implements GuiAnimationViewerStorage 
         public GuiRecipeAddTreeItem(GuiTree tree, LittleGroup group) {
             super("item", tree);
             this.group = group;
-            this.setTitle(Component.literal(generateGroupName(group)));
+            this.setTitle(new TextComponent(generateGroupName(group)));
         }
         
     }

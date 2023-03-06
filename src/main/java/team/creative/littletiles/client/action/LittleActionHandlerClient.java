@@ -3,9 +3,11 @@ package team.creative.littletiles.client.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
@@ -48,7 +50,7 @@ public class LittleActionHandlerClient extends LevelHandler {
         if (message != null)
             LittleTilesClient.displayActionMessage(message);
         else
-            mc.player.sendSystemMessage(Component.literal(e.getLocalizedMessage()));
+            mc.player.sendMessage(new TextComponent(e.getLocalizedMessage()), Util.NIL_UUID);
     }
     
     private List<LittleAction> lastActions = new ArrayList<>();

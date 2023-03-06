@@ -5,6 +5,8 @@ import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.parent.GuiLeftRightBox;
@@ -84,7 +86,7 @@ public class GuiDialogSignalEvents extends GuiLayer {
         right.add(new GuiLabel("title").setTranslate("gui.signal.component"));
         
         for (GuiSignalComponent component : inputs)
-            right.add(new GuiLabel(component.name()).setTitle(Component.literal(component.display())));
+            right.add(new GuiLabel(component.name()).setTitle(new TextComponent(component.display())));
         
         for (GuiSignalEvent event : events)
             addEntry(event);
@@ -157,12 +159,12 @@ public class GuiDialogSignalEvents extends GuiLayer {
                 return;
             
             GuiLabel label = (GuiLabel) panel.get("label");
-            label.setTitle(Component.literal(component.name() + ": " + condition));
+            label.setTitle(new TextComponent(component.name() + ": " + condition));
             GuiLabel mode = (GuiLabel) panel.get("mode");
             int delay = modeConfig.delay;
             if (condition != null)
                 delay = Math.max(delay, (int) Math.ceil(condition.calculateDelay()));
-            mode.setTitle(Component.translatable(modeConfig.getMode().translateKey).append(" ").append(Component.translatable("gui.delay")).append(": " + delay));
+            mode.setTitle(new TranslatableComponent(modeConfig.getMode().translateKey).append(" ").append(new TranslatableComponent("gui.delay")).append(": " + delay));
         }
         
         public SignalOutputHandler getHandler(ISignalComponent component, LittleStructure structure) {

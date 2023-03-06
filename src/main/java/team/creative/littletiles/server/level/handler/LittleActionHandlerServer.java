@@ -2,7 +2,10 @@ package team.creative.littletiles.server.level.handler;
 
 import java.util.List;
 
+import net.minecraft.Util;
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import team.creative.littletiles.LittleTiles;
@@ -22,7 +25,7 @@ public class LittleActionHandlerServer {
         if (message != null)
             LittleTiles.NETWORK.sendToClient(new ActionMessagePacket(message), player);
         else
-            player.sendSystemMessage(Component.literal(e.getLocalizedMessage()));
+            player.sendMessage(new TextComponent(e.getLocalizedMessage()), ChatType.SYSTEM, Util.NIL_UUID);
     }
     
     public static <T> T execute(ServerPlayer player, LittleAction<T> action) {

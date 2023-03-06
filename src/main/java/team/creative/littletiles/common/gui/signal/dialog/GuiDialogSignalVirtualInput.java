@@ -4,6 +4,8 @@ import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.VAlign;
@@ -50,7 +52,7 @@ public class GuiDialogSignalVirtualInput extends GuiLayer {
             return;
         GuiParent top = new GuiParent();
         add(top);
-        top.add(new GuiLabel("bandwidth_label").setTitle(Component.translatable("gui.signal.bandwidth").append(":")));
+        top.add(new GuiLabel("bandwidth_label").setTitle(new TranslatableComponent("gui.signal.bandwidth").append(":")));
         top.add(new GuiCounter("bandwidth", input.conditions.length, 0, 256).setExpandableX());
         add(new GuiScrollY("config").setExpandable());
         
@@ -110,7 +112,7 @@ public class GuiDialogSignalVirtualInput extends GuiLayer {
                     update();
             });
             
-            panel.add(new GuiLabel("label").setTitle(Component.literal(index + ": " + (condition != null ? condition.write() : "0"))));
+            panel.add(new GuiLabel("label").setTitle(new TextComponent(index + ": " + (condition != null ? condition.write() : "0"))));
             int state = 0;
             if (condition instanceof SignalInputVirtualNumber virtual)
                 state = virtual.number == 1 ? 1 : 0;
@@ -128,7 +130,7 @@ public class GuiDialogSignalVirtualInput extends GuiLayer {
             GuiStateButton type = (GuiStateButton) panel.get("type");
             GuiButton edit = (GuiButton) panel.get("edit");
             
-            label.setTitle(Component.literal(index + ": " + parse().write()));
+            label.setTitle(new TextComponent(index + ": " + parse().write()));
             edit.setEnabled(type.getState() == 2);
         }
         

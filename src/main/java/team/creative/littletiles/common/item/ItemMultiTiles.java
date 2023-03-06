@@ -2,6 +2,8 @@ package team.creative.littletiles.common.item;
 
 import java.util.List;
 
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.commons.io.IOUtils;
 
 import com.google.common.base.Charsets;
@@ -60,7 +62,7 @@ public class ItemMultiTiles extends Item implements ILittlePlacer {
     @Override
     public Component getName(ItemStack stack) {
         if (stack.getOrCreateTag().contains(LittleGroup.STRUCTURE_KEY) && stack.getOrCreateTagElement(LittleGroup.STRUCTURE_KEY).contains("name"))
-            return Component.literal(stack.getOrCreateTagElement(LittleGroup.STRUCTURE_KEY).getString("name"));
+            return new TextComponent(stack.getOrCreateTagElement(LittleGroup.STRUCTURE_KEY).getString("name"));
         return super.getName(stack);
     }
     
@@ -94,7 +96,7 @@ public class ItemMultiTiles extends Item implements ILittlePlacer {
         String id = "none";
         if (stack.getOrCreateTag().contains(LittleGroup.STRUCTURE_KEY))
             id = stack.getOrCreateTagElement(LittleGroup.STRUCTURE_KEY).getString("id");
-        tooltip.add(Component.translatable("gui.structure").append(": ").append(Component.translatable("structure." + id)));
+        tooltip.add(new TranslatableComponent("gui.structure").append(": ").append(new TranslatableComponent("structure." + id)));
         tooltip.add(LittleGroup.printTooltip(stack.getOrCreateTag()));
     }
     

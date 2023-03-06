@@ -3,6 +3,7 @@ package team.creative.littletiles.common.gui.tool;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import team.creative.creativecore.common.gui.Align;
 import team.creative.creativecore.common.gui.GuiControl;
@@ -82,7 +83,7 @@ public class GuiChisel extends GuiConfigureTool {
         selector.setSelectedForce(element.getBlock().getStack());
         left.add(selector);
         GuiComboBoxMapped<LittleShape> box = new GuiComboBoxMapped<>("shape", new TextMapBuilder<LittleShape>()
-                .addComponent(ShapeRegistry.placingShapes(), x -> Component.translatable(x.getTranslatableName())));
+                .addComponent(ShapeRegistry.placingShapes(), x -> new TranslatableComponent(x.getTranslatableName())));
         box.select(ItemLittleChisel.getShape(tool.get()));
         left.add(box);
         left.add(new GuiScrollY("settings").setDim(20, 60).setExpandable());

@@ -1,6 +1,7 @@
 package team.creative.littletiles.common.gui.signal.dialog;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.collection.GuiComboBoxMapped;
@@ -40,14 +41,14 @@ public class GuiDialogSignalMode extends GuiLayer {
             return;
         
         GuiComboBoxMapped<SignalMode> box = new GuiComboBoxMapped<SignalMode>("mode", new TextMapBuilder<SignalMode>()
-                .addComponent(SignalMode.values(), x -> Component.translatable(x.translateKey)));
+                .addComponent(SignalMode.values(), x -> new TranslatableComponent(x.translateKey)));
         box.select(event.getModeConfiguration().getMode());
         add(box.setExpandableX());
         
         GuiParent delayLine = new GuiParent(GuiFlow.STACK_X);
         add(delayLine.setExpandableX());
         
-        delayLine.add(new GuiLabel("delay_label").setTitle(Component.translatable("gui.delay").append(":")));
+        delayLine.add(new GuiLabel("delay_label").setTitle(new TranslatableComponent("gui.delay").append(":")));
         delayLine.add(new GuiTextfield("delay", "" + config.delay).setNumbersOnly().setExpandableX());
         
         GuiParent panel = new GuiParent("panel", GuiFlow.STACK_Y);

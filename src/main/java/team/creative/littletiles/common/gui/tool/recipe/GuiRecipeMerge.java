@@ -1,6 +1,8 @@
 package team.creative.littletiles.common.gui.tool.recipe;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.controls.collection.GuiComboBoxMapped;
 import team.creative.creativecore.common.gui.controls.parent.GuiLeftRightBox;
@@ -56,11 +58,11 @@ public class GuiRecipeMerge extends GuiLayer {
             String prefix = "";
             for (int i = 1; i < x.getLevel(); i++)
                 prefix += "-";
-            map.addComponent(x, Component.literal(prefix + x.getTitle()));
+            map.addComponent(x, new TextComponent(prefix + x.getTitle()));
         });
         boolean isEmpty = map.size() == 0;
         if (isEmpty)
-            map.addComponent(null, Component.translatable("gui.recipe.merge.not_found"));
+            map.addComponent(null, new TranslatableComponent("gui.recipe.merge.not_found"));
         GuiComboBoxMapped<GuiTreeItemStructure> box = new GuiComboBoxMapped<>("box", map);
         add(box.setExpandableX().setEnabled(!isEmpty));
         
@@ -73,8 +75,7 @@ public class GuiRecipeMerge extends GuiLayer {
             if (selected == null)
                 return;
             if (isParent(structure, selected))
-                GuiDialogHandler.openDialog(getIntegratedParent(), "merge_failed", Component
-                        .translatable("gui.recipe.dialog.merge.failed", selected.getTitle(), structure.getTitle()), (g, b) -> {}, DialogButton.OK);
+                GuiDialogHandler.openDialog(getIntegratedParent(), "merge_failed", new TranslatableComponent("gui.recipe.dialog.merge.failed", selected.getTitle(), structure.getTitle()), (g, b) -> {}, DialogButton.OK);
             
             recipe.removeItem(selected);
             structure.group.add(selected.group);

@@ -3,10 +3,13 @@ package team.creative.littletiles.common.placement.selection;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -63,20 +66,20 @@ public class AreaSelectionMode extends SelectionMode {
         result.addBlocks(pos, pos2);
         return result;
     }
-    
-    @Override
-    public void leftClick(Player player, CompoundTag nbt, BlockPos pos) {
-        nbt.putIntArray("pos1", new int[] { pos.getX(), pos.getY(), pos.getZ() });
-        if (!player.level.isClientSide)
-            player.sendSystemMessage(Component.translatable("selection.mode.area.pos.first", pos.getX(), pos.getY(), pos.getZ()));
-    }
-    
-    @Override
-    public void rightClick(Player player, CompoundTag nbt, BlockPos pos) {
-        nbt.putIntArray("pos2", new int[] { pos.getX(), pos.getY(), pos.getZ() });
-        if (!player.level.isClientSide)
-            player.sendSystemMessage(Component.translatable("selection.mode.area.pos.second", pos.getX(), pos.getY(), pos.getZ()));
-    }
+
+// REMOVED - Blueprint functions
+//    @Override
+//    public void leftClick(Player player, CompoundTag nbt, BlockPos pos) {
+//        nbt.putIntArray("pos1", new int[] { pos.getX(), pos.getY(), pos.getZ() });
+//        if (!player.level.isClientSide) player.sendMessage(new TranslatableComponent("selection.mode.area.pos.first", pos.getX(), pos.getY(), pos.getZ()), Util.NIL_UUID);
+//    }
+
+// REMOVED - Blueprint functions
+//    @Override
+//    public void rightClick(Player player, CompoundTag nbt, BlockPos pos) {
+//        nbt.putIntArray("pos2", new int[] { pos.getX(), pos.getY(), pos.getZ() });
+//        if (!player.level.isClientSide) player.sendMessage(new TranslatableComponent("selection.mode.area.pos.second", pos.getX(), pos.getY(), pos.getZ()), Util.NIL_UUID);
+//    }
     
     @Override
     public void clear(ItemStack stack) {

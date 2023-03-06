@@ -3,6 +3,7 @@ package team.creative.littletiles.common.gui.signal.node;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import team.creative.creativecore.common.gui.controls.simple.GuiButton;
 import team.creative.creativecore.common.util.math.geo.Rect;
 import team.creative.creativecore.common.util.mc.ColorUtils;
@@ -34,7 +35,7 @@ public abstract class GuiSignalNode extends GuiButton implements Iterable<GuiSig
             else
                 controller.select(this);
         };
-        setTitle(Component.literal(caption));
+        setTitle(new TextComponent(caption));
     }
     
     public boolean hasUnderline() {

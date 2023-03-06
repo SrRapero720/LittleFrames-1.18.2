@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.network.chat.TextComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -126,57 +127,57 @@ public class LittleTiles {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::buildContents);
     }
     
-    public void buildContents(CreativeModeTabEvent.Register event) {
-        event.registerCreativeModeTab(new ResourceLocation(MODID, "items"), x -> x.title(Component.translatable("itemGroup.littletiles"))
-                .icon(() -> new ItemStack(LittleTilesRegistry.HAMMER.get())).displayItems((features, output, permission) -> {
-                    for (ExampleStructures example : ExampleStructures.values())
-                        if (example.stack != null)
-                            output.accept(example.stack);
-                        
-                    for (LittlePremadeType entry : LittlePremadeRegistry.types())
-                        if (entry.showInCreativeTab && !entry.hasCustomTab())
-                            output.accept(entry.createItemStack());
-                        
-                    output.accept(LittleTilesRegistry.HAMMER.get());
-                    output.accept(LittleTilesRegistry.CHISEL.get());
-                    output.accept(LittleTilesRegistry.BLUEPRINT.get());
-                    
-                    output.accept(LittleTilesRegistry.BAG.get());
-                    output.accept(LittleTilesRegistry.GLOVE.get());
-                    
-                    output.accept(LittleTilesRegistry.PAINT_BRUSH.get());
-                    output.accept(LittleTilesRegistry.SAW.get());
-                    output.accept(LittleTilesRegistry.SCREWDRIVER.get());
-                    output.accept(LittleTilesRegistry.WRENCH.get());
-                    
-                    output.accept(LittleTilesRegistry.SIGNAL_CONVERTER.get());
-                    output.accept(LittleTilesRegistry.STORAGE_BLOCK.get());
-                    
-                    output.accept(LittleTilesRegistry.CLEAN.get());
-                    output.accept(LittleTilesRegistry.FLOOR.get());
-                    output.accept(LittleTilesRegistry.GRAINY_BIG.get());
-                    output.accept(LittleTilesRegistry.GRAINY.get());
-                    output.accept(LittleTilesRegistry.GRAINY_LOW.get());
-                    output.accept(LittleTilesRegistry.BRICK.get());
-                    output.accept(LittleTilesRegistry.BRICK_BIG.get());
-                    output.accept(LittleTilesRegistry.BORDERED.get());
-                    output.accept(LittleTilesRegistry.CHISELED.get());
-                    output.accept(LittleTilesRegistry.BROKEN_BRICK_BIG.get());
-                    output.accept(LittleTilesRegistry.CLAY.get());
-                    output.accept(LittleTilesRegistry.STRIPS.get());
-                    output.accept(LittleTilesRegistry.GRAVEL.get());
-                    output.accept(LittleTilesRegistry.SAND.get());
-                    output.accept(LittleTilesRegistry.STONE.get());
-                    output.accept(LittleTilesRegistry.CORK.get());
-                    
-                    output.accept(LittleTilesRegistry.WATER.get());
-                    output.accept(LittleTilesRegistry.WHITE_WATER.get());
-                    
-                    output.accept(LittleTilesRegistry.LAVA.get());
-                    output.accept(LittleTilesRegistry.WHITE_LAVA.get());
-                    
-                }));
-    }
+//    public void buildContents(CreativeModeTabEvent.Register event) {
+//        event.registerCreativeModeTab(new ResourceLocation(MODID, "items"), x -> x.title(new TranslatableComponent("itemGroup.littletiles"))
+//                .icon(() -> new ItemStack(LittleTilesRegistry.HAMMER.get())).displayItems((features, output, permission) -> {
+//                    for (ExampleStructures example : ExampleStructures.values())
+//                        if (example.stack != null)
+//                            output.accept(example.stack);
+//
+//                    for (LittlePremadeType entry : LittlePremadeRegistry.types())
+//                        if (entry.showInCreativeTab && !entry.hasCustomTab())
+//                            output.accept(entry.createItemStack());
+//
+//                    output.accept(LittleTilesRegistry.HAMMER.get());
+//                    output.accept(LittleTilesRegistry.CHISEL.get());
+//                    output.accept(LittleTilesRegistry.BLUEPRINT.get());
+//
+//                    output.accept(LittleTilesRegistry.BAG.get());
+//                    output.accept(LittleTilesRegistry.GLOVE.get());
+//
+//                    output.accept(LittleTilesRegistry.PAINT_BRUSH.get());
+//                    output.accept(LittleTilesRegistry.SAW.get());
+//                    output.accept(LittleTilesRegistry.SCREWDRIVER.get());
+//                    output.accept(LittleTilesRegistry.WRENCH.get());
+//
+//                    output.accept(LittleTilesRegistry.SIGNAL_CONVERTER.get());
+//                    output.accept(LittleTilesRegistry.STORAGE_BLOCK.get());
+//
+//                    output.accept(LittleTilesRegistry.CLEAN.get());
+//                    output.accept(LittleTilesRegistry.FLOOR.get());
+//                    output.accept(LittleTilesRegistry.GRAINY_BIG.get());
+//                    output.accept(LittleTilesRegistry.GRAINY.get());
+//                    output.accept(LittleTilesRegistry.GRAINY_LOW.get());
+//                    output.accept(LittleTilesRegistry.BRICK.get());
+//                    output.accept(LittleTilesRegistry.BRICK_BIG.get());
+//                    output.accept(LittleTilesRegistry.BORDERED.get());
+//                    output.accept(LittleTilesRegistry.CHISELED.get());
+//                    output.accept(LittleTilesRegistry.BROKEN_BRICK_BIG.get());
+//                    output.accept(LittleTilesRegistry.CLAY.get());
+//                    output.accept(LittleTilesRegistry.STRIPS.get());
+//                    output.accept(LittleTilesRegistry.GRAVEL.get());
+//                    output.accept(LittleTilesRegistry.SAND.get());
+//                    output.accept(LittleTilesRegistry.STONE.get());
+//                    output.accept(LittleTilesRegistry.CORK.get());
+//
+//                    output.accept(LittleTilesRegistry.WATER.get());
+//                    output.accept(LittleTilesRegistry.WHITE_WATER.get());
+//
+//                    output.accept(LittleTilesRegistry.LAVA.get());
+//                    output.accept(LittleTilesRegistry.WHITE_LAVA.get());
+//
+//                }));
+//    }
     
     private void init(final FMLCommonSetupEvent event) {
         
@@ -243,14 +244,11 @@ public class LittleTiles {
         ForgeConfig.SERVER.fullBoundingBoxLadders.set(true);
         
         event.getServer().getCommands().getDispatcher().register(Commands.literal("lt-tovanilla").executes((x) -> {
-            x.getSource().sendSuccess(Component
-                    .literal("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server start <player> <path> [time|ms|s|m|h|d] [loops (-1 -> endless)] " + ChatFormatting.RED + "starts the animation"), false);
-            x.getSource().sendSuccess(Component
-                    .literal("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server stop <player> " + ChatFormatting.RED + "stops the animation"), false);
+            x.getSource().sendSuccess(new TextComponent("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server start <player> <path> [time|ms|s|m|h|d] [loops (-1 -> endless)] " + ChatFormatting.RED + "starts the animation"), false);
+            x.getSource().sendSuccess(new TextComponent("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server stop <player> " + ChatFormatting.RED + "stops the animation"), false);
             x.getSource()
-                    .sendSuccess(Component.literal("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server list " + ChatFormatting.RED + "lists all saved paths"), false);
-            x.getSource().sendSuccess(Component
-                    .literal("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server remove <name> " + ChatFormatting.RED + "removes the given path"), false);
+                    .sendSuccess(new TextComponent("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server list " + ChatFormatting.RED + "lists all saved paths"), false);
+            x.getSource().sendSuccess(new TextComponent("" + ChatFormatting.BOLD + ChatFormatting.YELLOW + "/cam-server remove <name> " + ChatFormatting.RED + "removes the given path"), false);
             
             ServerLevel level = x.getSource().getLevel();
             List<BETiles> blocks = new ArrayList<>();
@@ -262,7 +260,7 @@ public class LittleTiles {
                         if (be instanceof BETiles)
                             blocks.add((BETiles) be);
                         
-            x.getSource().sendSuccess(Component.literal("Attempting to convert " + blocks.size() + " blocks!"), false);
+            x.getSource().sendSuccess(new TextComponent("Attempting to convert " + blocks.size() + " blocks!"), false);
             int converted = 0;
             int i = 0;
             for (BETiles be : blocks) {
@@ -270,9 +268,9 @@ public class LittleTiles {
                     converted++;
                 i++;
                 if (i % 50 == 0)
-                    x.getSource().sendSuccess(Component.literal("Processed " + i + "/" + blocks.size() + " and converted " + converted), false);
+                    x.getSource().sendSuccess(new TextComponent("Processed " + i + "/" + blocks.size() + " and converted " + converted), false);
             }
-            x.getSource().sendSuccess(Component.literal("Converted " + converted + " blocks"), false);
+            x.getSource().sendSuccess(new TextComponent("Converted " + converted + " blocks"), false);
             return 0;
         }));
         
@@ -307,7 +305,7 @@ public class LittleTiles {
                         .get(), level, subLevel, new StructureAbsolute(pos, grid.box(), grid), new LocalStructureLocation(result.parentStructure));
                 
                 level.addFreshEntity(entity);
-                x.getSource().sendSystemMessage(Component.literal("Spawned animation"));
+                x.getSource().sendSuccess(new TextComponent("Spawned animation"));
             } catch (LittleActionException e) {
                 x.getSource().sendFailure(e.getTranslatable());
             } catch (Exception e) {
@@ -340,7 +338,7 @@ public class LittleTiles {
                                     structure.checkConnections();
                                     doors.add((LittleDoor) structure);
                                 } catch (CorruptedConnectionException | NotYetConnectedException e) {
-                                    x.getSource().sendFailure(Component.translatable("commands.open.notloaded"));
+                                    x.getSource().sendFailure(new TranslatableComponent("commands.open.notloaded"));
                                 }
                             }
                         } catch (LittleActionException e) {}
@@ -376,7 +374,7 @@ public class LittleTiles {
                                     structure.checkConnections();
                                     doors.add((LittleDoor) structure);
                                 } catch (CorruptedConnectionException | NotYetConnectedException e) {
-                                    x.getSource().sendFailure(Component.translatable("commands.open.notloaded"));
+                                    x.getSource().sendFailure(new TranslatableComponent("commands.open.notloaded"));
                                 }
                             }
                         } catch (LittleActionException e) {}

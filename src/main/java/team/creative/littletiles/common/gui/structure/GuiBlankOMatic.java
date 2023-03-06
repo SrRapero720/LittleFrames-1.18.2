@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
@@ -171,7 +172,7 @@ public class GuiBlankOMatic extends GuiLayer {
             stack = ItemStack.EMPTY;
         get("item", GuiShowItem.class).stack = stack;
         BleachRecipe recipe = selector.getSelectedRecipe();
-        get("cost", GuiLabel.class).setTitle(recipe == null ? Component.empty() : Component.translatable("gui.cost").append(": " + recipe.needed));
+        get("cost", GuiLabel.class).setTitle(recipe == null ? Component.empty() : new TranslatableComponent("gui.cost").append(": " + recipe.needed));
     }
     
     public void updateVariants() {

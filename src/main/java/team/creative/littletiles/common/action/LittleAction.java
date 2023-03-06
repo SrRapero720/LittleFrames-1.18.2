@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.Util;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.TextComponent;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import net.minecraft.core.BlockPos;
@@ -100,7 +103,7 @@ public abstract class LittleAction<T> extends CreativePacket {
         try {
             action(player);
         } catch (LittleActionException e) {
-            player.sendSystemMessage(Component.literal(e.getLocalizedMessage()));
+            player.sendMessage(new TextComponent(e.getLocalizedMessage()), ChatType.SYSTEM, Util.NIL_UUID);
         }
     }
     

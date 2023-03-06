@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.Align;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
@@ -158,7 +160,7 @@ public class GuiRecipeMove extends GuiLayer {
         }
         
         public Component title() {
-            return Component.translatable("gui.recipe.move.mode." + name().toLowerCase());
+            return new TranslatableComponent("gui.recipe.move.mode." + name().toLowerCase());
         }
         
         public void select(GuiTree tree) {
@@ -176,7 +178,7 @@ public class GuiRecipeMove extends GuiLayer {
         public GuiRecipeMoveItem(GuiTree tree, GuiTreeItemStructure structure) {
             super("item", tree);
             this.structure = structure;
-            setTitle(Component.literal(structure.getTitle()));
+            setTitle(new TextComponent(structure.getTitle()));
         }
         
         public void addOffset(LittleVecGrid vec) {
