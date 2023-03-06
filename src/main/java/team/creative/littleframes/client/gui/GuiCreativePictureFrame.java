@@ -4,6 +4,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.EndTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.Align;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
@@ -194,7 +196,7 @@ public class GuiCreativePictureFrame extends GuiLayer {
             
             if (frame.display != null)
                 sizeYField.setValue(frame.display.getHeight() / (frame.display.getWidth() / x));
-        }).setTitle(Component.literal("x->y")));
+        }).setTitle(new TextComponent("x->y")));
         
         size.add(new GuiCounterDecimal("sizeY", frame.getSizeY(), 0, Float.MAX_VALUE) {
             @Override
@@ -220,7 +222,7 @@ public class GuiCreativePictureFrame extends GuiLayer {
             
             if (frame.display != null)
                 sizeXField.setValue(frame.display.getWidth() / (frame.display.getHeight() / y));
-        }).setTitle(Component.literal("y->x")));
+        }).setTitle(new TextComponent("y->x")));
         
         GuiParent flip = new GuiParent(GuiFlow.STACK_X);
         add(flip);
@@ -242,19 +244,19 @@ public class GuiCreativePictureFrame extends GuiLayer {
         GuiColumn right;
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("t_label").setTitle(Component.translatable("gui.creative_frame.rotation").append(":")));
+        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.creative_frame.rotation").append(":")));
         right.add(new GuiSlider("rotation", frame.rotation, 0, 360).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("t_label").setTitle(Component.translatable("gui.creative_frame.transparency").append(":")));
+        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.creative_frame.transparency").append(":")));
         right.add(new GuiSlider("transparency", frame.alpha, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("b_label").setTitle(Component.translatable("gui.creative_frame.brightness").append(":")));
+        left.add(new GuiLabel("b_label").setTitle(new TranslatableComponent("gui.creative_frame.brightness").append(":")));
         right.add(new GuiSlider("brightness", frame.brightness, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("d_label").setTitle(Component.translatable("gui.creative_frame.distance").append(":")));
+        left.add(new GuiLabel("d_label").setTitle(new TranslatableComponent("gui.creative_frame.distance").append(":")));
         right.add(new GuiSteppedSlider("distance", frame.renderDistance, 5, 1024).setExpandableX());
         
         GuiParent rendering = new GuiParent(GuiFlow.STACK_X);

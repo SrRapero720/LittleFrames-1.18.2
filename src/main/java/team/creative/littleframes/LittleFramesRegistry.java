@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.Util;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,23 +15,24 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import team.creative.littleframes.common.block.BECreativePictureFrame;
 import team.creative.littleframes.common.block.BlockCreativePictureFrame;
+import team.creative.littleframes.watercore_supplier.DefaultTab;
 
-@Deprecated
+@Deprecated(since = "1.18.2")
+//Future replacement: WATERegister
 public class LittleFramesRegistry {
     
     // ITEMS
     
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, LittleFrames.MODID);
+    public static final CreativeModeTab TAB = new DefaultTab("LittleFrames", "");
     
     // BLOCKS
-    
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, LittleFrames.MODID);
-    
     public static final RegistryObject<Block> CREATIVE_PICTURE_FRAME = register("creative_pic_frame", () -> new BlockCreativePictureFrame());
     
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<? extends T> sup) {
         RegistryObject<T> ret = BLOCKS.register(name, sup);
-        ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties()));
+        ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(TAB)));
         return ret;
     }
     
