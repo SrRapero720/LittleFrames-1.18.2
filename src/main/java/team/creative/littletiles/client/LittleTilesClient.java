@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.event.RegistryEvent;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
@@ -121,36 +123,8 @@ public class LittleTilesClient {
         bus.addListener(LittleTilesClient::setup);
         MinecraftForge.EVENT_BUS.addListener(LittleTilesClient::commands);
         bus.addListener(LittleTilesClient::initColors);
-        bus.addListener(LittleTilesClient::registerKeys);
         bus.addListener(LittleTilesClient::modelEvent);
         bus.addListener(LittleTilesClient::modelLoader);
-    }
-    
-    private static void registerKeys(FMLClientSetupEvent event) {
-        up = new KeyMapping("key.rotateup", GLFW.GLFW_KEY_UP, "key.categories.littletiles");
-        down = new KeyMapping("key.rotatedown", GLFW.GLFW_KEY_DOWN, "key.categories.littletiles");
-        right = new KeyMapping("key.rotateright", GLFW.GLFW_KEY_RIGHT, "key.categories.littletiles");
-        left = new KeyMapping("key.rotateleft", GLFW.GLFW_KEY_LEFT, "key.categories.littletiles");
-        
-        flip = new KeyMapping("key.little.flip", GLFW.GLFW_KEY_G, "key.categories.littletiles");
-        mark = new KeyMapping("key.little.mark", GLFW.GLFW_KEY_M, "key.categories.littletiles");
-        mark = new KeyMapping("key.little.mark", GLFW.GLFW_KEY_M, "key.categories.littletiles");
-        configure = new KeyMapping("key.little.config.item", KeyConflictContext.UNIVERSAL, KeyModifier.NONE, InputConstants.Type.KEYSYM, InputConstants.KEY_C, "key.categories.littletiles");
-        
-        undo = new KeyMapping("key.little.undo", KeyConflictContext.UNIVERSAL, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, InputConstants.KEY_Z, "key.categories.littletiles");
-        redo = new KeyMapping("key.little.redo", KeyConflictContext.UNIVERSAL, KeyModifier.CONTROL, InputConstants.Type.KEYSYM, InputConstants.KEY_Y, "key.categories.littletiles");
-
-        ClientRegistry.registerKeyBinding(up);
-        ClientRegistry.registerKeyBinding(up);
-        ClientRegistry.registerKeyBinding(down);
-        ClientRegistry.registerKeyBinding(right);
-        ClientRegistry.registerKeyBinding(left);
-        ClientRegistry.registerKeyBinding(flip);
-        ClientRegistry.registerKeyBinding(mark);
-        ClientRegistry.registerKeyBinding(configure);
-        
-        ClientRegistry.registerKeyBinding(undo);
-        ClientRegistry.registerKeyBinding(redo);
     }
     
     private static void setup(final FMLClientSetupEvent event) {
@@ -210,12 +184,12 @@ public class LittleTilesClient {
         CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleTiles.MODID, "empty"), new CreativeBlockModel() {
             
             @Override
-            public List<? extends RenderBox> getBoxes(BlockState state, ModelData data, RandomSource source) {
+            public List<? extends RenderBox> getBoxes(BlockState state, ModelDataMap data, Random source) {
                 return Collections.EMPTY_LIST;
             }
             
             @Override
-            public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
+            public @NotNull ModelDataMap getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelDataMap modelData) {
                 return modelData;
             }
         });
@@ -308,21 +282,6 @@ public class LittleTilesClient {
                         return cubes;
                     }
                 });
-    }
-    
-    public static void initColors(RegisterColorHandlersEvent.Item event) {
-        CreativeCoreClient.registerItemColor(event.getItemColors(), LittleTilesRegistry.PREMADE.get());
-        CreativeCoreClient.registerItemColor(event.getItemColors(), LittleTilesRegistry.ITEM_TILES.get());
-    }
-    
-    public static void commands(RegisterClientCommandsEvent event) {
-        event.getDispatcher().register(LiteralArgumentBuilder.<CommandSourceStack>literal("lt-debug").executes(x -> {
-            if (LittleTilesProfilerOverlay.isActive())
-                LittleTilesProfilerOverlay.stop();
-            else
-                LittleTilesProfilerOverlay.start();
-            return Command.SINGLE_SUCCESS;
-        }));
     }
     
 }
