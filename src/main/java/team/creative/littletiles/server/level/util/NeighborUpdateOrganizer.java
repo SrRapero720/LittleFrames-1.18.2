@@ -1,9 +1,5 @@
 package team.creative.littletiles.server.level.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -14,13 +10,17 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.creativecore.common.level.IOrientatedLevel;
 import team.creative.creativecore.common.level.ISubLevel;
 import team.creative.creativecore.common.util.type.map.HashMapList;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.packet.update.NeighborUpdate;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class NeighborUpdateOrganizer {
     
@@ -87,8 +87,8 @@ public class NeighborUpdateOrganizer {
     }
     
     @SubscribeEvent
-    public void unload(LevelEvent.Unload event) {
-        positions.removeKey((Level) event.getLevel());
+    public void unload(ChunkEvent.Unload event) {
+        positions.removeKey((Level) event.getWorld());
     }
     
 }

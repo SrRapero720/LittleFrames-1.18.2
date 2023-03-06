@@ -5,9 +5,4 @@ import team.creative.creativecore.common.level.ISubLevel;
 
 public interface LittleSubLevel extends ISubLevel, LittleLevel {
     
-    @Override
-    public default FeatureFlagSet enabledFeatures() {
-        return getParent().enabledFeatures();
-    }
-    
 }
