@@ -7,10 +7,11 @@ import javax.crypto.Cipher;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.Connection;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.PacketListener;
-import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
@@ -48,10 +49,9 @@ public class LittleClientConnection extends Connection {
     }
     
     @Override
-    public void send(Packet<?> packet, @Nullable PacketSendListener listener) {
+    public void send(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>> listener) {
         send(packet);
-        if (listener != null)
-            listener.onSuccess();
+        if (listener != null) listener.onSuccess();
     }
     
     @Override

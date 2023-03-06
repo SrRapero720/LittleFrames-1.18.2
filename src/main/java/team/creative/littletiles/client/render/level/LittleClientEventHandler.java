@@ -33,16 +33,16 @@ import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.block.little.tile.parent.IParentCollection;
 
 public class LittleClientEventHandler {
-    
+
     private static final ResourceLocation RES_UNDERWATER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
     public static int transparencySortingIndex;
-    
+
     @SubscribeEvent
     public synchronized void levelUnload(LevelEvent.Unload event) {
         if (event.getLevel().isClientSide())
             RenderingThread.unload();
     }
-    
+
     @SubscribeEvent
     public void renderOverlay(RenderBlockScreenEffectEvent event) {
         Minecraft mc = Minecraft.getInstance();
@@ -56,11 +56,11 @@ public class LittleClientEventHandler {
                 for (Pair<IParentCollection, LittleTile> pair : be.allTiles()) {
                     LittleTile tile = pair.value;
                     if (tile.isMaterial(Material.WATER) && tile.intersectsWith(bb, pair.key)) {
-                        
+
                         RenderSystem.setShader(GameRenderer::getPositionTexShader);
                         RenderSystem.enableTexture();
                         RenderSystem.setShaderTexture(0, RES_UNDERWATER_OVERLAY);
-                        
+
                         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
                         float f = LightTexture.getBrightness(player.level.dimensionType(), player.level.getMaxLocalRawBrightness(blockpos));
                         RenderSystem.enableBlend();
@@ -78,7 +78,7 @@ public class LittleClientEventHandler {
                         bufferbuilder.vertex(matrix4f, -1.0F, 1.0F, -0.5F).uv(4.0F + f7, 0.0F + f8).endVertex();
                         BufferUploader.drawWithShader(bufferbuilder.end());
                         RenderSystem.disableBlend();
-                        
+
                         event.setCanceled(true);
                         return;
                     }
@@ -86,5 +86,5 @@ public class LittleClientEventHandler {
             }
         }
     }
-    
+
 }

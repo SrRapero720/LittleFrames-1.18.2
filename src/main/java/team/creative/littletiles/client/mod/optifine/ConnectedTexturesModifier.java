@@ -16,12 +16,12 @@ import team.creative.littletiles.common.block.little.tile.parent.IParentCollecti
 import team.creative.littletiles.common.block.mc.BlockTile;
 
 public class ConnectedTexturesModifier {
-    
+
     private static Class connectedProperties;
     private static Method match;
     private static Method matchMeta;
     private static Method getBlockID;
-    
+
     static {
         try {
             connectedProperties = Class.forName("net.optifine.ConnectedProperties");
@@ -31,9 +31,9 @@ public class ConnectedTexturesModifier {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public static boolean matches(Object properties, LevelAccessor level, BlockPos pos, BlockState state) {
         try {
             BETiles be = BlockTile.loadBE(level, pos);
@@ -49,7 +49,7 @@ public class ConnectedTexturesModifier {
         }
         return false;
     }
-    
+
     public static boolean matches(Object properties, LevelAccessor level, BlockPos pos, int metadata) {
         try {
             BETiles be = BlockTile.loadBE(level, pos);
@@ -65,7 +65,7 @@ public class ConnectedTexturesModifier {
         }
         return false;
     }
-    
+
     public static boolean isNeighbour(LevelAccessor level, BlockState state, BlockPos pos) {
         BETiles be = BlockTile.loadBE(level, pos);
         if (be != null)
@@ -74,7 +74,7 @@ public class ConnectedTexturesModifier {
                     return true;
         return false;
     }
-    
+
     public static boolean isFullCube(BlockState state) {
         return state.getBlock() instanceof BlockTile;
     }

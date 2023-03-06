@@ -14,21 +14,21 @@ import team.creative.littletiles.common.level.handler.LevelHandler;
 import team.creative.littletiles.common.level.handler.LevelHandlers;
 
 public class LevelHandlersClient extends LevelHandlers<LevelHandler> {
-    
+
     private List<LevelAwareHandler> awareHandlers = new ArrayList<>();
     private List<Consumer<? extends LevelHandler>> unloaders = new ArrayList<>();
     private boolean loaded = false;
     private int slowTicker = 0;
     private int timeToCheckSlowTick = 100;
-    
+
     public LevelHandlersClient() {
         super(true);
     }
-    
+
     public void register(LevelAwareHandler handler) {
         awareHandlers.add(handler);
     }
-    
+
     public <T extends LevelHandler> void register(Function<Level, T> function, Consumer<T> consumer) {
         register(x -> {
             T handler = function.apply(x);
@@ -37,13 +37,13 @@ public class LevelHandlersClient extends LevelHandlers<LevelHandler> {
         });
         unloaders.add(consumer);
     }
-    
+
     @Override
     protected void unload(Level level) {
         super.unload(level);
         unloaders.forEach(x -> x.accept(null));
     }
-    
+
     @SubscribeEvent
     public void tick(ClientTickEvent event) {
         if (event.phase == Phase.START && ((Minecraft.getInstance().player != null) != loaded)) {
@@ -51,7 +51,7 @@ public class LevelHandlersClient extends LevelHandlers<LevelHandler> {
             if (!loaded)
                 awareHandlers.forEach(x -> x.unload());
         }
-        
+
         if (Minecraft.getInstance().player != null) {
             slowTicker++;
             if (slowTicker >= timeToCheckSlowTick) {

@@ -17,20 +17,20 @@ import team.creative.littletiles.client.render.mc.VertexBufferExtender;
 import team.creative.littletiles.common.block.entity.BETiles;
 
 public class LittleChunkDispatcher {
-    
+
     public static int currentRenderState = Integer.MIN_VALUE;
     private static final Minecraft mc = Minecraft.getInstance();
-    
+
     public static void onReloadRenderers(LevelRenderer levelRenderer) {
         if (mc.levelRenderer == levelRenderer)
             currentRenderState++;
         LittleTilesClient.ANIMATION_HANDLER.allChanged();
     }
-    
+
     public static void onOptifineMarksChunkRenderUpdateForDynamicLights(RenderChunkExtender chunk) {
         chunk.dynamicLightUpdate(true);
     }
-    
+
     public static void startCompile(RenderChunkExtender chunk) {
         for (RenderType layer : RenderType.chunkBufferLayers()) {
             VertexBuffer vertexBuffer = chunk.getVertexBuffer(layer);
@@ -44,10 +44,10 @@ public class LittleChunkDispatcher {
                 ((VertexBufferExtender) vertexBuffer).setManager(manager = new ChunkLayerUploadManager(chunk, layer));
         }
     }
-    
+
     public static void endCompile(RenderChunkExtender chunk, RebuildTaskExtender task) {
         chunk.dynamicLightUpdate(false);
-        
+
         for (RenderType layer : RenderType.chunkBufferLayers()) {
             VertexBuffer vertexBuffer = chunk.getVertexBuffer(layer);
             ChunkLayerUploadManager manager = ((VertexBufferExtender) vertexBuffer).getManager();
@@ -55,7 +55,7 @@ public class LittleChunkDispatcher {
                 manager.queued--;
             }
         }
-        
+
         HashMap<RenderType, ChunkLayerCache> caches = task.getLayeredCache();
         if (caches != null)
             for (Entry<RenderType, ChunkLayerCache> entry : caches.entrySet()) {
@@ -63,21 +63,21 @@ public class LittleChunkDispatcher {
                 ChunkLayerUploadManager manager = ((VertexBufferExtender) vertexBuffer).getManager();
                 manager.set(entry.getValue());
             }
-        
+
         task.clear();
     }
-    
+
     public static void add(RenderChunkExtender chunk, BETiles be, RebuildTaskExtender rebuildTask) {
         if (chunk.dynamicLightUpdate())
             be.render.hasLightChanged = true;
-        
+
         be.updateQuadCache(chunk);
-        
+
         for (RenderType layer : RenderType.chunkBufferLayers()) {
             synchronized (be.render.getBufferCache()) {
                 if (!be.render.getBufferCache().has(layer))
                     continue;
-                
+
                 be.render.getBufferCache().add(layer, rebuildTask.builder(layer), rebuildTask.getOrCreate(layer));
             }
         }
