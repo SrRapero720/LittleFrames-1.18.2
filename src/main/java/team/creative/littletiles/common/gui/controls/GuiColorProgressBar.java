@@ -5,6 +5,7 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import team.creative.creativecore.client.render.GuiRenderHelper;
 import team.creative.creativecore.common.gui.GuiChildControl;
@@ -31,7 +32,7 @@ public class GuiColorProgressBar extends GuiProgressbar {
     public List<Component> getTooltip() {
         List<Component> tooltip = super.getTooltip();
         if (tooltip != null)
-            tooltip.add(Component.translatable("gui.color.rightclick"));
+            tooltip.add(new TranslatableComponent("gui.color.rightclick"));
         return tooltip;
     }
     

@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import team.creative.creativecore.common.gui.GuiControl;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.simple.GuiButton;
@@ -262,8 +263,7 @@ public class RecipeOverlapTest extends RecipeTestModule {
         @Override
         public Component description() {
             int volume = boxes.littleVolume();
-            if (volume >= boxes.grid.count3d)
-                return GuiControl.translatable("gui.recipe.test.overlap.desc.large", TooltipUtils.print(boxes.grid.pixelVolume * volume));
+            if (volume >= boxes.grid.count3d) return GuiControl.translatable("gui.recipe.test.overlap.desc.large", TooltipUtils.print(boxes.grid.pixelVolume * volume));
             return GuiControl.translatable("gui.recipe.test.overlap.desc.small", TooltipUtils.print(volume), boxes.grid);
         }
         
@@ -283,11 +283,11 @@ public class RecipeOverlapTest extends RecipeTestModule {
             parent.add(new GuiButton("remove", x -> {
                 removeOverlap(structure, boxes);
                 refresh.run();
-            }).setTitle(Component.literal(this.structure.getTitle())));
+            }).setTitle(new TextComponent(this.structure.getTitle())));
             parent.add(new GuiButton("remove2", x -> {
                 removeOverlap(structure2, boxes);
                 refresh.run();
-            }).setTitle(Component.literal(this.structure2.getTitle())));
+            }).setTitle(new TextComponent(this.structure2.getTitle())));
             parent.add(new GuiButton("move", x -> recipe.OPEN_MOVE.open(new CompoundTag()).init(recipe)).setTranslate("gui.recipe.test.overlap.move"));
         }
         

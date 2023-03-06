@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.gui.GuiControl;
@@ -32,7 +33,7 @@ public abstract class LittleShape {
     }
     
     public Component getTranslatable() {
-        return Component.translatable(getTranslatableName());
+        return new TranslatableComponent(getTranslatableName());
     }
     
     public int maxAllowed() {

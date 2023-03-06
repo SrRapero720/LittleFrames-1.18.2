@@ -12,6 +12,7 @@ import net.minecraft.*;
 import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.logging.log4j.Logger;
 
@@ -637,9 +638,9 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
             for (int i = 0; i < lines.size(); ++i) {
                 FilteredText filteredtext = lines.get(i);
                 if (this.player.isTextFilteringEnabled())
-                    signblockentity.setMessage(i, Component.literal(filteredtext.filteredOrEmpty()));
+                    signblockentity.setMessage(i, new TextComponent(filteredtext.filteredOrEmpty()));
                 else
-                    signblockentity.setMessage(i, Component.literal(filteredtext.raw()), Component.literal(filteredtext.filteredOrEmpty()));
+                    signblockentity.setMessage(i, new TextComponent(filteredtext.raw()), new TextComponent(filteredtext.filteredOrEmpty()));
             }
             
             signblockentity.setChanged();

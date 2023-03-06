@@ -2,6 +2,7 @@ package team.creative.littletiles.common.gui.premade;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -40,7 +41,7 @@ public class GuiExport extends GuiLayer {
         }));
         
         add(new GuiComboBoxMapped<LittleExportType>("type", new TextMapBuilder<LittleExportType>()
-                .addEntrySet(LittleExportType.REGISTRY.entrySet(), x -> Component.translatable("gui.export." + x.getKey()))));
+                .addEntrySet(LittleExportType.REGISTRY.entrySet(), x -> new TranslatableComponent("gui.export." + x.getKey()))));
         
         GuiParent row = new GuiParent(GuiFlow.STACK_X);
         add(row);

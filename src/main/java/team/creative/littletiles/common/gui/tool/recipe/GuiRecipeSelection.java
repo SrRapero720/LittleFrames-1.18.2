@@ -1,5 +1,6 @@
 package team.creative.littletiles.common.gui.tool.recipe;
 
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.commons.lang3.ArrayUtils;
 
 import net.minecraft.nbt.CompoundTag;
@@ -59,7 +60,7 @@ public class GuiRecipeSelection extends GuiConfigure {
             tool.changed();
             LittleToolHandler.OPEN_CONFIG.open(getPlayer());
         } catch (LittleActionException e) {
-            GuiDialogHandler.openDialog(getIntegratedParent(), "info", Component.translatable("gui.ok"), (x, y) -> {}, DialogButton.OK);
+            GuiDialogHandler.openDialog(getIntegratedParent(), "info", new TranslatableComponent("gui.ok"), (x, y) -> {}, DialogButton.OK);
             return;
         }
     });
@@ -126,7 +127,7 @@ public class GuiRecipeSelection extends GuiConfigure {
         GuiParent scale = new GuiParent(GuiFlow.STACK_X);
         add(scale);
         
-        GuiLabel label = new GuiLabel("label_scale").setTitle(Component.translatable("selection.scale").append(": "));
+        GuiLabel label = new GuiLabel("label_scale").setTitle(new TranslatableComponent("selection.scale").append(": "));
         scale.add(label);
         scale.add(new GuiArraySlider("scale").setExpandableX());
         updateSlider();
@@ -134,7 +135,7 @@ public class GuiRecipeSelection extends GuiConfigure {
         GuiLeftRightBox bottom = new GuiLeftRightBox();
         add(bottom.setAlign(Align.RIGHT).setExpandableX());
         bottom.addRight(new GuiButton("clear", x -> {
-            GuiDialogHandler.openDialog(getIntegratedParent(), "clear_sekection", Component.translatable("gui.selection.dialog.clear"), (g, b) -> {
+            GuiDialogHandler.openDialog(getIntegratedParent(), "clear_sekection", new TranslatableComponent("gui.selection.dialog.clear"), (g, b) -> {
                 if (b == DialogButton.YES)
                     CLEAR_SELECTION.send(EndTag.INSTANCE);
             }, DialogButton.NO, DialogButton.YES);
@@ -148,11 +149,11 @@ public class GuiRecipeSelection extends GuiConfigure {
             try {
                 if (rememberStructure && mode.getGroup(getPlayer().level, getPlayer(), stack
                         .getOrCreateTagElement(ItemLittleBlueprint.SELECTION_KEY), includeVanilla, includeCB, includeLT, rememberStructure).isEmpty()) {
-                    GuiDialogHandler.openDialog(getIntegratedParent(), "no_tiles", Component.translatable("selection.no_tiles"), (g, b) -> {}, DialogButton.OK);
+                    GuiDialogHandler.openDialog(getIntegratedParent(), "no_tiles", new TranslatableComponent("selection.no_tiles"), (g, b) -> {}, DialogButton.OK);
                     return;
                 }
             } catch (LittleActionException e) {
-                GuiDialogHandler.openDialog(getIntegratedParent(), "info", Component.translatable("gui.ok"), (g, b) -> {}, DialogButton.OK);
+                GuiDialogHandler.openDialog(getIntegratedParent(), "info", new TranslatableComponent("gui.ok"), (g, b) -> {}, DialogButton.OK);
                 return;
             }
             

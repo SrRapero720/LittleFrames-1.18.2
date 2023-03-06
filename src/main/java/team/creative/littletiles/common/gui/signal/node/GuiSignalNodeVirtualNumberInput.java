@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import team.creative.creativecore.common.gui.event.GuiControlChangedEvent;
 import team.creative.creativecore.common.util.math.geo.Rect;
 import team.creative.littletiles.LittleTilesGuiRegistry;
@@ -32,7 +33,7 @@ public class GuiSignalNodeVirtualNumberInput extends GuiSignalNode {
     }
     
     public void updateLabel() {
-        setTitle(Component.literal("" + number));
+        setTitle(new TextComponent("" + number));
         raiseEvent(new GuiControlChangedEvent(controller()));
     }
     

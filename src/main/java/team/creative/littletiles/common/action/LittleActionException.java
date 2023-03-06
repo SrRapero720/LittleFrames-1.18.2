@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class LittleActionException extends Exception {
     
@@ -25,7 +26,7 @@ public class LittleActionException extends Exception {
     }
     
     public Component getTranslatable() {
-        return Component.translatable(getMessage());
+        return new TranslatableComponent(getMessage());
     }
     
     public boolean isHidden() {

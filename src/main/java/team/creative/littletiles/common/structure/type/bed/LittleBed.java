@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionResult;
@@ -130,7 +131,7 @@ public class LittleBed extends LittleStructure {
                 CriteriaTriggers.SLEPT_IN_BED.trigger(sPlayer);
                 
                 if (!sPlayer.getLevel().canSleepThroughNights())
-                    player.displayClientMessage(Component.translatable("sleep.not_possible"), true);
+                    player.displayClientMessage(new TranslatableComponent("sleep.not_possible"), true);
                 
                 sPlayer.getLevel().updateSleepingPlayerList();
             }
@@ -168,7 +169,7 @@ public class LittleBed extends LittleStructure {
                 
                 Vec3d vec = getHighestCenterVec();
                 if (this.sleepingPlayer != null) {
-                    player.sendSystemMessage(Component.translatable("tile.bed.occupied", new Object[0]));
+                    player.sendSystemMessage(new TranslatableComponent("tile.bed.occupied", new Object[0]));
                     return InteractionResult.SUCCESS;
                 }
                 

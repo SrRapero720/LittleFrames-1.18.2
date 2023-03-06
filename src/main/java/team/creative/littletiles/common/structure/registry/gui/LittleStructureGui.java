@@ -3,6 +3,7 @@ package team.creative.littletiles.common.structure.registry.gui;
 import java.util.function.BiFunction;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.littletiles.common.gui.tool.recipe.GuiTreeItemStructure;
 import team.creative.littletiles.common.structure.LittleStructureType;
 
@@ -20,7 +21,7 @@ public record LittleStructureGui(String id, LittleStructureType type, BiFunction
     }
     
     public Component translatable() {
-        return Component.translatable("structure." + id);
+        return new TranslatableComponent("structure." + id);
     }
     
     public LittleStructureGuiControl create(GuiTreeItemStructure item) {

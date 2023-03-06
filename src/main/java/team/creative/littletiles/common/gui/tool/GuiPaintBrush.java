@@ -2,6 +2,7 @@ package team.creative.littletiles.common.gui.tool;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import team.creative.creativecore.common.gui.Align;
@@ -65,7 +66,7 @@ public class GuiPaintBrush extends GuiConfigureTool {
         add(new GuiColorPicker("picker", color, LittleTiles.CONFIG.isTransparencyEnabled(getPlayer()), LittleTiles.CONFIG.getMinimumTransparency(getPlayer())));
         
         GuiComboBoxMapped<LittleShape> box = new GuiComboBoxMapped<>("shape", new TextMapBuilder<LittleShape>()
-                .addComponent(ShapeRegistry.REGISTRY.values(), x -> Component.translatable(x.getTranslatableName())));
+                .addComponent(ShapeRegistry.REGISTRY.values(), x -> new TranslatableComponent(x.getTranslatableName())));
         box.select(ItemLittleHammer.getShape(tool.get()));
         GuiScrollY scroll = new GuiScrollY("settings").setExpandable();
         add(box);

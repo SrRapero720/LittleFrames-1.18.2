@@ -3,9 +3,12 @@ package team.creative.littletiles.common.gui.tool;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -81,13 +84,13 @@ public class GuiScrewdriver extends GuiConfigure {
             try {
                 LittleTilesClient.ACTION_HANDLER.undo();
             } catch (LittleActionException e) {
-                getPlayer().sendSystemMessage(Component.literal(e.getLocalizedMessage()));
+                getPlayer().sendMessage(new TextComponent(e.getLocalizedMessage()), Util.NIL_UUID);
             }
         }).setTranslate("gui.undo")).addLeft(new GuiButton("redo", x -> {
             try {
                 LittleTilesClient.ACTION_HANDLER.redo();
             } catch (LittleActionException e) {
-                getPlayer().sendSystemMessage(Component.literal(e.getLocalizedMessage()));
+                getPlayer().sendMessage(new TextComponent(e.getLocalizedMessage()), Util.NIL_UUID);
             }
         }).setTranslate("gui.redo")).addRight(new GuiButton("run", x -> {
             LittleAction action = getDesiredAction();
@@ -166,7 +169,7 @@ public class GuiScrewdriver extends GuiConfigure {
         }
         
         if (!remove && !replace && !colorize)
-            GuiDialogHandler.openDialog(getIntegratedParent(), "screwdriver_dialog", Component.translatable("dialog.screwdriver.no_task"), (x, y) -> {}, DialogButton.OK);
+            GuiDialogHandler.openDialog(getIntegratedParent(), "screwdriver_dialog", new TranslatableComponent("dialog.screwdriver.no_task"), (x, y) -> {}, DialogButton.OK);
         
         return null;
     }

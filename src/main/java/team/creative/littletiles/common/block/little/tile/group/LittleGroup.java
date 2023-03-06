@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -58,7 +59,7 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
         if (tag.contains(TILES_COUNT_KEY) && tag.contains(BOXES_COUNT_KEY))
             text.append(tag.getInt(TILES_COUNT_KEY) + " " + LanguageUtils.translate("gui.tile.count") + " " + tag.getInt(BOXES_COUNT_KEY) + " " + LanguageUtils
                     .translate("gui.box.count"));
-        return Component.literal(text.toString());
+        return new TextComponent(text.toString());
     }
     
     public static void advancedScale(LittleGroup group, int from, int to) {

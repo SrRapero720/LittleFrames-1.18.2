@@ -5,6 +5,7 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.util.registry.NamedHandlerRegistry;
@@ -68,12 +69,12 @@ public abstract class PlacementMode {
     
     public static void register(String id, PlacementMode handler) {
         REGISTRY.register(id, handler);
-        map.addComponent(handler, Component.translatable("placement.mode." + id));
+        map.addComponent(handler, new TranslatableComponent("placement.mode." + id));
     }
     
     private static void registerDefault(String id, PlacementMode handler) {
         REGISTRY.registerDefault(id, handler);
-        map.addComponent(handler, Component.translatable("placement.mode." + id));
+        map.addComponent(handler, new TranslatableComponent("placement.mode." + id));
     }
     
     public static TextMapBuilder<PlacementMode> map() {
@@ -137,7 +138,7 @@ public abstract class PlacementMode {
     }
     
     public Component translatable() {
-        return Component.translatable(translatableKey());
+        return new TranslatableComponent(translatableKey());
     }
     
     public LittleIngredients getBeforePlaceIngredients(LittleGroup previews) {

@@ -12,6 +12,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.EndTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.Align;
 import team.creative.creativecore.common.gui.GuiChildControl;
 import team.creative.creativecore.common.gui.GuiParent;
@@ -207,7 +209,7 @@ public class GuiRecipe extends GuiConfigure {
             
         }.setRootVisibility(false).keepSelected();
         buildStructureTree(tree, tree.root(), group, 0);
-        tree.root().setTitle(Component.literal("root"));
+        tree.root().setTitle(new TextComponent("root"));
         tree.updateTree();
         
         GuiParent sidebar = new GuiParent(GuiFlow.STACK_Y).setAlign(Align.STRETCH);
@@ -228,8 +230,7 @@ public class GuiRecipe extends GuiConfigure {
         sidebarButtons.add(new GuiButton("del", x -> {
             if (tree.selected() == null)
                 return;
-            GuiDialogHandler.openDialog(getIntegratedParent(), "delete_item", Component
-                    .translatable("gui.recipe.dialog.delete", ((GuiTreeItemStructure) tree.selected()).getTitle()), (g, b) -> {
+            GuiDialogHandler.openDialog(getIntegratedParent(), "delete_item", new TranslatableComponent("gui.recipe.dialog.delete", ((GuiTreeItemStructure) tree.selected()).getTitle()), (g, b) -> {
                         if (b == DialogButton.YES)
                             removeItem((GuiTreeItemStructure) tree.selected());
                     }, DialogButton.NO, DialogButton.YES);
@@ -261,13 +262,13 @@ public class GuiRecipe extends GuiConfigure {
         add(bottom.setVAlign(VAlign.CENTER).setExpandableX());
         bottom.addLeft(new GuiButton("cancel", x -> closeThisLayer()).setTranslate("gui.cancel"));
         bottom.addLeft(new GuiButton("clear", x -> {
-            GuiDialogHandler.openDialog(getIntegratedParent(), "clear_content", Component.translatable("gui.recipe.dialog.clear"), (g, b) -> {
+            GuiDialogHandler.openDialog(getIntegratedParent(), "clear_content", new TranslatableComponent("gui.recipe.dialog.clear"), (g, b) -> {
                 if (b == DialogButton.YES)
                     CLEAR_CONTENT.send(EndTag.INSTANCE);
             }, DialogButton.NO, DialogButton.YES);
         }).setTranslate("gui.recipe.clear"));
         bottom.addLeft(new GuiButton("selection", x -> {
-            GuiDialogHandler.openDialog(getIntegratedParent(), "remove_content", Component.translatable("gui.recipe.dialog.clear"), (g, b) -> {
+            GuiDialogHandler.openDialog(getIntegratedParent(), "remove_content", new TranslatableComponent("gui.recipe.dialog.clear"), (g, b) -> {
                 if (b == DialogButton.YES)
                     REMOVE_CONTENT.send(EndTag.INSTANCE);
             }, DialogButton.NO, DialogButton.YES);
@@ -311,7 +312,7 @@ public class GuiRecipe extends GuiConfigure {
         actionOnAllItems(x -> x.clearErrors());
         
         if (results.success()) {
-            testReport.setTitle(translatable("gui.recipe.test.result.success"));
+            testReport.setTitle(new TranslatableComponent("gui.recipe.test.result.success"));
             get("check", GuiButton.class).setTranslate("gui.recipe.test");
         } else {
             for (RecipeTestError error : results)
@@ -323,7 +324,7 @@ public class GuiRecipe extends GuiConfigure {
                 title += translate("gui.recipe.test.error.single");
             else
                 title += translate("gui.recipe.test.error.multiple", results.errorCount());
-            testReport.setTitle(Component.literal(title));
+            testReport.setTitle(new TextComponent(title));
             get("check", GuiButton.class).setTranslate("gui.recipe.solve");
         }
         

@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.parent.GuiLeftRightBox;
@@ -49,9 +51,9 @@ public class GuiDialogSignalInput extends GuiLayer {
             return;
         GuiParent upper = new GuiParent(GuiFlow.STACK_X);
         add(upper);
-        upper.add(new GuiLabel("start").setTitle(Component.literal(input.component.name() + "[")));
+        upper.add(new GuiLabel("start").setTitle(new TextComponent(input.component.name() + "[")));
         upper.add(new GuiTextfield("range", input.getRange()).setDim(100));
-        upper.add(new GuiLabel("result").setTitle(Component.literal("] " + input.component.bandwidth() + " ->")));
+        upper.add(new GuiLabel("result").setTitle(new TextComponent("] " + input.component.bandwidth() + " ->")));
         List<GuiSignalInputOperator> modes = new ArrayList<>();
         modes.add(new GuiSignalInputOperator("none") {
             
@@ -67,7 +69,7 @@ public class GuiDialogSignalInput extends GuiLayer {
             @Override
             public void load(GuiSignalNodeInput input, GuiParent panel) {
                 panel.add(new GuiStateButtonMapped<SignalLogicOperator>("operation", input.logic == null ? SignalLogicOperator.AND : input.logic, new TextMapBuilder<SignalLogicOperator>()
-                        .addComponent(Arrays.asList(SignalLogicOperator.AND, SignalLogicOperator.OR, SignalLogicOperator.XOR), x -> Component.literal(x.display))));
+                        .addComponent(Arrays.asList(SignalLogicOperator.AND, SignalLogicOperator.OR, SignalLogicOperator.XOR), x -> new TextComponent(x.display))));
             }
             
             @Override
@@ -87,7 +89,7 @@ public class GuiDialogSignalInput extends GuiLayer {
                     if (input.pattern != null && input.pattern.length > i)
                         state = input.pattern[i];
                     
-                    line.add(new GuiLabel("label" + i).setTitle(Component.literal(i + ":")));
+                    line.add(new GuiLabel("label" + i).setTitle(new TextComponent(i + ":")));
                     line.add(new GuiStateButton(i + "", state, new TextListBuilder().add("false", "true", "ignore")));
                 }
             }
@@ -109,7 +111,7 @@ public class GuiDialogSignalInput extends GuiLayer {
             public void load(GuiSignalNodeInput input, GuiParent panel) {
                 GuiParent line = new GuiParent(GuiFlow.STACK_X);
                 panel.add(line.setExpandableX());
-                line.add(new GuiLabel("label").setTitle(Component.literal("d<index>")));
+                line.add(new GuiLabel("label").setTitle(new TextComponent("d<index>")));
                 line.add(new GuiTextfield("equation", input.equation != null ? input.equation.write() : "").setDim(100));
                 
             }
@@ -177,7 +179,7 @@ public class GuiDialogSignalInput extends GuiLayer {
             bandwidth = input.component.bandwidth();
         }
         GuiLabel result = (GuiLabel) get("result");
-        result.setTitle(Component.literal("] " + input.component.bandwidth() + " -> " + bandwidth));
+        result.setTitle(new TextComponent("] " + input.component.bandwidth() + " -> " + bandwidth));
         raiseEvent(new GuiControlChangedEvent(get("type")));
     }
     
@@ -210,7 +212,7 @@ public class GuiDialogSignalInput extends GuiLayer {
         public abstract void save(GuiSignalNodeInput input, GuiParent panel);
         
         public Component translatable() {
-            return Component.translatable("gui.signal.configuration.input.operation.type." + name);
+            return new TranslatableComponent("gui.signal.configuration.input.operation.type." + name);
         }
         
     }

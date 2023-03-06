@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.VAlign;
 import team.creative.creativecore.common.gui.controls.collection.GuiComboBoxMapped;
@@ -52,13 +54,13 @@ public class GuiDialogSignal extends GuiLayer {
             GuiLabel delay = get("delay");
             try {
                 SignalInputCondition condition = ((GuiSignalController) event.control).generatePattern();
-                label.setTitle(Component.translatable("gui.signal.configuration.result").append(" " + condition.toString()));
+                label.setTitle(new TranslatableComponent("gui.signal.configuration.result").append(" " + condition.toString()));
                 DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
                 df.setMaximumFractionDigits(5);
-                delay.setTitle(Component.literal(df.format(condition.calculateDelay()) + " ticks"));
+                delay.setTitle(new TextComponent(df.format(condition.calculateDelay()) + " ticks"));
             } catch (GeneratePatternException e) {
-                label.setTitle(Component.translatable("gui.signal.configuration.result").append(" ").append(Component.translatable(e.getMessage())));
-                delay.setTitle(Component.literal(0 + " ticks"));
+                label.setTitle(new TranslatableComponent("gui.signal.configuration.result").append(" ").append(new TranslatableComponent(e.getMessage())));
+                delay.setTitle(new TextComponent(0 + " ticks"));
             }
         }
     }
@@ -87,7 +89,7 @@ public class GuiDialogSignal extends GuiLayer {
         allInputs.add(new GuiSignalComponent("number", true, false, -1, 1, null, SignalMode.EQUAL));
         
         GuiComboBoxMapped<GuiSignalComponent> inputs = new GuiComboBoxMapped<GuiSignalComponent>("inputs", new TextMapBuilder<GuiSignalComponent>()
-                .addComponent(allInputs, x -> Component.literal(x.info())));
+                .addComponent(allInputs, x -> new TextComponent(x.info())));
         bottom.addLeft(inputs);
         bottom.addLeft(new GuiButton("add", x -> {
             GuiSignalComponent com = inputs.getSelected();
@@ -100,18 +102,18 @@ public class GuiDialogSignal extends GuiLayer {
         }).setTranslate("gui.plus"));
         
         TextMapBuilder<Consumer<GuiSignalController>> map = new TextMapBuilder<>();
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.AND), Component.literal(SignalLogicOperator.AND.display));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.OR), Component.literal(SignalLogicOperator.OR.display));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.XOR), Component.literal(SignalLogicOperator.XOR.display));
-        map.addComponent(x -> x.addNotOperator(false), Component.literal("not"));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.BITWISE_AND), Component.literal(SignalLogicOperator.BITWISE_AND.display));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.BITWISE_OR), Component.literal(SignalLogicOperator.BITWISE_OR.display));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.BITWISE_XOR), Component.literal(SignalLogicOperator.BITWISE_XOR.display));
-        map.addComponent(x -> x.addNotOperator(true), Component.literal("b-not"));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.ADD), Component.literal(SignalLogicOperator.ADD.display));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.SUB), Component.literal(SignalLogicOperator.SUB.display));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.MUL), Component.literal(SignalLogicOperator.MUL.display));
-        map.addComponent(x -> x.addOperator(SignalLogicOperator.DIV), Component.literal(SignalLogicOperator.DIV.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.AND), new TextComponent(SignalLogicOperator.AND.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.OR), new TextComponent(SignalLogicOperator.OR.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.XOR), new TextComponent(SignalLogicOperator.XOR.display));
+        map.addComponent(x -> x.addNotOperator(false), new TextComponent("not"));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.BITWISE_AND), new TextComponent(SignalLogicOperator.BITWISE_AND.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.BITWISE_OR), new TextComponent(SignalLogicOperator.BITWISE_OR.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.BITWISE_XOR), new TextComponent(SignalLogicOperator.BITWISE_XOR.display));
+        map.addComponent(x -> x.addNotOperator(true), new TextComponent("b-not"));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.ADD), new TextComponent(SignalLogicOperator.ADD.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.SUB), new TextComponent(SignalLogicOperator.SUB.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.MUL), new TextComponent(SignalLogicOperator.MUL.display));
+        map.addComponent(x -> x.addOperator(SignalLogicOperator.DIV), new TextComponent(SignalLogicOperator.DIV.display));
         
         GuiComboBoxMapped<Consumer<GuiSignalController>> operators = new GuiComboBoxMapped<>("operators", map);
         bottom.addLeft(operators);

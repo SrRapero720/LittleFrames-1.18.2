@@ -50,9 +50,9 @@ public class LittleTilesRegistry {
     public static final RegistryObject<Item> PAINT_BRUSH = ITEMS.register("paint_brush", ItemLittlePaintBrush::new);
     public static final RegistryObject<Item> GLOVE = ITEMS.register("glove", ItemLittleGlove::new);
     public static final RegistryObject<Item> PREMADE = ITEMS.register("premade", ItemPremadeStructure::new);
-    
+
     public static final RegistryObject<Item> BLOCK_INGREDIENT = ITEMS.register("blockingredient", ItemBlockIngredient::new);
-    
+
     public static final RegistryObject<Item> BLACK_COLOR = ITEMS.register("bottle_black", () -> new ItemColorIngredient(ColorIngredientType.black));
     public static final RegistryObject<Item> CYAN_COLOR = ITEMS.register("bottle_cyan", () -> new ItemColorIngredient(ColorIngredientType.cyan));
     public static final RegistryObject<Item> MAGENTA_COLOR = ITEMS.register("bottle_magenta", () -> new ItemColorIngredient(ColorIngredientType.magenta));
@@ -66,7 +66,7 @@ public class LittleTilesRegistry {
     public static final RegistryObject<Block> BLOCK_TILES_TICKING = BLOCKS.register("tiles_ticking", () -> new BlockTile(Material.STONE, true, false));
     public static final RegistryObject<Block> BLOCK_TILES_RENDERED = BLOCKS.register("tiles_rendered", () -> new BlockTile(Material.STONE, false, true));
     public static final RegistryObject<Block> BLOCK_TILES_TICKING_RENDERED = BLOCKS.register("tiles_ticking_rendered", () -> new BlockTile(Material.STONE, true, true));
-    
+
     public static final RegistryObject<Block> CLEAN = register("colored_clean", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)));
     public static final RegistryObject<Block> FLOOR = register("colored_floor", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)));
     public static final RegistryObject<Block> GRAINY_BIG = register("colored_grainy_big", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)));
@@ -84,28 +84,28 @@ public class LittleTilesRegistry {
     public static final RegistryObject<Block> SAND = register("colored_sand", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)));
     public static final RegistryObject<Block> STONE = register("colored_stone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)));
     public static final RegistryObject<Block> CORK = register("colored_cork", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)));
-    
+
     public static final RegistryObject<Block> WATER = register("colored_water", () -> new BlockWater(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED)
             .noCollission()));
     public static final RegistryObject<Block> WHITE_WATER = register("colored_white_water", () -> new BlockWater(BlockBehaviour.Properties
             .of(Material.STONE, MaterialColor.COLOR_RED).noCollission()));
-    
+
     public static final RegistryObject<Block> LAVA = register("colored_lava", () -> new BlockLava(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_RED)
             .noCollission()));
     public static final RegistryObject<Block> WHITE_LAVA = register("colored_white_lava", () -> new BlockLava(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SNOW)
             .noCollission().lightLevel(x -> 15)));
-    
+
     public static final RegistryObject<Block> STORAGE_BLOCK = register("storage", () -> new Block(BlockBehaviour.Properties.of(Material.WOOD).destroyTime(1.5F).strength(1.5F)
             .sound(SoundType.WOOD)));
-    
+
     public static final RegistryObject<Block> FLOWING_WATER = BLOCKS.register("colored_water_flowing", () -> new BlockFlowingWater(WATER.get()));
     public static final RegistryObject<Block> WHITE_FLOWING_WATER = BLOCKS.register("colored_white_water_flowing", () -> new BlockFlowingWater(WHITE_WATER.get()));
-    
+
     public static final RegistryObject<Block> FLOWING_LAVA = BLOCKS.register("colored_lava_flowing", () -> new BlockFlowingLava(LAVA.get()));
     public static final RegistryObject<Block> WHITE_FLOWING_LAVA = BLOCKS.register("colored_white_lava_flowing", () -> new BlockFlowingLava(WHITE_LAVA.get()));
-    
+
     public static final RegistryObject<Block> SINGLE_CABLE = BLOCKS.register("cable_single", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.DECORATION)));
-    
+
     public static final RegistryObject<Block> INPUT_ARROW = BLOCKS.register("arrow_input", BlockArrow::new);
     public static final RegistryObject<Block> OUTPUT_ARROW = BLOCKS.register("arrow_output", BlockArrow::new);
     

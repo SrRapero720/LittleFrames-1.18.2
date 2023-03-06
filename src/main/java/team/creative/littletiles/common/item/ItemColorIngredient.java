@@ -3,6 +3,7 @@ package team.creative.littletiles.common.item;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
@@ -156,7 +157,7 @@ public class ItemColorIngredient extends Item implements ILittleIngredientInvent
             
             @Override
             public Component print(ColorIngredient ingredient) {
-                return Component.literal(ingredient.getBlackDescription());
+                return new TextComponent(ingredient.getBlackDescription());
             }
         },
         cyan {
@@ -172,7 +173,7 @@ public class ItemColorIngredient extends Item implements ILittleIngredientInvent
             
             @Override
             public Component print(ColorIngredient ingredient) {
-                return Component.literal(ingredient.getCyanDescription());
+                return new TextComponent(ingredient.getCyanDescription());
             }
         },
         magenta {
@@ -188,7 +189,7 @@ public class ItemColorIngredient extends Item implements ILittleIngredientInvent
             
             @Override
             public Component print(ColorIngredient ingredient) {
-                return Component.literal(ingredient.getMagentaDescription());
+                return new TextComponent(ingredient.getMagentaDescription());
             }
         },
         yellow {
@@ -204,7 +205,7 @@ public class ItemColorIngredient extends Item implements ILittleIngredientInvent
             
             @Override
             public Component print(ColorIngredient ingredient) {
-                return Component.literal(ingredient.getYellowDescription());
+                return new TextComponent(ingredient.getYellowDescription());
             }
         };
         
