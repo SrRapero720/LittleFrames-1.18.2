@@ -11,12 +11,12 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 public interface BufferBuilderAccessor {
     
     @Accessor
-    public int getVertices();
+    int getVertices();
     
     @Accessor
-    public int getNextElementByte();
+    int getNextElementByte();
     
     @Accessor
-    public ByteBuffer getBuffer();
+    ByteBuffer getBuffer();
     
 }
