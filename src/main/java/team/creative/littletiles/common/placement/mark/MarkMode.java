@@ -14,8 +14,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.littletiles.common.grid.LittleGrid;
-import team.creative.littletiles.common.gui.GuiMarkMode;
-import team.creative.littletiles.common.gui.tool.GuiConfigure;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecGrid;
 import team.creative.littletiles.common.placement.PlacementPosition;
@@ -73,11 +71,6 @@ public class MarkMode implements IMarkMode {
     @Override
     public boolean allowLowResolution() {
         return allowLowResolution;
-    }
-    
-    @Override
-    public GuiConfigure getConfigurationGui() {
-        return new GuiMarkMode(this);
     }
     
     @Override

@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 27/59
+Total Completed: 29/59
 
 - client (13 Currently)
     - level
@@ -72,9 +72,9 @@ Total Completed: 27/59
             - ~~BlockUpdate~~ ``FIXED``
         - ~~LittlePacketTypes~~ ``FIXED``
     - placement
-        - mark
-            - IMarkMode
-            - MarkMode
+        - ~~mark~~
+            - ~~IMarkMode~~ ``FIXED``
+            - ~~MarkMode~~ ``FIXED``
         - shape
             - ShapeSelection
     - structure
