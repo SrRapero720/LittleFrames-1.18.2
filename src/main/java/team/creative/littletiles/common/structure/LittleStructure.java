@@ -825,12 +825,12 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
     // ====================Extra====================
 
     public ItemStack getStructureDrop() throws CorruptedConnectionException, NotYetConnectedException {
-        if (hasParent())
-            return findTopStructure().getStructureDrop();
+        if (hasParent()) return findTopStructure().getStructureDrop();
 
         checkConnections();
         BlockPos pos = getMinPos(getPos().mutable());
 
+        // Unsure if we can delete this? It seems like we might not need it
         ItemStack stack = new ItemStack(LittleTilesRegistry.ITEM_TILES.get());
         stack.setTag(LittleGroup.save(getPreviews(pos)));
 
