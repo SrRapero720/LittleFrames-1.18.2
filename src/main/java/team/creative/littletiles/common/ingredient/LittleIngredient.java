@@ -129,17 +129,17 @@ public abstract class LittleIngredient<T extends LittleIngredient> extends Littl
                         volume -= stack.getCount();
                         stacks.add(stack);
                     }
-                    
-                    if (volume > 0) {
-                        ItemStack stack = new ItemStack(LittleTilesRegistry.BLOCK_INGREDIENT.get());
-                        stack.setTag(new CompoundTag());
-                        ItemBlockIngredient.saveIngredient(stack, entry);
-                        stacks.add(stack);
-                    }
+
+//                    if (volume > 0) {
+//                        ItemStack stack = new ItemStack(LittleTilesRegistry.BLOCK_INGREDIENT.get());
+//                        stack.setTag(new CompoundTag());
+//                        ItemBlockIngredient.saveIngredient(stack, entry);
+//                        stacks.add(stack);
+//                    }
                 }
                 return stacks;
             }
-        }, new IngredientConvertionHandler<BlockIngredient>() {
+        }, new IngredientConvertionHandler<>() {
             
             @Override
             public BlockIngredient extract(ItemStack stack) {
@@ -176,33 +176,7 @@ public abstract class LittleIngredient<T extends LittleIngredient> extends Littl
             
             @Override
             public List<ItemStack> handleOverflow(ColorIngredient overflow) throws NotEnoughSpaceException {
-                LittleIngredients ingredients = new LittleIngredients(overflow);
-                List<ItemStack> stacks = new ArrayList<>();
-                if (overflow.black > 0) {
-                    ItemStack stack = new ItemStack(LittleTilesRegistry.BLACK_COLOR.get());
-                    stack.setTag(new CompoundTag());
-                    ((ItemColorIngredient) stack.getItem()).setInventory(stack, ingredients, null);
-                    stacks.add(stack);
-                }
-                if (overflow.cyan > 0) {
-                    ItemStack stack = new ItemStack(LittleTilesRegistry.CYAN_COLOR.get());
-                    stack.setTag(new CompoundTag());
-                    ((ItemColorIngredient) stack.getItem()).setInventory(stack, ingredients, null);
-                    stacks.add(stack);
-                }
-                if (overflow.magenta > 0) {
-                    ItemStack stack = new ItemStack(LittleTilesRegistry.MAGENTA_COLOR.get());
-                    stack.setTag(new CompoundTag());
-                    ((ItemColorIngredient) stack.getItem()).setInventory(stack, ingredients, null);
-                    stacks.add(stack);
-                }
-                if (overflow.yellow > 0) {
-                    ItemStack stack = new ItemStack(LittleTilesRegistry.YELLOW_COLOR.get());
-                    stack.setTag(new CompoundTag());
-                    ((ItemColorIngredient) stack.getItem()).setInventory(stack, ingredients, null);
-                    stacks.add(stack);
-                }
-                return stacks;
+                return new ArrayList<>();
             }
         }, new IngredientConvertionHandler<ColorIngredient>() {
             

@@ -5,7 +5,6 @@ import java.util.UUID;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -30,10 +29,6 @@ import team.creative.littletiles.common.block.little.tile.LittleTileContext;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.block.little.tile.parent.IParentCollection;
 import team.creative.littletiles.common.entity.level.LittleEntity;
-import team.creative.littletiles.common.item.ItemLittleBlueprint;
-import team.creative.littletiles.common.item.ItemLittleChisel;
-import team.creative.littletiles.common.item.ItemLittleGlove;
-import team.creative.littletiles.common.item.ItemLittlePaintBrush;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
@@ -43,38 +38,36 @@ public class BlockPacket extends CreativePacket {
     
     public static enum BlockPacketAction {
         
-        COLOR_TUBE(true) {
-            @Override
-            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
-                if (context.parent.isStructure()) {
-                    try {
-                        LittleStructure structure = context.parent.getStructure();
-                        if (structure.hasStructureColor()) {
-                            ItemLittlePaintBrush.setColor(player.getMainHandItem(), structure.getStructureColor());
-                            return;
-                        }
-                    } catch (CorruptedConnectionException | NotYetConnectedException e) {}
-                    
-                }
-                ItemLittlePaintBrush.setColor(player.getMainHandItem(), context.tile.color);
-                
-            }
-        },
-        CHISEL(false) {
-            
-            @Override
-            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
-                if (LittleAction.isBlockValid(context.tile.getState()))
-                    ItemLittleChisel.setElement(stack, new LittleElement(context.tile.getState(), ColorUtils.WHITE));
-            }
-        },
-        GRABBER(false) {
-            
-            @Override
-            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
-                ItemLittleGlove.getMode(stack).littleBlockAction(level, be, context, stack, pos, nbt);
-            }
-        },
+//        COLOR_TUBE(true) {
+//            @Override
+//            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
+//                if (context.parent.isStructure()) {
+//                    try {
+//                        LittleStructure structure = context.parent.getStructure();
+//                        if (structure.hasStructureColor()) {
+//                            ItemLittlePaintBrush.setColor(player.getMainHandItem(), structure.getStructureColor());
+//                            return;
+//                        }
+//                    } catch (CorruptedConnectionException | NotYetConnectedException e) {}
+//
+//                }
+//
+//            }
+//        },
+//        CHISEL(false) {
+//
+//            @Override
+//            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
+//                if (LittleAction.isBlockValid(context.tile.getState())) ItemLittleChisel.setElement(stack, new LittleElement(context.tile.getState(), ColorUtils.WHITE));
+//            }
+//        },
+//        GRABBER(false) {
+//
+//            @Override
+//            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
+//                ItemLittleGlove.getMode(stack).littleBlockAction(level, be, context, stack, pos, nbt);
+//            }
+//        },
         WRENCH(true) {
             
             @Override
@@ -98,37 +91,37 @@ public class BlockPacket extends CreativePacket {
                     } catch (CorruptedConnectionException | NotYetConnectedException e) {}
             }
             
-        },
-        RECIPE(false) {
-            
-            @Override
-            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
-                LittleGroup previews;
-                if (context.parent.isStructure()) {
-                    if (nbt.getBoolean("secondMode"))
-                        try {
-                            previews = context.parent.getStructure().getPreviews(pos);
-                        } catch (CorruptedConnectionException | NotYetConnectedException e) {
-                            return;
-                        }
-                    else
-                        try {
-                            previews = context.parent.getStructure().findTopStructure().getPreviews(pos);
-                        } catch (CorruptedConnectionException | NotYetConnectedException e) {
-                            return;
-                        }
-                } else {
-                    previews = new LittleGroup();
-                    if (nbt.getBoolean("secondMode"))
-                        for (IParentCollection collection : be.groups())
-                            previews.addAll(be.getGrid(), () -> new FunctionIterator<>(collection, x -> x.copy()));
-                    else
-                        previews.addTile(be.getGrid(), context.tile.copy());
-                }
-                
-                stack.getOrCreateTag().put(ItemLittleBlueprint.CONTENT_KEY, LittleGroup.save(previews));
-            }
         };
+//        RECIPE(false) {
+//
+//            @Override
+//            public void action(Level level, BETiles be, LittleTileContext context, ItemStack stack, Player player, BlockHitResult moving, BlockPos pos, CompoundTag nbt) {
+//                LittleGroup previews;
+//                if (context.parent.isStructure()) {
+//                    if (nbt.getBoolean("secondMode"))
+//                        try {
+//                            previews = context.parent.getStructure().getPreviews(pos);
+//                        } catch (CorruptedConnectionException | NotYetConnectedException e) {
+//                            return;
+//                        }
+//                    else
+//                        try {
+//                            previews = context.parent.getStructure().findTopStructure().getPreviews(pos);
+//                        } catch (CorruptedConnectionException | NotYetConnectedException e) {
+//                            return;
+//                        }
+//                } else {
+//                    previews = new LittleGroup();
+//                    if (nbt.getBoolean("secondMode"))
+//                        for (IParentCollection collection : be.groups())
+//                            previews.addAll(be.getGrid(), () -> new FunctionIterator<>(collection, x -> x.copy()));
+//                    else
+//                        previews.addTile(be.getGrid(), context.tile.copy());
+//                }
+//
+//                stack.getOrCreateTag().put(ItemLittleBlueprint.CONTENT_KEY, LittleGroup.save(previews));
+//            }
+//        };
         
         public final boolean rightClick;
         

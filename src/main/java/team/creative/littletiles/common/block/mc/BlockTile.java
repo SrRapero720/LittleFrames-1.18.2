@@ -87,10 +87,6 @@ import team.creative.littletiles.common.block.little.tile.parent.IParentCollecti
 import team.creative.littletiles.common.block.little.tile.parent.IStructureParentCollection;
 import team.creative.littletiles.common.block.little.tile.parent.ParentCollection;
 import team.creative.littletiles.common.block.little.tile.parent.StructureParentCollection;
-import team.creative.littletiles.common.item.ItemLittlePaintBrush;
-import team.creative.littletiles.common.item.ItemLittleSaw;
-import team.creative.littletiles.common.item.ItemLittleWrench;
-import team.creative.littletiles.common.item.ItemMultiTiles;
 import team.creative.littletiles.common.level.little.LittleLevel;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.structure.LittleStructure;
@@ -120,7 +116,7 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     }
     
     public static boolean selectEntireBlock(Player player, boolean secondMode) {
-        return secondMode && !(player.getMainHandItem().getItem() instanceof ItemLittleSaw) && !(player.getMainHandItem().getItem() instanceof ItemLittlePaintBrush);
+        return secondMode;
     }
     
     public static BlockState getStateByAttribute(int attribute) {
@@ -478,8 +474,6 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     @OnlyIn(Dist.CLIENT)
     public InteractionResult useClient(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
         LittleTileContext context = LittleTileContext.selectFocused(level, pos, player);
-        if (context.isComplete() && !(player.getItemInHand(hand).getItem() instanceof ItemLittleWrench))
-            return LittleTilesClient.ACTION_HANDLER.execute(new LittleActionActivated(level, pos, player));
         return InteractionResult.PASS;
     }
     
@@ -601,21 +595,6 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
         LittleTileContext result = LittleTileContext.selectFocused(level, pos, player);
-        if (result.isComplete()) {
-            if (selectEntireBlock(player, LittleActionHandlerClient.isUsingSecondMode())) {
-                ItemStack drop = new ItemStack(LittleTilesRegistry.ITEM_TILES.get());
-                LittleGroup group = new LittleGroup();
-                for (LittleTile tile : result.parent)
-                    group.add(result.parent.getGrid(), tile, tile);
-                drop.setTag(LittleGroup.save(group));
-                return drop;
-            }
-            if (result.parent.isStructure())
-                try {
-                    return result.parent.getStructure().getStructureDrop();
-                } catch (CorruptedConnectionException | NotYetConnectedException e) {}
-            return ItemMultiTiles.of(result.tile, result.parent.getGrid(), result.box);
-        }
         return ItemStack.EMPTY;
     }
     

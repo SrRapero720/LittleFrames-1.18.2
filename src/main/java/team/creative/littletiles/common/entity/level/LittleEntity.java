@@ -37,7 +37,6 @@ import team.creative.littletiles.client.render.entity.LittleLevelRenderManager;
 import team.creative.littletiles.common.entity.INoPushEntity;
 import team.creative.littletiles.common.entity.OrientationAwareEntity;
 import team.creative.littletiles.common.entity.physic.LittleLevelEntityPhysic;
-import team.creative.littletiles.common.item.ItemLittleWrench;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
 import team.creative.littletiles.common.level.little.LittleChunkSerializer;
 import team.creative.littletiles.common.level.little.LittleLevel;

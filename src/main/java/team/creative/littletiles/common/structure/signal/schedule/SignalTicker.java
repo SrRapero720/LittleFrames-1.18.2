@@ -8,7 +8,7 @@ import java.util.List;
 
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -100,8 +100,8 @@ public class SignalTicker {
     }
     
     @SubscribeEvent
-    public synchronized void tick(LevelTickEvent event) {
-        if (event.phase == Phase.END && level == event.level) {
+    public synchronized void tick(TickEvent.WorldTickEvent event) {
+        if (event.phase == Phase.END && level == event.world) {
             
             for (int i = 0; i < scheduled.size(); i++)
                 try {

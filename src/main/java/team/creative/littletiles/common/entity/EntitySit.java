@@ -1,7 +1,6 @@
 package team.creative.littletiles.common.entity;
 
-import org.joml.Vector3d;
-
+import com.mojang.math.Vector3d;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;

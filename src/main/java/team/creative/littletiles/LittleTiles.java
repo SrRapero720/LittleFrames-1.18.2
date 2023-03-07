@@ -1,25 +1,12 @@
 package team.creative.littletiles;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.commands.Commands;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ChunkHolder;
-import net.minecraft.server.level.ChunkHolder.FullChunkStatus;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.ForgeConfig;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
@@ -29,61 +16,32 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import team.creative.creativecore.common.config.holder.CreativeConfigRegistry;
 import team.creative.creativecore.common.network.CreativeNetwork;
-import team.creative.creativecore.common.util.math.base.Facing;
-import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.littletiles.client.LittleTilesClient;
 import team.creative.littletiles.common.action.*;
 import team.creative.littletiles.common.action.LittleActionColorBoxes.LittleActionColorBoxesFiltered;
 import team.creative.littletiles.common.action.LittleActionDestroyBoxes.LittleActionDestroyBoxesFiltered;
-import team.creative.littletiles.common.block.entity.BETiles;
-import team.creative.littletiles.common.block.little.element.LittleElement;
-import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
-import team.creative.littletiles.common.block.little.tile.group.LittleGroupAbsolute;
 import team.creative.littletiles.common.config.LittleTilesConfig;
 import team.creative.littletiles.common.entity.EntitySizeHandler;
-import team.creative.littletiles.common.entity.level.LittleEntity;
-import team.creative.littletiles.common.entity.level.LittleLevelEntity;
-import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.ingredient.rules.IngredientRules;
-import team.creative.littletiles.common.item.LittleToolHandler;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
-import team.creative.littletiles.common.level.little.LittleSubLevel;
-import team.creative.littletiles.common.math.box.LittleBox;
-import team.creative.littletiles.common.math.location.LocalStructureLocation;
-import team.creative.littletiles.common.mod.theoneprobe.TheOneProbeManager;
 import team.creative.littletiles.common.packet.LittlePacketTypes;
 import team.creative.littletiles.common.packet.action.ActionMessagePacket;
 import team.creative.littletiles.common.packet.action.BlockPacket;
 import team.creative.littletiles.common.packet.action.VanillaBlockPacket;
 import team.creative.littletiles.common.packet.item.MirrorPacket;
 import team.creative.littletiles.common.packet.item.RotatePacket;
-import team.creative.littletiles.common.packet.item.ScrewdriverSelectionPacket;
-import team.creative.littletiles.common.packet.item.SelectionModePacket;
 import team.creative.littletiles.common.packet.level.LittleLevelInitPacket;
 import team.creative.littletiles.common.packet.level.LittleLevelPacket;
 import team.creative.littletiles.common.packet.level.LittleLevelPackets;
 import team.creative.littletiles.common.packet.level.LittleLevelPhysicPacket;
 import team.creative.littletiles.common.packet.structure.BedUpdate;
 import team.creative.littletiles.common.packet.update.*;
-import team.creative.littletiles.common.placement.Placement;
-import team.creative.littletiles.common.placement.PlacementPreview;
-import team.creative.littletiles.common.placement.PlacementResult;
-import team.creative.littletiles.common.placement.mode.PlacementMode;
 import team.creative.littletiles.common.recipe.StructureIngredient.StructureIngredientSerializer;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.registry.LittleStructureRegistry;
-import team.creative.littletiles.common.structure.relative.StructureAbsolute;
 import team.creative.littletiles.common.structure.signal.LittleSignalHandler;
 import team.creative.littletiles.common.structure.type.bed.LittleBedEventHandler;
-import team.creative.littletiles.common.structure.type.premade.LittleExporter;
-import team.creative.littletiles.common.structure.type.premade.LittleImporter;
-import team.creative.littletiles.mixin.server.level.ChunkMapAccessor;
 import team.creative.littletiles.server.LittleTilesServer;
-import team.creative.littletiles.server.level.little.SubServerLevel;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Mod(LittleTiles.MODID)
 public class LittleTiles {
@@ -171,8 +129,6 @@ public class LittleTiles {
         
         NETWORK.registerType(RotatePacket.class, RotatePacket::new);
         NETWORK.registerType(MirrorPacket.class, MirrorPacket::new);
-        NETWORK.registerType(SelectionModePacket.class, SelectionModePacket::new);
-        NETWORK.registerType(ScrewdriverSelectionPacket.class, ScrewdriverSelectionPacket::new);
         
         NETWORK.registerType(StructureUpdate.class, StructureUpdate::new);
         NETWORK.registerType(NeighborUpdate.class, NeighborUpdate::new);
@@ -200,12 +156,8 @@ public class LittleTiles {
         MinecraftForge.EVENT_BUS.register(LittleAnimationHandlers.class);
         // MinecraftForge.EVENT_BUS.register(ChiselAndBitsConveration.class);
         MinecraftForge.EVENT_BUS.register(new LittleSignalHandler());
-        MinecraftForge.EVENT_BUS.register(new LittleToolHandler());
         
         LittleTilesServer.init(event);
-        
-        if (ModList.get().isLoaded(TheOneProbeManager.modid))
-            TheOneProbeManager.init();
         
         //MinecraftForge.EVENT_BUS.register(ChiselAndBitsConveration.class);
         

@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.creativecore.common.level.ISubLevel;
 import team.creative.littletiles.client.LittleTilesClient;
@@ -63,9 +63,9 @@ public class LittleAnimationHandlers extends LevelHandlers<LittleAnimationHandle
     }
     
     @SubscribeEvent
-    public void tick(LevelTickEvent event) {
-        if (!event.level.isClientSide)
-            getHandlers(event.level).forEach(x -> x.tickServer(event));
+    public void tick(TickEvent.WorldTickEvent event) {
+        if (!event.world.isClientSide)
+            getHandlers(event.world).forEach(x -> x.tickServer(event));
     }
     
     public static void setPushedByDoor(ServerPlayer entity) {

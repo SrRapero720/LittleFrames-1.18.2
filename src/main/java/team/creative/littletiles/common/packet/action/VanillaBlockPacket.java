@@ -10,8 +10,6 @@ import team.creative.creativecore.common.network.CreativePacket;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.littletiles.common.action.LittleAction;
 import team.creative.littletiles.common.block.little.element.LittleElement;
-import team.creative.littletiles.common.item.ItemLittleChisel;
-import team.creative.littletiles.common.item.ItemLittleGlove;
 
 public class VanillaBlockPacket extends CreativePacket {
     

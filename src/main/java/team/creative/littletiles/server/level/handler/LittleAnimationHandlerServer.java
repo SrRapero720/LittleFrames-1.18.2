@@ -2,7 +2,7 @@ package team.creative.littletiles.server.level.handler;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerEvent.StopTracking;
@@ -31,8 +31,8 @@ public class LittleAnimationHandlerServer extends LittleAnimationHandler {
             levelEntity.getSubLevel().stopTracking((ServerPlayer) event.getEntity());
     }
     
-    public void tickServer(LevelTickEvent event) {
-        if (event.phase == Phase.END && level == event.level) {
+    public void tickServer(TickEvent.WorldTickEvent event) {
+        if (event.phase == Phase.END && level == event.world) {
             tick();
             
             for (LittleEntity entity : entities) {

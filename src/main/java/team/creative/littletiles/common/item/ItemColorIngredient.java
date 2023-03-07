@@ -30,18 +30,6 @@ public class ItemColorIngredient extends Item implements ILittleIngredientInvent
     public static ItemStack generateItemStack(ColorIngredientType type, int value) {
         ItemStack stack;
         switch (type) {
-            case black:
-                stack = new ItemStack(LittleTilesRegistry.BLACK_COLOR.get());
-                break;
-            case cyan:
-                stack = new ItemStack(LittleTilesRegistry.CYAN_COLOR.get());
-                break;
-            case magenta:
-                stack = new ItemStack(LittleTilesRegistry.MAGENTA_COLOR.get());
-                break;
-            case yellow:
-                stack = new ItemStack(LittleTilesRegistry.YELLOW_COLOR.get());
-                break;
             default:
                 stack = ItemStack.EMPTY;
                 break;

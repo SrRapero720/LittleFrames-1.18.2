@@ -3,13 +3,9 @@ package team.creative.littletiles.common.placement.selection;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -33,7 +29,6 @@ import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecGrid;
-import team.creative.littletiles.common.mod.chiselsandbits.ChiselsAndBitsManager;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
@@ -66,6 +61,12 @@ public class AreaSelectionMode extends SelectionMode {
         result.addBlocks(pos, pos2);
         return result;
     }
+
+    @Override
+    public void leftClick(Player player, CompoundTag nbt, BlockPos pos) {}
+
+    @Override
+    public void rightClick(Player player, CompoundTag nbt, BlockPos pos) {}
 
 // REMOVED - Blueprint functions
 //    @Override
@@ -144,16 +145,6 @@ public class AreaSelectionMode extends SelectionMode {
                                 }
                             }
                         }
-                        
-                        if (includeCB) {
-                            LittleGroup specialPreviews = ChiselsAndBitsManager.getGroup(blockEntity);
-                            if (specialPreviews != null) {
-                                specialPreviews.move(new LittleVecGrid(new LittleVec(previews.getGrid().toGrid(posX - minX), previews.getGrid().toGrid(posY - minY), previews
-                                        .getGrid().toGrid(posZ - minZ)), previews.getGrid()));
-                                previews.add(specialPreviews);
-                                continue;
-                            }
-                        }
                     }
                     
                     if (includeVanilla) {
@@ -195,7 +186,7 @@ public class AreaSelectionMode extends SelectionMode {
             pos2 = pos;
         
         List<LittleGroup> children = new ArrayList<>();
-        LittleGroup previews = getGroup(level, player, pos, pos2, includeVanilla, includeCB, includeLT, rememberStructure);
+        LittleGroup previews = getGroup(level, player, pos, pos2, includeVanilla, false, includeLT, rememberStructure);
         
         int minX = Math.min(pos.getX(), pos2.getX());
         int minY = Math.min(pos.getY(), pos2.getY());

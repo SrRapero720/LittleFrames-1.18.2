@@ -11,8 +11,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
-import team.creative.littletiles.common.item.ItemMultiTiles;
-import team.creative.littletiles.common.item.ItemPremadeStructure;
 
 public class StructureIngredient extends Ingredient {
     
@@ -25,10 +23,6 @@ public class StructureIngredient extends Ingredient {
     
     @Override
     public boolean test(@Nullable ItemStack stack) {
-        if (stack.getItem() instanceof ItemMultiTiles)
-            return ItemMultiTiles.getStructure(stack).equals(structureType);
-        else if (stack.getItem() instanceof ItemPremadeStructure)
-            return ItemPremadeStructure.getPremadeId(stack).equals(structureType);
         return false;
     }
     

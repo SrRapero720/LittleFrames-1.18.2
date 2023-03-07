@@ -98,14 +98,6 @@ public class FakeClientLevel extends LittleClientLevel {
     }
 
     @Override
-    public void playSeededSound(Player p_220363_, double p_220364_, double p_220365_, double p_220366_, SoundEvent p_220367_, SoundSource p_220368_, float p_220369_, float p_220370_, long p_220371_) {
-    }
-
-    @Override
-    public void playSeededSound(Player p_263514_, Entity p_263536_, Holder<SoundEvent> p_263518_, SoundSource p_263487_, float p_263538_, float p_263524_, long p_263509_) {
-    }
-
-    @Override
     public Scoreboard getScoreboard() {
         return scoreboard;
     }

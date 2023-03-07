@@ -38,55 +38,57 @@ import team.creative.littletiles.common.structure.exception.CorruptedConnectionE
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
 
 public class LittleActionColorBoxes extends LittleActionBoxes {
-    
+
     public int color;
     public boolean toVanilla;
     public transient boolean doneSomething;
     private transient double colorVolume;
     public transient HashMapList<Integer, LittleBoxes> revertList;
-    
+
     public LittleActionColorBoxes(Level level, LittleBoxes boxes, int color, boolean toVanilla) {
         super(level, boxes);
         this.color = color;
         this.toVanilla = toVanilla;
     }
-    
+
     public LittleActionColorBoxes(UUID levelUUID, LittleBoxes boxes, int color, boolean toVanilla) {
         super(levelUUID, boxes);
         this.color = color;
         this.toVanilla = toVanilla;
     }
-    
-    public LittleActionColorBoxes() {}
-    
+
+    public LittleActionColorBoxes() {
+    }
+
     public void addRevert(int color, BlockPos pos, LittleGrid grid, Iterable<LittleBox> boxes) {
         LittleBoxes newBoxes = new LittleBoxesSimple(pos, grid);
         for (LittleBox box : boxes)
             newBoxes.add(box.copy());
         revertList.add(color, newBoxes);
     }
-    
+
     public boolean shouldSkipTile(IParentCollection parent, LittleTile tile) {
         return false;
     }
-    
+
     public ColorIngredient action(BETiles be, List<LittleBox> boxes, ColorIngredient gained, boolean simulate, LittleGrid grid) {
         doneSomething = false;
         colorVolume = 0;
-        
+
         Consumer<BlockEntityInteractor> consumer = x -> {
-            structure_loop: for (IParentCollection parent : be.groups()) {
-                
+            structure_loop:
+            for (IParentCollection parent : be.groups()) {
+
                 LittleCollection toRemove = new LittleCollection();
                 LittleCollection toAdd = new LittleCollection();
-                
+
                 for (LittleTile element : parent) {
-                    
+
                     if (shouldSkipTile(parent, element))
                         continue;
-                    
+
                     for (LittleBox box : element) {
-                        
+
                         LittleBox intersecting = null;
                         boolean intersects = false;
                         for (int j = 0; j < boxes.size(); j++) {
@@ -96,10 +98,10 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
                                 break;
                             }
                         }
-                        
+
                         if (!intersects)
                             continue;
-                        
+
                         try {
                             if (parent.isStructure() && parent.getStructure().hasStructureColor()) {
                                 LittleStructure structure = parent.getStructure();
@@ -117,12 +119,12 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
                         } catch (CorruptedConnectionException | NotYetConnectedException e) {
                             continue structure_loop;
                         }
-                        
+
                         if (element.color == color)
                             continue;
-                        
+
                         doneSomething = true;
-                        
+
                         if (!box.equals(intersecting)) {
                             if (simulate) {
                                 double volume = 0;
@@ -137,18 +139,18 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
                                     colorVolume += returnedVolume.getPercentVolume(grid);
                                     volume += returnedVolume.getPercentVolume(grid);
                                 }
-                                
+
                                 gained.add(ColorIngredient.getColors(element, volume));
                             } else {
                                 List<LittleBox> cutout = new ArrayList<>();
                                 List<LittleBox> newBoxes = box.cutOut(boxes, cutout, null);
-                                
+
                                 if (newBoxes != null) {
                                     addRevert(element.color, be.getBlockPos(), grid, cutout);
-                                    
+
                                     LittleElement coloredElement = element.copy();
                                     coloredElement.color = color;
-                                    
+
                                     toAdd.add(coloredElement, newBoxes);
                                     toRemove.add(element, cutout);
                                 }
@@ -169,30 +171,30 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
                 x.get(parent).addAll(toAdd);
             }
         };
-        
+
         if (simulate)
             be.updateTilesSecretly(consumer);
         else
             be.updateTiles(consumer);
-        
+
         ColorIngredient toDrain = ColorIngredient.getColors(color);
         toDrain.scale(colorVolume);
-        
+
         return gained.sub(toDrain);
     }
-    
+
     @Override
     public void action(Level level, Player player, BlockPos pos, BlockState state, List<LittleBox> boxes, LittleGrid grid) throws LittleActionException {
         if (ColorUtils.alpha(color) < LittleTiles.CONFIG.getMinimumTransparency(player))
             throw new NotAllowedToPlaceColorException(player);
-        
+
         fireBlockBreakEvent(level, pos, player);
-        
+
         BlockEntity blockEntity = loadBE(player, level, pos, null, true, 0);
-        
+
         if (blockEntity instanceof BETiles) {
             BETiles be = (BETiles) blockEntity;
-            
+
             if (grid != be.getGrid()) {
                 if (grid.count < be.getGrid().count) {
                     for (LittleBox box : boxes)
@@ -201,9 +203,9 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
                 } else
                     be.convertTo(grid);
             }
-            
+
             ColorIngredient gained = new ColorIngredient();
-            
+
             ColorIngredient toDrain = action(be, boxes, gained, true, grid);
             LittleIngredients gainedIngredients = new LittleIngredients(gained);
             LittleIngredients drainedIngredients = new LittleIngredients(toDrain);
@@ -215,29 +217,29 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
             } finally {
                 inventory.stopSimulation();
             }
-            
+
             give(player, inventory, gainedIngredients);
             take(player, inventory, drainedIngredients);
             action(be, boxes, gained, false, grid);
-            
+
             be.combineTiles();
-            
+
             if (toVanilla || !doneSomething)
                 be.convertBlockToVanilla();
         }
     }
-    
+
     @Override
     public Boolean action(Player player) throws LittleActionException {
         revertList = new HashMapList<>();
         return super.action(player);
     }
-    
+
     @Override
     public boolean canBeReverted() {
         return true;
     }
-    
+
     @Override
     public LittleAction revert(Player player) {
         List<LittleAction> actions = new ArrayList<>();
@@ -249,7 +251,7 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
         }
         return new LittleActions(actions.toArray(new LittleAction[0]));
     }
-    
+
     @Override
     public LittleAction mirror(Axis axis, LittleBoxAbsolute box) {
         LittleActionColorBoxes action = new LittleActionColorBoxes();
@@ -257,23 +259,24 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
         action.toVanilla = toVanilla;
         return assignMirror(action, axis, box);
     }
-    
+
     public static class LittleActionColorBoxesFiltered extends LittleActionColorBoxes {
-        
+
         public BiFilter<IParentCollection, LittleTile> filter;
-        
+
         public LittleActionColorBoxesFiltered(Level level, LittleBoxes boxes, int color, boolean toVanilla, BiFilter<IParentCollection, LittleTile> filter) {
             super(level, boxes, color, toVanilla);
             this.filter = filter;
         }
-        
-        public LittleActionColorBoxesFiltered() {}
-        
+
+        public LittleActionColorBoxesFiltered() {
+        }
+
         @Override
         public boolean shouldSkipTile(IParentCollection parent, LittleTile tile) {
             return !filter.is(parent, tile);
         }
-        
+
         @Override
         public LittleAction mirror(Axis axis, LittleBoxAbsolute box) {
             LittleActionColorBoxesFiltered action = new LittleActionColorBoxesFiltered();
