@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.common.gui.GuiLayer;
-import team.creative.creativecore.common.gui.creator.GuiCreator;
+import team.creative.creativecore.common.gui.handler.GuiCreator;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.integration.IGuiIntegratedParent;
 import team.creative.creativecore.common.network.CreativePacket;

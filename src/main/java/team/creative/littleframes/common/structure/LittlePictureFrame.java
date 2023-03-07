@@ -49,10 +49,12 @@ import team.creative.littletiles.common.structure.directional.StructureDirection
 import team.creative.littletiles.common.structure.relative.StructureRelative;
 
 public class LittlePictureFrame extends LittleStructure {
-    
-    public static final LittleStructureGuiCreator GUI = GuiCreator
-            .register("little_frame", new LittleStructureGuiCreator((nbt, player, structure) -> new GuiLittlePictureFrame((LittlePictureFrame) structure)));
-    
+    public static final LittleStructureGuiCreator GUI;
+    static {
+        var st = new LittleStructureGuiCreator((nbt, player, structure) -> new GuiLittlePictureFrame((LittlePictureFrame) structure));
+        GUI = GuiCreator.register("little_frame", st);
+    }
+
     @StructureDirectional(color = ColorUtils.CYAN)
     public StructureRelative frame;
     

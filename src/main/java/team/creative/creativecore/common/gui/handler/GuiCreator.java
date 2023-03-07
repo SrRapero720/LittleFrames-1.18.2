@@ -1,4 +1,4 @@
-package team.creative.creativecore.common.gui.creator;
+package team.creative.creativecore.common.gui.handler;
 
 import java.util.function.BiFunction;
 
@@ -17,6 +17,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.common.gui.GuiLayer;
+import team.creative.creativecore.common.gui.creator.BlockGuiCreator;
+import team.creative.creativecore.common.gui.creator.ItemGuiCreator;
 import team.creative.creativecore.common.gui.integration.GuiScreenIntegration;
 import team.creative.creativecore.common.gui.packet.OpenGuiPacket;
 import team.creative.creativecore.common.util.registry.NamedHandlerRegistry;
