@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 20/59
+Total Completed: 21/59
 
 - client (13 Currently)
     - level
@@ -40,8 +40,8 @@ Total Completed: 20/59
                     - ~~LittleGroup~~ ``FIXED``
         - ~~mc~~
             - ~~BlockTile~~ ``FIXED``
-    - config
-        - LittleTilesConfig
+    - ~~config~~
+        - ~~LittleTilesConfig~~ ``FIXED``
     - entity
         - level
             - LittleEntity
