@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 34/59
+Total Completed: 37/59
 
 - client (13 Currently)
     - level
@@ -51,7 +51,7 @@ Total Completed: 34/59
         - ~~LittleIngredient~~ ``FIXED``
     - level
         - handler
-            - LevelHandlers
+            - ~~LevelHandlers~~ ``FIXED``
             - LittleAnimationHandler
         - little
             - BlockUpdateLevelSystem
@@ -82,10 +82,10 @@ Total Completed: 34/59
             - ~~premade~~
                 - ~~LittlePremadeRegistry~~ ``FIXED``
                 - ~~LittlePremadeType~~ ``POTENTIAL FIX``
-        - signal
-            - schedule
-                - SignalTicker
-            - LittleSignalHandler
+        - ~~signal~~
+            - ~~schedule~~
+                - ~~SignalTicker~~ ``FIXED``
+            - ~~LittleSignalHandler~~ ``FIXED``
         - type
             - premade
                 - ~~LittleBlankOMatic~~ ``DELETED``

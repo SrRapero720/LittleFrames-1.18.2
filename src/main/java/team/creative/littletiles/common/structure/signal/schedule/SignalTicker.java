@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.creativecore.common.level.ISubLevel;
 import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
@@ -129,8 +129,8 @@ public class SignalTicker {
     }
     
     @SubscribeEvent
-    public void levelUnload(LevelEvent.Unload event) {
-        if (event.getLevel() == level)
+    public void levelUnload(WorldEvent.Unload event) {
+        if (event.getWorld() == level)
             unload(this);
     }
     

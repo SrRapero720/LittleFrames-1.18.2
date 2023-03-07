@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.creativecore.common.util.type.map.HashMapList;
 import team.creative.littletiles.common.level.little.LittleLevel;
@@ -55,17 +55,16 @@ public class LevelHandlers<T extends LevelHandler> {
     }
     
     @SubscribeEvent
-    public void load(LevelEvent.Load event) {
-        if (event.getLevel().isClientSide() != client || event.getLevel() instanceof LittleLevel)
+    public void load(WorldEvent.Load event) {
+        if (event.getWorld().isClientSide() != client || event.getWorld() instanceof LittleLevel)
             return;
-        load((Level) event.getLevel());
+        load((Level) event.getWorld());
     }
     
     @SubscribeEvent
-    public void unload(LevelEvent.Unload event) {
-        if (event.getLevel().isClientSide() != client)
-            return;
-        unload((Level) event.getLevel());
+    public void unload(WorldEvent.Unload event) {
+        if (event.getWorld().isClientSide() != client) return;
+        unload((Level) event.getWorld());
     }
     
 }
