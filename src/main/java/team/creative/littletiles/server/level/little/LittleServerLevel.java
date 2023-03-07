@@ -10,8 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockDestructionPacket;
@@ -37,9 +36,9 @@ import team.creative.littletiles.common.level.little.LittleSubLevel;
 import team.creative.littletiles.mixin.server.level.MinecraftServerAccessor;
 
 public abstract class LittleServerLevel extends ServerLevel implements LittleLevel {
-    
+
     private static LevelStem overworldStem(MinecraftServer server) {
-        Registry<LevelStem> registry = server.registries().compositeAccess().registryOrThrow(Registries.LEVEL_STEM);
+        Registry<LevelStem> registry = server.registryAccess().registryOrThrow(Registry.LEVEL_STEM_REGISTRY);
         return registry.get(LevelStem.OVERWORLD);
     }
     
@@ -55,8 +54,7 @@ public abstract class LittleServerLevel extends ServerLevel implements LittleLev
     private RegistryAccess access;
     
     protected LittleServerLevel(MinecraftServer server, ServerLevelData worldInfo, ResourceKey<Level> dimension, boolean debug, long seed, RegistryAccess access) {
-        super(server, Util.backgroundExecutor(), ((MinecraftServerAccessor) server)
-                .getStorageSource(), worldInfo, dimension, overworldStem(server), LittleChunkProgressListener.INSTANCE, debug, seed, Collections.EMPTY_LIST, false);
+        super(server, Util.backgroundExecutor(), ((MinecraftServerAccessor) server).getStorageSource(), worldInfo, dimension, overworldStem(server).typeHolder(), LittleChunkProgressListener.INSTANCE, overworldStem(server).generator(), debug, seed, Collections.EMPTY_LIST, false);
         this.access = access;
     }
     
@@ -104,9 +102,9 @@ public abstract class LittleServerLevel extends ServerLevel implements LittleLev
                 CrashReportCategory crashreportcategory = crashreport.addCategory("Block being updated");
                 crashreportcategory.setDetail("Source block type", () -> {
                     try {
-                        return String.format("ID #%s (%s // %s)", BuiltInRegistries.BLOCK.getKey(block), block.getDescriptionId(), block.getClass().getCanonicalName());
+                        return String.format("ID #%s (%s // %s)", Registry.BLOCK.getKey(block), block.getDescriptionId(), block.getClass().getCanonicalName());
                     } catch (Throwable throwable1) {
-                        return "ID #" + BuiltInRegistries.BLOCK.getKey(block);
+                        return "ID #" +  Registry.BLOCK.getKey(block);
                     }
                 });
                 CrashReportCategory.populateBlockDetails(crashreportcategory, this, pos, blockstate);

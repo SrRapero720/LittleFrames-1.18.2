@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 13/59
+Total Completed: 15/59
 
 - client (13 Currently)
     - level
@@ -111,6 +111,6 @@ Total Completed: 13/59
 - server (3 Currently)
     - level
         - little
-            - LittleChunkMap
-            - LittleServerLevel
+            - ~~LittleChunkMap~~ ``FIXED``
+            - ~~LittleServerLevel~~ ``FIXED``
             - LittleServerPlayerHandler ``More freaking broken``

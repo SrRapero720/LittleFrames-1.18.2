@@ -43,7 +43,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LightChunkGetter;
 import net.minecraft.world.level.chunk.storage.ChunkScanAccess;
 import net.minecraft.world.level.entity.ChunkStatusUpdateListener;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import team.creative.creativecore.common.util.unsafe.CreativeHackery;
@@ -59,8 +59,8 @@ public class LittleChunkMap extends ChunkMap {
     private DistanceManager distanceManager;
     private ThreadedLevelLightEngine lightEngine;
     private ChunkTaskPriorityQueueSorter queueSorter;
-    
-    public LittleChunkMap(ServerLevel level, LevelStorageSource.LevelStorageAccess access, DataFixer fixer, StructureTemplateManager templateManager, Executor exe, BlockableEventLoop<Runnable> loop, LightChunkGetter lightGetter, ChunkGenerator generator, ChunkProgressListener progress, ChunkStatusUpdateListener status, Supplier<DimensionDataStorage> supplier, int viewDistance, boolean sync) {
+
+    public LittleChunkMap(ServerLevel level, LevelStorageSource.LevelStorageAccess access, DataFixer fixer, StructureManager templateManager, Executor exe, BlockableEventLoop<Runnable> loop, LightChunkGetter lightGetter, ChunkGenerator generator, ChunkProgressListener progress, ChunkStatusUpdateListener status, Supplier<DimensionDataStorage> supplier, int viewDistance, boolean sync) {
         super(level, access, fixer, templateManager, exe, loop, lightGetter, generator, progress, status, supplier, viewDistance, sync);
     }
     
@@ -194,17 +194,12 @@ public class LittleChunkMap extends ChunkMap {
     }
     
     @Override
-    public boolean isOldChunkAround(ChunkPos pos, int range) {
-        return false;
-    }
-    
-    @Override
     public CompoundTag upgradeChunkTag(ResourceKey<Level> levelKey, Supplier<DimensionDataStorage> storageSupplier, CompoundTag tag, Optional<ResourceKey<Codec<? extends ChunkGenerator>>> codec) {
         return tag;
     }
     
     @Override
-    public CompletableFuture<Optional<CompoundTag>> read(ChunkPos pos) {
+    public CompoundTag read(ChunkPos pos) {
         return null;
     }
     
