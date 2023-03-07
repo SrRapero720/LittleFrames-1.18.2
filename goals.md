@@ -12,7 +12,7 @@
             - LittleLevelEntityRenderer `More broken`
             - LittleLevelRenderManager ``Partial Fix``
         - level
-            - LittleClientEventHandler ``DELETED``
+            - ~~LittleClientEventHandler~~ ``DELETED``
             - LittleRenderChunk ``More broken``
             - ~~LittleRenderChunks~~ ``DUPLICATED``
         - ~~overlay~~ ``FULL DELETED``
