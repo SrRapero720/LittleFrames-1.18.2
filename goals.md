@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 21/59
+Total Completed: 24/59
 
 - client (13 Currently)
     - level
@@ -60,11 +60,11 @@ Total Completed: 21/59
         - box
             - TransformableVoxelShape
         - location
-            - StructureLocation
-            - TileLocation
+            - ~~StructureLocation~~ ``FIXED``
+            - ~~TileLocation~~ ``FIXED``
     - packet
         - action
-            - BlockPacket
+            - ~~BlockPacket~~ ``FIXED``
         - level
             - LittleLevelInitPacket
         - update

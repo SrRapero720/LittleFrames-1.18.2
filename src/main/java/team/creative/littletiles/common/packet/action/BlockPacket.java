@@ -174,7 +174,7 @@ public class BlockPacket extends CreativePacket {
             if (!LittleAction.isAllowedToInteract(player, entity, action.rightClick))
                 return;
             
-            level = entity.getSubLevel();
+            level = (LevelAccessor) entity.getSubLevel();
             pos = entity.getOrigin().transformPointToFakeWorld(pos);
             look = entity.getOrigin().transformPointToFakeWorld(look);
         }

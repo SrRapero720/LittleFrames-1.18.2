@@ -114,8 +114,7 @@ public class TransformableVoxelShape extends AABBVoxelShape {
                     Vec3f vec = tempFan.get(j);
                     float tempDistance = positive ? vec.get(axis) - otherAxis : otherAxis - vec.get(axis);
                     
-                    if (tempDistance < 0 && !Maths.equals(tempDistance, 0))
-                        return offset;
+                    if (tempDistance < 0 && !Maths.equals(tempDistance, 0)) return offset;
                     
                     if (tempDistance < distance)
                         distance = tempDistance;

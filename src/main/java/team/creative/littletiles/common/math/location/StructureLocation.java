@@ -69,7 +69,7 @@ public class StructureLocation {
             if (entity == null)
                 throw new MissingAnimationException(levelUUID);
             
-            level = entity.getSubLevel();
+            level = (LevelAccessor) entity.getSubLevel();
         }
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof BETiles) {
