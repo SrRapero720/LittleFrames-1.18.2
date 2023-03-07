@@ -71,12 +71,12 @@ Total Completed: 29/59
             - ~~BlocksUpdate~~ ``FIXED``
             - ~~BlockUpdate~~ ``FIXED``
         - ~~LittlePacketTypes~~ ``FIXED``
-    - placement
+    - ~~placement~~
         - ~~mark~~
             - ~~IMarkMode~~ ``FIXED``
             - ~~MarkMode~~ ``FIXED``
-        - shape
-            - ShapeSelection
+        - ~~shape~~
+            - ~~ShapeSelection~~ ``FIXED``
     - structure
         - registry
             - LittlePremadeRegistry

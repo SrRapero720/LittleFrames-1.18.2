@@ -33,8 +33,6 @@ import team.creative.littletiles.api.common.tool.ILittleTool;
 import team.creative.littletiles.common.block.little.tile.LittleTileContext;
 import team.creative.littletiles.common.grid.IGridBased;
 import team.creative.littletiles.common.grid.LittleGrid;
-import team.creative.littletiles.common.gui.GuiMarkShapeSelection;
-import team.creative.littletiles.common.gui.tool.GuiConfigure;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.collection.LittleBoxes;
 import team.creative.littletiles.common.math.vec.LittleVec;
@@ -199,11 +197,6 @@ public class ShapeSelection implements Iterable<ShapeSelectPos>, IGridBased, IMa
     @Override
     public PlacementPosition getPosition() {
         return positions.get(markedPosition).pos.copy();
-    }
-    
-    @Override
-    public GuiConfigure getConfigurationGui() {
-        return new GuiMarkShapeSelection(this);
     }
     
     @Override
