@@ -15,6 +15,8 @@ import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.collection.LittleBoxes;
 import team.creative.littletiles.common.math.box.collection.LittleBoxesSimple;
 
+//TODO: Need triage (high chance to be removed)
+@Deprecated(forRemoval = true)
 public class LittleLevelScanner {
     
     public static LittleBoxes scan(Level level, BlockPos pos, @Nullable BiFilter<IParentCollection, LittleTile> filter) {

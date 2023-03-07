@@ -1,28 +1,11 @@
 package team.creative.littletiles.client.render.entity;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.VertexBuffer;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ChunkBufferBuilderPack;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -34,12 +17,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.LittleTiles;
-import team.creative.littletiles.client.LittleTilesClient;
 import team.creative.littletiles.client.render.level.LittleRenderChunk;
-import team.creative.littletiles.client.render.level.LittleRenderChunk.ChunkCompileTask;
 import team.creative.littletiles.client.render.level.LittleRenderChunks;
 import team.creative.littletiles.common.entity.level.LittleEntity;
 import team.creative.littletiles.common.level.little.LittleLevel;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.concurrent.*;
 
 @OnlyIn(Dist.CLIENT)
 public class LittleLevelRenderManager implements Iterable<LittleRenderChunk> {
@@ -107,14 +92,6 @@ public class LittleLevelRenderManager implements Iterable<LittleRenderChunk> {
         }
     }
 
-    public CompletableFuture<Void> uploadChunkLayer(BufferBuilder rendered, VertexBuffer buffer) {
-        return LittleTilesClient.ANIMATION_HANDLER.uploadChunkLayer(rendered, buffer);
-    }
-
-    public void schedule(ChunkCompileTask task) {
-        LittleTilesClient.ANIMATION_HANDLER.schedule(task);
-    }
-
     public void emptyChunk(LittleRenderChunk chunk) {
         emptyCompiled.add(chunk);
     }
@@ -171,10 +148,6 @@ public class LittleLevelRenderManager implements Iterable<LittleRenderChunk> {
                         sortedChunks.add(chunk);
                 }
             }
-    }
-
-    public ChunkBufferBuilderPack fixedBuffers() {
-        return LittleTilesClient.ANIMATION_HANDLER.fixedBuffers;
     }
 
     public void blockChanged(BlockGetter level, BlockPos pos, BlockState actualState, BlockState setState, int updateType) {

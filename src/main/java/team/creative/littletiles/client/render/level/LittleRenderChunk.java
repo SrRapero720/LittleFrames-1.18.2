@@ -190,7 +190,6 @@ public class LittleRenderChunk implements RenderChunkExtender {
         if (!((CompiledChunkAccessor) compiled).getHasBlocks().contains(layer)) return false;
 
         this.lastResortTransparencyTask = new ResortTransparencyTask(section.chunk(), this.getDistToPlayerSqr(), compiled);
-        manager.schedule(this.lastResortTransparencyTask);
         return true;
     }
 
@@ -214,14 +213,6 @@ public class LittleRenderChunk implements RenderChunkExtender {
         boolean canceled = this.cancelTasks();
         this.lastRebuildTask = new RebuildTask(section.chunk(), this.getDistToPlayerSqr(), manager.level.asLevel(), canceled || this.compiled.get() != CompiledChunk.UNCOMPILED);
         return this.lastRebuildTask;
-    }
-
-    public void compileASync() {
-        manager.schedule(createCompileTask());
-    }
-
-    public void compile() {
-        this.createCompileTask().doTask(manager.fixedBuffers());
     }
 
     public void updateGlobalBlockEntities(Collection<BlockEntity> blockEntities) {
@@ -331,7 +322,6 @@ public class LittleRenderChunk implements RenderChunkExtender {
 
             List<CompletableFuture<Void>> list = Lists.newArrayList();
             results.renderedLayers.forEach((layer, buffer) -> {
-                list.add(manager.uploadChunkLayer(buffer, LittleRenderChunk.this.getVertexBuffer(layer)));
                 ((CompiledChunkAccessor) compiled).getHasBlocks().add(layer);
             });
 
@@ -521,7 +511,6 @@ public class LittleRenderChunk implements RenderChunkExtender {
                     rendered.release();
                     return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
                 }
-                CompletableFuture<ChunkTaskResult> completablefuture = manager.uploadChunkLayer(rendered, LittleRenderChunk.this.getVertexBuffer(RenderType.translucent())).thenApply(x -> ChunkTaskResult.CANCELLED);
                 return completablefuture.handle((result, exception) -> {
                     if (exception != null && !(exception instanceof CancellationException) && !(exception instanceof InterruptedException))
                         Minecraft.getInstance().delayCrash(CrashReport.forThrowable(exception, "Rendering chunk"));

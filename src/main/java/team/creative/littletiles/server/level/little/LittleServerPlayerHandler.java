@@ -582,8 +582,8 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
 
     @Override
     public void handleSignUpdate(ServerboundSignUpdatePacket packet) {
-        List<String> list = Stream.of(packet.getLines()).map(ChatFormatting::stripFormatting).collect(Collectors.toList());
-        ((ServerGamePacketListenerImplAccessor) getVanilla()).callFilterTextPacket(list).thenAcceptAsync((lines) -> this.updateSignText(packet, lines), this.server);
+//        List<String> list = Stream.of(packet.getLines()).map(ChatFormatting::stripFormatting).collect(Collectors.toList());
+//        ((ServerGamePacketListenerImplAccessor) getVanilla()).callFilterTextPacket(list).thenAcceptAsync((lines) -> this.updateSignText(packet, lines), this.server);
     }
 
     private void updateSignText(ServerboundSignUpdatePacket packet, List<FilteredText> lines) {

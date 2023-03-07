@@ -5,6 +5,8 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.storage.WritableLevelData;
 
+//TODO: No longer required on client, merge into server class
+@Deprecated(forRemoval = true)
 public class FakeLevelInfo implements WritableLevelData {
     
     private final boolean hardcore;
