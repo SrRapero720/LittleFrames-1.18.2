@@ -11,11 +11,11 @@ import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.vec.LittleVec;
 
 public class RenderSizedTNTPrimed extends TntRenderer {
-    
+
     public RenderSizedTNTPrimed(EntityRendererProvider.Context context) {
         super(context);
     }
-    
+
     @Override
     public void render(PrimedTnt entity, float p_116178_, float p_116179_, PoseStack pose, MultiBufferSource buffer, int p_116182_) {
         pose.pushPose();
@@ -25,5 +25,5 @@ public class RenderSizedTNTPrimed extends TntRenderer {
         super.render(entity, p_116178_, p_116179_, pose, buffer, p_116182_);
         pose.popPose();
     }
-    
+
 }

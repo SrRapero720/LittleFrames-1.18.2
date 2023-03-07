@@ -48,7 +48,6 @@ import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
@@ -123,19 +122,11 @@ public class LittleTilesClient {
 
     public static void load(IEventBus bus) {
         bus.addListener(LittleTilesClient::setup);
-        MinecraftForge.EVENT_BUS.addListener(LittleTilesClient::commands);
-        bus.addListener(LittleTilesClient::initColors);
         bus.addListener(LittleTilesClient::modelEvent);
         bus.addListener(LittleTilesClient::modelLoader);
     }
 
     private static void setup(final FMLClientSetupEvent event) {
-        mc.getItemColors().register((stack, layer) -> {
-            if (layer == 0)
-                return ColorUtils.WHITE;
-            return ItemLittlePaintBrush.getColor(stack);
-        }, LittleTilesRegistry.PAINT_BRUSH.get());
-
         // MinecraftForge.EVENT_BUS.register(overlay = new OverlayRenderer());
         // overlay.add(new OverlayControl(new GuiAxisIndicatorControl("axis"), OverlayPositionType.CENTER).setShouldRender(() -> PreviewRenderer.marked != null));
         MinecraftForge.EVENT_BUS.register(new PreviewRenderer());
@@ -173,10 +164,6 @@ public class LittleTilesClient {
 
         ResourceLocation filled = new ResourceLocation(LittleTiles.MODID, "filled");
         ClampedItemPropertyFunction function = (stack, level, entity, x) -> ((ItemColorIngredient) stack.getItem()).getColor(stack) / (float) ColorIngredient.BOTTLE_SIZE;
-        ItemProperties.register(LittleTilesRegistry.BLACK_COLOR.get(), filled, function);
-        ItemProperties.register(LittleTilesRegistry.CYAN_COLOR.get(), filled, function);
-        ItemProperties.register(LittleTilesRegistry.MAGENTA_COLOR.get(), filled, function);
-        ItemProperties.register(LittleTilesRegistry.YELLOW_COLOR.get(), filled, function);
     }
 
     public static void modelLoader(ModelRegistryEvent event) {

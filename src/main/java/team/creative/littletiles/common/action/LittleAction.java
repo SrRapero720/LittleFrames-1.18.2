@@ -8,12 +8,12 @@ import java.util.List;
 import net.minecraft.Util;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraftforge.event.world.BlockEvent;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -38,8 +38,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.event.level.BlockEvent.BreakEvent;
 import team.creative.creativecore.common.network.CreativePacket;
 import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
@@ -76,28 +74,33 @@ import team.creative.littletiles.common.structure.exception.CorruptedConnectionE
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
 
 public abstract class LittleAction<T> extends CreativePacket {
-    
-    /** Must be implemented by every action **/
+
+    /**
+     * Must be implemented by every action
+     **/
     public LittleAction() {
-        
+
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     public abstract boolean canBeReverted();
-    
-    /** @return null if an revert action is not available */
+
+    /**
+     * @return null if an revert action is not available
+     */
     @OnlyIn(Dist.CLIENT)
     public abstract LittleAction revert(Player player) throws LittleActionException;
-    
+
     public abstract T action(Player player) throws LittleActionException;
-    
+
     public abstract boolean wasSuccessful(T result);
-    
+
     public abstract T failed();
-    
+
     @Override
-    public final void executeClient(Player player) {}
-    
+    public final void executeClient(Player player) {
+    }
+
     @Override
     public final void executeServer(ServerPlayer player) {
         try {
@@ -106,9 +109,9 @@ public abstract class LittleAction<T> extends CreativePacket {
             player.sendMessage(new TextComponent(e.getLocalizedMessage()), ChatType.SYSTEM, Util.NIL_UUID);
         }
     }
-    
+
     public abstract LittleAction mirror(Axis axis, LittleBoxAbsolute box);
-    
+
     public static boolean canConvertBlock(Player player, Level level, BlockPos pos, BlockState state, int affected) throws LittleActionException {
         if (LittleTiles.CONFIG.build.get(player).limitAffectedBlocks && LittleTiles.CONFIG.build.get(player).maxAffectedBlocks < affected)
             throw new NotAllowedToConvertBlockException(player);
@@ -116,14 +119,14 @@ public abstract class LittleAction<T> extends CreativePacket {
             throw new NotAllowedToConvertBlockException(player);
         return LittleTiles.CONFIG.canEditBlock(player, state, pos);
     }
-    
+
     public static boolean canPlace(Player player) {
         GameType type = PlayerUtils.getGameType(player);
         if (type == GameType.CREATIVE || type == GameType.SURVIVAL || type == GameType.ADVENTURE)
             return true;
         return false;
     }
-    
+
     public static boolean canPlaceInside(LittleGroup previews, Level level, BlockPos pos, boolean placeInside) {
         BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
@@ -140,10 +143,10 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         return false;
     }
-    
+
     public static BETiles loadBE(Player player, Level level, BlockPos pos, MutableInt affected, boolean shouldConvert, int attribute) throws LittleActionException {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        
+
         if (!(blockEntity instanceof BETiles)) {
             LittleGroup tiles = null;
             LittleGroup chiselTiles = ChiselsAndBitsManager.getGroup(blockEntity);
@@ -152,7 +155,7 @@ public abstract class LittleAction<T> extends CreativePacket {
             else if (blockEntity == null && shouldConvert) {
                 BlockState state = level.getBlockState(pos);
                 if (isBlockValid(state) && canConvertBlock(player, level, pos, state, affected == null ? 0 : affected.incrementAndGet())) {
-                    
+
                     tiles = new LittleGroup();
                     LittleBox box = new LittleBox(0, 0, 0, tiles.getGrid().count, tiles.getGrid().count, tiles.getGrid().count);
                     tiles.add(tiles.getGrid(), new LittleElement(state, ColorUtils.WHITE), box);
@@ -162,7 +165,7 @@ public abstract class LittleAction<T> extends CreativePacket {
                     blockEntity = level.getBlockEntity(pos);
                 }
             }
-            
+
             if (tiles != null && !tiles.isEmpty()) {
                 level.setBlock(pos, BlockTile.getStateByAttribute(attribute), 3);
                 BETiles te = (BETiles) level.getBlockEntity(pos);
@@ -176,43 +179,43 @@ public abstract class LittleAction<T> extends CreativePacket {
                 blockEntity = te;
             }
         }
-        
+
         if (blockEntity instanceof BETiles)
             return (BETiles) blockEntity;
         return null;
     }
-    
+
     public static void fireBlockBreakEvent(Level level, BlockPos pos, Player player) throws AreaProtected {
         if (level.isClientSide)
             return;
-        BreakEvent event = new BlockEvent.BreakEvent(level, pos, level.getBlockState(pos), player);
+        BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(level, pos, level.getBlockState(pos), player);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             sendBlockResetToClient(level, player, pos);
             throw new AreaProtected();
         }
     }
-    
+
     private static Method loadWorldEditEvent() {
         try {
             Class clazz = Class.forName("com.sk89q.worldedit.forge.ForgeWorldEdit");
             worldEditInstance = clazz.getField("inst").get(null);
             return clazz.getMethod("onPlayerInteract", PlayerInteractEvent.class);
         } catch (Exception e) {
-            
+
         }
         return null;
     }
-    
+
     private static Method WorldEditEvent = loadWorldEditEvent();
     private static Object worldEditInstance = null;
-    
+
     public static void sendBlockResetToClient(LevelAccessor level, Player player, PlacementPreview preview) {
         if (!(player instanceof ServerPlayer))
             return;
         LittleTiles.NETWORK.sendToClient(new BlocksUpdate(level, preview.getPositions()), (ServerPlayer) player);
     }
-    
+
     public static void sendBlockResetToClient(LevelAccessor level, Player player, BlockPos pos) {
         if (!(player instanceof ServerPlayer))
             return;
@@ -222,19 +225,19 @@ public abstract class LittleAction<T> extends CreativePacket {
         else
             LittleTiles.NETWORK.sendToClient(new BlockUpdate(level, pos, be), (ServerPlayer) player);
     }
-    
+
     public static void sendBlockResetToClient(LevelAccessor level, Player player, BlockEntity be) {
         if (!(player instanceof ServerPlayer))
             return;
         LittleTiles.NETWORK.sendToClient(new BlockUpdate(level, be.getBlockPos(), be), (ServerPlayer) player);
     }
-    
+
     public static void sendBlockResetToClient(LevelAccessor level, Player player, Iterable<BETiles> blockEntities) {
         if (!(player instanceof ServerPlayer))
             return;
         LittleTiles.NETWORK.sendToClient(new BlocksUpdate(level, blockEntities), (ServerPlayer) player);
     }
-    
+
     public static void sendBlockResetToClient(LevelAccessor level, Player player, LittleStructure structure) {
         if (!(player instanceof ServerPlayer))
             return;
@@ -244,24 +247,24 @@ public abstract class LittleAction<T> extends CreativePacket {
             e.printStackTrace();
         }
     }
-    
+
     public static boolean isAllowedToInteract(Player player, LittleEntity entity, boolean rightClick) {
         if (player.isSpectator() || (!rightClick && (PlayerUtils.isAdventure(player) || !player.mayBuild())))
             return false;
-        
+
         return true;
     }
-    
+
     public static boolean isAllowedToInteract(LevelAccessor level, Player player, BlockPos pos, boolean rightClick, Facing facing) {
         if (player == null || player.level.isClientSide)
             return true;
-        
+
         if (player.isSpectator() || (!rightClick && (PlayerUtils.isAdventure(player) || !player.mayBuild())))
             return false;
-        
+
         if (player.isSpectator())
             return false;
-        
+
         if (!rightClick && PlayerUtils.isAdventure(player)) {
             ItemStack stack = player.getMainHandItem();
             BlockInWorld blockinworld = new BlockInWorld(level, pos, false);
@@ -269,10 +272,10 @@ public abstract class LittleAction<T> extends CreativePacket {
                 return false;
         } else if (!rightClick && !player.mayBuild())
             return false;
-        
+
         if (WorldEditEvent != null) {
             PlayerInteractEvent event = rightClick ? new PlayerInteractEvent.RightClickBlock(player, InteractionHand.MAIN_HAND, pos, new BlockHitResult(Vec3
-                    .atBottomCenterOf(pos), facing.toVanilla(), pos, true)) : new PlayerInteractEvent.LeftClickBlock(player, pos, facing.toVanilla());
+                .atBottomCenterOf(pos), facing.toVanilla(), pos, true)) : new PlayerInteractEvent.LeftClickBlock(player, pos, facing.toVanilla());
             try {
                 if (worldEditInstance == null)
                     loadWorldEditEvent();
@@ -283,47 +286,47 @@ public abstract class LittleAction<T> extends CreativePacket {
             if (event.isCanceled())
                 return false;
         }
-        
+
         return !player.getServer().isUnderSpawnProtection((ServerLevel) player.level, pos, player);
     }
-    
+
     public static boolean isAllowedToPlacePreview(Player player, LittleTile tile) throws LittleActionException {
         if (tile == null)
             return true;
-        
+
         if (tile.hasColor() && ColorUtils.alpha(tile.color) < LittleTiles.CONFIG.getMinimumTransparency(player))
             throw new NotAllowedToPlaceColorException(player);
-        
+
         return true;
     }
-    
+
     public static boolean needIngredients(Player player) {
         return !player.isCreative();
     }
-    
+
     public static LittleIngredients getIngredients(IParentCollection parent, LittleTile tile) {
         return LittleIngredient.extract(tile, tile.getPercentVolume(parent.getGrid()));
     }
-    
+
     public static LittleIngredients getIngredients(IParentCollection parent, List<LittleTile> tiles) {
         LittleIngredients ingredients = new LittleIngredients();
         for (LittleTile tile : tiles)
             ingredients.add(LittleIngredient.extract(tile, tile.getPercentVolume(parent.getGrid())));
         return ingredients;
     }
-    
+
     public static LittleIngredients getIngredients(LittleGroup previews) {
         return LittleIngredient.extract(previews);
     }
-    
+
     public static LittleIngredients getIngredients(LittleGroupAbsolute previews) {
         return LittleIngredient.extract(previews.group);
     }
-    
+
     public static LittleIngredients getIngredients(LittleTile tile, double volume) {
         return LittleIngredient.extract(tile, volume);
     }
-    
+
     public static boolean canTake(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player)) {
             try {
@@ -336,7 +339,7 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         return true;
     }
-    
+
     public static boolean checkAndTake(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player)) {
             try {
@@ -349,17 +352,17 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         return true;
     }
-    
+
     public static boolean take(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player))
             inventory.take(ingredients.copy());
         return true;
     }
-    
+
     public static boolean take(Player player, LittleInventory inventory, ItemStack toDrain) throws NotEnoughIngredientsException {
         if (!needIngredients(player))
             return true;
-        
+
         String id = ItemPremadeStructure.getPremadeId(toDrain);
         for (ItemStack stack : inventory) {
             if (stack.getItem() == LittleTilesRegistry.PREMADE.get() && ItemPremadeStructure.getPremadeId(stack).equals(id)) {
@@ -369,7 +372,7 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         throw new NotEnoughIngredientsException(toDrain);
     }
-    
+
     public static boolean canGive(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player)) {
             try {
@@ -382,7 +385,7 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         return true;
     }
-    
+
     public static boolean checkAndGive(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player)) {
             try {
@@ -395,13 +398,13 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         return true;
     }
-    
+
     public static boolean give(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player))
             inventory.give(ingredients.copy());
         return true;
     }
-    
+
     public static boolean giveOrDrop(Player player, LittleInventory inventory, ParentCollection parent, List<LittleTile> tiles) {
         if (needIngredients(player) && !tiles.isEmpty()) {
             try {
@@ -412,7 +415,7 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         return true;
     }
-    
+
     public static List<ItemStack> getInventories(Player player) {
         List<ItemStack> inventories = new ArrayList<>();
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -422,13 +425,13 @@ public abstract class LittleAction<T> extends CreativePacket {
         }
         return inventories;
     }
-    
+
     private static boolean isBlockValid(Block block) {
         if (block instanceof EntityBlock || block instanceof SlabBlock)
             return false;
         return block instanceof GlassBlock || block instanceof StainedGlassBlock || block instanceof HalfTransparentBlock;
     }
-    
+
     public static boolean isBlockValid(BlockState state) {
         if (isBlockValid(state.getBlock()))
             return true;
@@ -436,5 +439,5 @@ public abstract class LittleAction<T> extends CreativePacket {
             return true;
         return state.isSolidRender(null, null);
     }
-    
+
 }

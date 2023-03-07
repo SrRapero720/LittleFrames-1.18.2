@@ -28,11 +28,11 @@ import team.creative.littletiles.common.math.box.LittleBox;
 import java.util.Random;
 
 public class BlockTileRenderProperties implements IBlockRenderProperties {
-    
+
     private final Random random = new Random();
-    
+
     public static final BlockTileRenderProperties INSTANCE = new BlockTileRenderProperties();
-    
+
     @Override
     public boolean addDestroyEffects(BlockState state, Level level, BlockPos pos, ParticleEngine manager) {
         LittleTileContext context = LittleTileContext.selectFocused(level, pos, Minecraft.getInstance().player);
@@ -45,7 +45,7 @@ public class BlockTileRenderProperties implements IBlockRenderProperties {
                 int i = Math.max(2, Mth.ceil(d1 / 0.25D));
                 int j = Math.max(2, Mth.ceil(d2 / 0.25D));
                 int k = Math.max(2, Mth.ceil(d3 / 0.25D));
-                
+
                 for (int l = 0; l < i; ++l) {
                     for (int i1 = 0; i1 < j; ++i1) {
                         for (int j1 = 0; j1 < k; ++j1) {
@@ -56,16 +56,16 @@ public class BlockTileRenderProperties implements IBlockRenderProperties {
                             double d8 = d5 * d2 + minY;
                             double d9 = d6 * d3 + minZ;
                             manager.add(new TerrainParticle((ClientLevel) level, pos.getX() + d7, pos.getY() + d8, pos
-                                    .getZ() + d9, d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, particleState, pos).updateSprite(particleState, pos));
+                                .getZ() + d9, d4 - 0.5D, d5 - 0.5D, d6 - 0.5D, particleState, pos).updateSprite(particleState, pos));
                         }
                     }
                 }
-                
+
             });
         }
         return true;
     }
-    
+
     @Override
     public boolean addHitEffects(BlockState state, Level level, HitResult target, ParticleEngine manager) {
         BlockPos pos = ((BlockHitResult) target).getBlockPos();
@@ -77,35 +77,35 @@ public class BlockTileRenderProperties implements IBlockRenderProperties {
                 int i = pos.getX();
                 int j = pos.getY();
                 int k = pos.getZ();
-                
+
                 AABB aabb = context.box.getBB(context.parent.getGrid(), pos);
                 double d0 = i + random.nextDouble() * (aabb.maxX - aabb.minX - 0.2F) + 0.1F + aabb.minX;
                 double d1 = j + random.nextDouble() * (aabb.maxY - aabb.minY - 0.2F) + 0.1F + aabb.minY;
                 double d2 = k + random.nextDouble() * (aabb.maxZ - aabb.minZ - 0.2F) + 0.1F + aabb.minZ;
                 if (direction == Direction.DOWN)
                     d1 = j + aabb.minY - 0.1F;
-                
+
                 if (direction == Direction.UP)
                     d1 = j + aabb.maxY + 0.1F;
-                
+
                 if (direction == Direction.NORTH)
                     d2 = k + aabb.minZ - 0.1F;
-                
+
                 if (direction == Direction.SOUTH)
                     d2 = k + aabb.maxZ + 0.1F;
-                
+
                 if (direction == Direction.WEST)
                     d0 = i + aabb.minX - 0.1F;
-                
+
                 if (direction == Direction.EAST)
                     d0 = i + aabb.maxX + 0.1F;
-                
+
                 manager.add((new TerrainParticle((ClientLevel) level, d0, d1, d2, 0.0D, 0.0D, 0.0D, blockstate, pos).updateSprite(blockstate, pos)).setPower(0.2F).scale(0.6F));
             }
         }
         return true;
     }
-    
+
     @Override
     public Vector3d getFogColor(BlockState state, LevelReader level, BlockPos pos, Entity entity, Vector3d originalColor, float partialTicks) {
         BETiles be = BlockTile.loadBE(level, pos);
@@ -114,8 +114,8 @@ public class BlockTileRenderProperties implements IBlockRenderProperties {
                 for (LittleBox box : pair.getValue())
                     if (box.getBB(pair.key.getGrid(), pos).intersects(entity.getBoundingBox()))
                         return pair.value.getFogColor(pair.key, entity, originalColor, partialTicks);
-                    
+
         return originalColor;
     }
-    
+
 }

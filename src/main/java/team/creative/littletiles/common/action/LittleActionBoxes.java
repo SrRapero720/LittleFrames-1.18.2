@@ -31,11 +31,11 @@ import team.creative.littletiles.common.math.box.collection.LittleBoxes;
 import team.creative.littletiles.common.structure.exception.MissingAnimationException;
 
 public abstract class LittleActionBoxes extends LittleAction<Boolean> {
-    
+
     public LittleBoxes boxes;
     @CanBeNull
     public UUID levelUUID;
-    
+
     public LittleActionBoxes(Level level, LittleBoxes boxes) {
         this.boxes = boxes;
         if (level instanceof ISubLevel)
@@ -43,38 +43,39 @@ public abstract class LittleActionBoxes extends LittleAction<Boolean> {
         else
             this.levelUUID = null;
     }
-    
+
     public LittleActionBoxes(UUID levelUUID, LittleBoxes boxes) {
         this.boxes = boxes;
         this.levelUUID = levelUUID;
     }
-    
-    public LittleActionBoxes() {}
-    
+
+    public LittleActionBoxes() {
+    }
+
     public abstract void action(Level level, Player player, BlockPos pos, BlockState state, List<LittleBox> boxes, LittleGrid grid) throws LittleActionException;
-    
+
     @Override
     public Boolean action(Player player) throws LittleActionException {
         if (boxes.isEmpty())
             return true;
-        
+
         Level level = player.level;
         if (levelUUID != null) {
             LittleEntity animation = LittleAnimationHandlers.find(level.isClientSide, levelUUID);
             if (animation == null)
                 throw new MissingAnimationException(levelUUID);
-            
+
             level = (Level) animation.getSubLevel();
         }
-        
+
         if (LittleTiles.CONFIG.isEditLimited(player)) {
             if (boxes.getSurroundingBox().getPercentVolume(boxes.grid) > LittleTiles.CONFIG.build.get(player).maxEditBlocks)
                 throw new NotAllowedToEditException(player);
         }
-        
+
         HashMapList<BlockPos, LittleBox> boxesMap = boxes.generateBlockWise();
         MutableInt affectedBlocks = new MutableInt();
-        
+
         try {
             for (BlockPos pos : boxesMap.keySet()) {
                 BETiles be = LittleAction.loadBE(player, level, pos, null, false, 0);
@@ -91,8 +92,8 @@ public abstract class LittleActionBoxes extends LittleAction<Boolean> {
                 sendBlockResetToClient(level, player, pos);
             throw e;
         }
-        
-        for (Iterator<Entry<BlockPos, ArrayList<LittleBox>>> iterator = boxesMap.entrySet().iterator(); iterator.hasNext();) {
+
+        for (Iterator<Entry<BlockPos, ArrayList<LittleBox>>> iterator = boxesMap.entrySet().iterator(); iterator.hasNext(); ) {
             Entry<BlockPos, ArrayList<LittleBox>> entry = iterator.next();
             BlockPos pos = entry.getKey();
             BlockState state = level.getBlockState(pos);
@@ -101,32 +102,33 @@ public abstract class LittleActionBoxes extends LittleAction<Boolean> {
                     sendBlockResetToClient(level, player, pos);
                 continue;
             }
-            
+
             actionDone(level, player);
-            
+
             action(level, player, pos, state, entry.getValue(), boxes.grid);
         }
-        
+
         level.playSound(null, player, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1, 1);
         return true;
     }
-    
-    public void actionDone(Level level, Player player) {}
-    
+
+    public void actionDone(Level level, Player player) {
+    }
+
     protected LittleActionBoxes assignMirror(LittleActionBoxes action, Axis axis, LittleBoxAbsolute box) {
         action.boxes = this.boxes.copy();
         action.boxes.mirror(axis, box);
         return action;
     }
-    
+
     @Override
     public boolean wasSuccessful(Boolean result) {
         return result;
     }
-    
+
     @Override
     public Boolean failed() {
         return false;
     }
-    
+
 }

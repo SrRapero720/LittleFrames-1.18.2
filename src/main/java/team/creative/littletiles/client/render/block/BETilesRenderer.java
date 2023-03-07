@@ -11,12 +11,12 @@ import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.attribute.LittleStructureAttribute;
 
 public class BETilesRenderer implements BlockEntityRenderer<BETiles> {
-    
+
     @Override
     public boolean shouldRender(BETiles be, Vec3 vec) {
         return Vec3.atCenterOf(be.getBlockPos()).closerThan(vec, be.render.getMaxRenderDistance());
     }
-    
+
     @Override
     public boolean shouldRenderOffScreen(BETiles be) {
         AABB box = be.render.getRenderBoundingBox();
@@ -28,7 +28,7 @@ public class BETilesRenderer implements BlockEntityRenderer<BETiles> {
             return true;
         return false;
     }
-    
+
     @Override
     public void render(BETiles be, float partialTickTime, PoseStack pose, MultiBufferSource buffer, int destroyStage, int p_112312_) {
         for (LittleStructure structure : be.loadedStructures(LittleStructureAttribute.TICK_RENDERING))

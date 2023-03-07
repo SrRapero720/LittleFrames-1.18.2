@@ -17,29 +17,29 @@ import team.creative.littletiles.client.render.mc.RenderChunkExtender;
 import team.creative.littletiles.client.render.mc.VertexBufferExtender;
 
 public class ChunkLayerUploadManager {
-    
+
     private final VertexBuffer buffer;
-    
+
     private ChunkLayerCache cache;
     private ChunkLayerCache uploaded;
-    
+
     public int queued;
-    
+
     public ChunkLayerUploadManager(RenderChunkExtender chunk, RenderType layer) {
         this.buffer = chunk.getVertexBuffer(layer);
         ((VertexBufferExtender) buffer).setManager(this);
     }
-    
+
     public ChunkLayerCache get() {
         return cache;
     }
-    
+
     public synchronized void set(ChunkLayerCache cache) {
         if (this.cache != null)
             this.cache.discard();
         this.cache = cache;
     }
-    
+
     public void uploaded() {
         synchronized (this) {
             if (this.uploaded != null)
@@ -50,7 +50,7 @@ public class ChunkLayerUploadManager {
                 uploaded.uploaded(queued == 0);
         }
     }
-    
+
     public void backToRAM() {
         if (uploaded == null)
             return;
@@ -88,5 +88,5 @@ public class ChunkLayerUploadManager {
             e1.printStackTrace();
         }
     }
-    
+
 }

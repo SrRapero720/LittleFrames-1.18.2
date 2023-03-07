@@ -11,12 +11,13 @@ import team.creative.littletiles.client.render.cache.buffer.BufferHolder;
 import team.creative.littletiles.client.render.cache.buffer.UploadableBufferHolder;
 
 public class ChunkLayerCache {
-    
+
     private int totalSize;
     private List<UploadableBufferHolder> holders = new ArrayList<>();
-    
-    public ChunkLayerCache() {}
-    
+
+    public ChunkLayerCache() {
+    }
+
     public UploadableBufferHolder add(BufferBuilder builder, BufferHolder data) {
         int index = ((BufferBuilderAccessor) builder).getNextElementByte();
         ByteBuffer buffer = data.byteBuffer();
@@ -29,16 +30,16 @@ public class ChunkLayerCache {
         totalSize = ((BufferBuilderAccessor) builder).getNextElementByte();
         return holder;
     }
-    
+
     public void discard() {
         for (UploadableBufferHolder holder : holders)
             holder.invalidate();
     }
-    
+
     public int totalSize() {
         return totalSize;
     }
-    
+
     public void download(ByteBuffer buffer) {
         for (UploadableBufferHolder holder : holders)
             if (buffer.capacity() >= holder.index + holder.length)
@@ -46,14 +47,14 @@ public class ChunkLayerCache {
             else
                 holder.invalidate();
     }
-    
+
     public void uploaded(boolean doNotErase) {
         for (UploadableBufferHolder holder : holders)
             holder.uploaded(doNotErase);
     }
-    
+
     public boolean isEmpty() {
         return holders.isEmpty();
     }
-    
+
 }
