@@ -98,7 +98,7 @@
 - mixin (4 Currently)
     - client
         - render
-            - LevelRendererMixin ``For removal``
+            - LevelRendererMixin ``Triage``
         - MinecraftMixin
     - common
         - entity
