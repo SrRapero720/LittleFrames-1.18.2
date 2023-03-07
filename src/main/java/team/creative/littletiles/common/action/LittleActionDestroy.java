@@ -17,7 +17,6 @@ import team.creative.littletiles.common.block.little.tile.group.LittleGroupAbsol
 import team.creative.littletiles.common.block.little.tile.parent.StructureParentCollection;
 import team.creative.littletiles.common.block.mc.BlockTile;
 import team.creative.littletiles.common.ingredient.LittleInventory;
-import team.creative.littletiles.common.item.ItemLittleWrench;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
 import team.creative.littletiles.common.math.box.collection.LittleBoxes;

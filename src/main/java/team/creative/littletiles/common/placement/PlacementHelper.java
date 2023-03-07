@@ -19,7 +19,6 @@ import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecAbsolute;
-import team.creative.littletiles.common.mod.chiselsandbits.ChiselsAndBitsManager;
 import team.creative.littletiles.common.placement.mode.PlacementMode;
 
 /** This class does all calculate on where to place a block. Used for rendering
@@ -160,26 +159,17 @@ public class PlacementHelper {
     
     public static boolean canBlockBeUsed(Level world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof BETiles)
-            return true;
-        return ChiselsAndBitsManager.isChiselsAndBitsStructure(blockEntity);
+        return blockEntity instanceof BETiles;
     }
     
     public static boolean canBePlacedInside(Level level, BlockPos pos, Vec3 hitVec, Facing side) {
         if (canBlockBeUsed(level, pos)) {
-            switch (side) {
-            case EAST:
-            case WEST:
-                return (int) hitVec.x != hitVec.x;
-            case UP:
-            case DOWN:
-                return (int) hitVec.y != hitVec.y;
-            case SOUTH:
-            case NORTH:
-                return (int) hitVec.z != hitVec.z;
-            default:
-                return false;
-            }
+            return switch (side) {
+                case EAST, WEST -> (int) hitVec.x != hitVec.x;
+                case UP, DOWN -> (int) hitVec.y != hitVec.y;
+                case SOUTH, NORTH -> (int) hitVec.z != hitVec.z;
+                default -> false;
+            };
         }
         return false;
     }

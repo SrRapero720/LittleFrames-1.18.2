@@ -11,6 +11,7 @@ import java.util.function.BiPredicate;
 
 import javax.annotation.Nullable;
 
+import net.minecraftforge.event.world.BlockEvent;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import net.minecraft.core.BlockPos;
@@ -23,8 +24,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.event.level.BlockEvent.EntityMultiPlaceEvent;
+
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.action.LittleAction;
@@ -188,7 +188,7 @@ public class Placement {
             for (BlockPos snapPos : blocks.keySet())
                 snaps.add(BlockSnapshot.create(level.dimension(), level, snapPos));
             
-            EntityMultiPlaceEvent event = new BlockEvent.EntityMultiPlaceEvent(snaps, level
+            BlockEvent.EntityMultiPlaceEvent event = new BlockEvent.EntityMultiPlaceEvent(snaps, level
                     .getBlockState(preview.position.facing == null ? preview.position.getPos() : preview.position.getPos().relative(preview.position.facing.toVanilla())), player);
             MinecraftForge.EVENT_BUS.post(event);
             if (event.isCanceled()) {

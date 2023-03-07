@@ -65,7 +65,6 @@ import team.creative.littletiles.common.ingredient.NotEnoughIngredientsException
 import team.creative.littletiles.common.item.ItemPremadeStructure;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
-import team.creative.littletiles.common.mod.chiselsandbits.ChiselsAndBitsManager;
 import team.creative.littletiles.common.packet.update.BlockUpdate;
 import team.creative.littletiles.common.packet.update.BlocksUpdate;
 import team.creative.littletiles.common.placement.PlacementPreview;
@@ -149,10 +148,7 @@ public abstract class LittleAction<T> extends CreativePacket {
 
         if (!(blockEntity instanceof BETiles)) {
             LittleGroup tiles = null;
-            LittleGroup chiselTiles = ChiselsAndBitsManager.getGroup(blockEntity);
-            if (chiselTiles != null)
-                tiles = chiselTiles;
-            else if (blockEntity == null && shouldConvert) {
+            if (blockEntity == null && shouldConvert) {
                 BlockState state = level.getBlockState(pos);
                 if (isBlockValid(state) && canConvertBlock(player, level, pos, state, affected == null ? 0 : affected.incrementAndGet())) {
 
@@ -433,10 +429,7 @@ public abstract class LittleAction<T> extends CreativePacket {
     }
 
     public static boolean isBlockValid(BlockState state) {
-        if (isBlockValid(state.getBlock()))
-            return true;
-        if (ChiselsAndBitsManager.isChiselsAndBitsStructure(state))
-            return true;
+        if (isBlockValid(state.getBlock())) return true;
         return state.isSolidRender(null, null);
     }
 

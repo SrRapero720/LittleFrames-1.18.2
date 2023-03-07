@@ -9,6 +9,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.common.grid.LittleGrid;
@@ -80,7 +81,7 @@ public class PrimedSizedTnt extends PrimedTnt {
     
     @Override
     protected void explode() {
-        this.level.explode(this, this.getX(), this.getY(0.0625D), this.getZ(), (float) (4.0D * size.getPercentVolume(grid)), Level.ExplosionInteraction.TNT);
+        this.level.explode(this, this.getX(), this.getY(0.0625D), this.getZ(), (float) (4.0D * size.getPercentVolume(grid)), Explosion.BlockInteraction.BREAK);
     }
     
 }

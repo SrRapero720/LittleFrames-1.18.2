@@ -13,8 +13,6 @@ import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.client.render.cache.build.RenderingThread;
 import team.creative.littletiles.common.action.LittleActionException;
 import team.creative.littletiles.common.grid.LittleGrid;
-import team.creative.littletiles.common.item.ItemLittleBag;
-import team.creative.littletiles.common.item.ItemMultiTiles;
 import team.creative.littletiles.common.structure.registry.premade.LittlePremadeRegistry;
 
 public class LittleTilesConfig {

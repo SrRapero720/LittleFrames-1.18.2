@@ -19,7 +19,6 @@ import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.entity.level.LittleEntity;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
-import team.creative.littletiles.common.mod.chiselsandbits.ChiselsAndBitsManager;
 
 public abstract class SelectionMode {
     
@@ -68,16 +67,6 @@ public abstract class SelectionMode {
                     minLtGrid = ((BETiles) te).getGrid();
                 else
                     minLtGrid = LittleGrid.max(minLtGrid, ((BETiles) te).getGrid());
-            }
-            
-            LittleGroup specialPreviews = ChiselsAndBitsManager.getGroup(te);
-            if (specialPreviews != null) {
-                cbBlocks++;
-                cbTiles += specialPreviews.size();
-                if (minCBGrid == null)
-                    minCBGrid = specialPreviews.getGrid();
-                else
-                    minCBGrid = LittleGrid.max(minCBGrid, specialPreviews.getGrid());
             }
             
             if (LittleAction.isBlockValid(level.getBlockState(pos)))

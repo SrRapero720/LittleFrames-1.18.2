@@ -32,7 +32,6 @@ import team.creative.littletiles.common.entity.particle.LittleParticlePresets;
 import team.creative.littletiles.common.entity.particle.LittleParticleTexture;
 import team.creative.littletiles.common.gui.handler.LittleStructureGuiCreator;
 import team.creative.littletiles.common.gui.structure.GuiParticle;
-import team.creative.littletiles.common.item.ItemLittleWrench;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.placement.box.LittlePlaceBox;
 import team.creative.littletiles.common.placement.box.LittlePlaceBoxFacing;

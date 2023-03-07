@@ -3,10 +3,12 @@ package team.creative.littletiles.common.structure.type.bed;
 import java.util.List;
 import java.util.Optional;
 
+import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -169,7 +171,7 @@ public class LittleBed extends LittleStructure {
                 
                 Vec3d vec = getHighestCenterVec();
                 if (this.sleepingPlayer != null) {
-                    player.sendSystemMessage(new TranslatableComponent("tile.bed.occupied", new Object[0]));
+                    player.sendMessage(new TranslatableComponent("tile.bed.occupied"), Util.NIL_UUID);
                     return InteractionResult.SUCCESS;
                 }
                 
