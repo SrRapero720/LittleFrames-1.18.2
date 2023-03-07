@@ -4,6 +4,7 @@ import java.util.function.BiFunction;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.common.block.little.tile.parent.IStructureParentCollection;
 import team.creative.littletiles.common.structure.LittleStructure;
@@ -26,7 +27,9 @@ public class LittlePremadeType extends LittleStructureType {
     }
     
     public ItemStack createItemStackEmpty() {
-        return new ItemStack(LittleTilesRegistry.PREMADE.get());
+        // Temporary fix, unsure if this will actually fix
+        return new ItemStack(Items.STONE);
+//        return new ItemStack(LittleTilesRegistry.PREMADE.get());
     }
     
     public ItemStack createItemStack() {

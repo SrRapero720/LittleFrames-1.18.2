@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 31/59
+Total Completed: 34/59
 
 - client (13 Currently)
     - level
@@ -78,9 +78,10 @@ Total Completed: 31/59
         - ~~shape~~
             - ~~ShapeSelection~~ ``FIXED``
     - structure
-        - registry
-            - LittlePremadeRegistry
-            - LittlePremadeType
+        - ~~registry~~
+            - ~~premade~~
+                - ~~LittlePremadeRegistry~~ ``FIXED``
+                - ~~LittlePremadeType~~ ``POTENTIAL FIX``
         - signal
             - schedule
                 - SignalTicker
@@ -94,7 +95,7 @@ Total Completed: 31/59
                 - LittleStructureBuilder ``Almost fixed``
                 - ~~LittleWorkbench~~ ``DELETED``
             - ~~LittleStorage~~ ``FIXED``
-        - LittleStructure
+        - ~~LittleStructure~~ ``POTENTIAL FIX``
 
 - mixin (4 Currently)
     - client

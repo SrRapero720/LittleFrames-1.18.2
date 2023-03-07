@@ -23,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -831,7 +832,7 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
         BlockPos pos = getMinPos(getPos().mutable());
 
         // Unsure if we can delete this? It seems like we might not need it
-        ItemStack stack = new ItemStack(LittleTilesRegistry.ITEM_TILES.get());
+        ItemStack stack = new ItemStack(Items.STONE);
         stack.setTag(LittleGroup.save(getPreviews(pos)));
 
         if (name != null) {
