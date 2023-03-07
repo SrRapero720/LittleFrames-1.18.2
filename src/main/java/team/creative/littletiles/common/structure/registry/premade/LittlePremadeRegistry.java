@@ -26,13 +26,8 @@ import team.creative.littletiles.common.structure.attribute.LittleAttributeBuild
 import team.creative.littletiles.common.structure.registry.LittleStructureRegistry;
 import team.creative.littletiles.common.structure.signal.logic.SignalMode;
 import team.creative.littletiles.common.structure.type.premade.LittleBlankOMatic;
-import team.creative.littletiles.common.structure.type.premade.LittleExporter;
-import team.creative.littletiles.common.structure.type.premade.LittleImporter;
-import team.creative.littletiles.common.structure.type.premade.LittleParticleEmitter;
-import team.creative.littletiles.common.structure.type.premade.LittleParticleEmitter.LittleStructureTypeParticleEmitter;
 import team.creative.littletiles.common.structure.type.premade.LittleStructureBuilder;
 import team.creative.littletiles.common.structure.type.premade.LittleStructurePremade;
-import team.creative.littletiles.common.structure.type.premade.LittleWorkbench;
 import team.creative.littletiles.common.structure.type.premade.signal.LittleSignalCable;
 import team.creative.littletiles.common.structure.type.premade.signal.LittleSignalCable.LittleStructureTypeCable;
 import team.creative.littletiles.common.structure.type.premade.signal.LittleSignalDisplay;
@@ -136,11 +131,6 @@ public class LittlePremadeRegistry {
     }
     
     public static void initStructures() {
-        register("workbench", LittleTiles.MODID, LittleWorkbench.class, LittleWorkbench::new);
-        register("importer", LittleTiles.MODID, LittleImporter.class, LittleImporter::new);
-        register("exporter", LittleTiles.MODID, LittleExporter.class, LittleExporter::new);
-        register(new LittleStructureTypeParticleEmitter("particle_emitter", LittleParticleEmitter.class, LittleParticleEmitter::new, new LittleAttributeBuilder()
-                .ticking(), LittleTiles.MODID)).addOutput("disabled", 1, SignalMode.TOGGLE, true).setFieldDefault("facing", Facing.UP);
         register("blankomatic", LittleTiles.MODID, LittleBlankOMatic.class, LittleBlankOMatic::new);
         
         register(new LittleStructureTypeCable("single_cable1", LittleSignalCable.class, LittleSignalCable::new, new LittleAttributeBuilder()

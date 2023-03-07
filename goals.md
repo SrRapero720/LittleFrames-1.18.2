@@ -87,11 +87,11 @@
         - type
             - premade
                 - LittleBlankOMatic
-                - LittleExporter
-                - LittleImporter
-                - LittleParticleEmitter
+                - ~~LittleExporter~~ ``DELETED``
+                - ~~LittleImporter~~ ``DELETED``
+                - ~~LittleParticleEmitter~~ ``DELETED``
                 - LittleStructureBuilder
-                - LittleWorkbench
+                - ~~LittleWorkbench~~ ``DELETED``
             - LittleStorage
         - LittleStructure
 
