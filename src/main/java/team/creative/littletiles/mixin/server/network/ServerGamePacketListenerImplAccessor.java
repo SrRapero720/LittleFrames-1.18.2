@@ -18,17 +18,13 @@ import net.minecraft.world.phys.Vec3;
 public interface ServerGamePacketListenerImplAccessor {
     
     @Accessor
-    public Vec3 getAwaitingPositionFromClient();
+    Vec3 getAwaitingPositionFromClient();
     
     @Accessor
     @Mutable
-    public void setServer(MinecraftServer server);
+    void setServer(MinecraftServer server);
     
     @Accessor
     @Mutable
-    public void setConnection(Connection con);
-    
-    @Invoker
-    public CompletableFuture<List<TextFilter.FilteredText>> callFilterTextPacket(List<String> lines);
-    
+    void setConnection(Connection con);
 }

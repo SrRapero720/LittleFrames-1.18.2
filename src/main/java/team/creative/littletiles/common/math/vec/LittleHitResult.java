@@ -36,7 +36,7 @@ public class LittleHitResult extends EntityHitResult {
     }
     
     public LittleEntity getHolder() {
-        if (level instanceof ISubLevel)
+        if (level != null)
             return (LittleEntity) ((ISubLevel) level).getHolder();
         return null;
     }

@@ -82,7 +82,6 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                 }
 
                 if (immediate) {
-                    chunk.compile();
                     chunk.setNotDirty();
                 } else
                     schedule.add(chunk);
@@ -90,7 +89,6 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
         }
 
         for (LittleRenderChunk chunk : schedule) {
-            chunk.compileASync();
             chunk.setNotDirty();
         }
 

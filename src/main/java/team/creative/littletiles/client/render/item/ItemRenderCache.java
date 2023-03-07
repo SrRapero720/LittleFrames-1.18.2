@@ -30,28 +30,6 @@ public class ItemRenderCache implements LevelAwareHandler {
     public ItemRenderCache() {
     }
 
-    public int countCaches() {
-        return caches.size();
-    }
-
-    public List<BakedQuad> requestCache(ItemStack stack, boolean translucent) {
-        synchronized (caches) {
-            ItemModelCache cache = caches.get(stack);
-            if (cache != null)
-                return cache.getQuads(translucent);
-            CreativeItemBoxModel renderer = get(stack);
-            if (renderer != null) {
-                if (renderer.hasTranslucentLayer(stack))
-                    cache = new ItemModelCacheLayered();
-                else
-                    cache = new ItemModelCache();
-                caches.put(stack, cache);
-                THREAD.items.add(new Pair<>(stack, cache));
-            }
-            return null;
-        }
-    }
-
     @Override
     public void unload() {
         caches.clear();

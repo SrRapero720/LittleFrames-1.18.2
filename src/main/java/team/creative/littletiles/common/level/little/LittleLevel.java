@@ -13,36 +13,36 @@ import team.creative.creativecore.common.level.IOrientatedLevel;
 
 public interface LittleLevel extends IOrientatedLevel {
     
-    public default Level asLevel() {
+    default Level asLevel() {
         return (Level) this;
     }
     
-    public BlockUpdateLevelSystem getBlockUpdateLevelSystem();
+    BlockUpdateLevelSystem getBlockUpdateLevelSystem();
     
     @Override
-    public Entity getHolder();
+    Entity getHolder();
     
     @Override
-    public void setHolder(Entity entity);
+    void setHolder(Entity entity);
     
-    public UUID key();
+    UUID key();
     
-    public void registerLevelBoundListener(LevelBoundsListener listener);
+    void registerLevelBoundListener(LevelBoundsListener listener);
     
-    public void unload(LevelChunk chunk);
+    void unload(LevelChunk chunk);
 
-    public void unload();
+    void unload();
     
-    public Iterable<Entity> entities();
+    Iterable<Entity> entities();
     
-    public int getFreeMapId();
+    int getFreeMapId();
     
-    public Iterable<? extends ChunkAccess> chunks();
+    Iterable<? extends ChunkAccess> chunks();
     
-    public void tick();
+    void tick();
     
-    public PacketListener getPacketListener(Player player);
+    PacketListener getPacketListener(Player player);
     
-    public void stopTracking(ServerPlayer player);
+    void stopTracking(ServerPlayer player);
     
 }
