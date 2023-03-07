@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.signal.schedule.SignalTicker;
@@ -45,9 +45,10 @@ public class LittleSignalHandler {
         }
         SignalTicker.serverTick();
     }
-    
-    public synchronized void levelUnload(LevelEvent.Unload event) {
-        if (!event.getLevel().isClientSide()) {
+
+    @SubscribeEvent
+    public synchronized void levelUnload(WorldEvent.Unload event) {
+        if (!event.getWorld().isClientSide()) {
             queuedUpdateStructures.clear();
             queuedStructures.clear();
         }
