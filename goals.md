@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 26/59
+Total Completed: 27/59
 
 - client (13 Currently)
     - level
@@ -63,14 +63,14 @@ Total Completed: 26/59
             - ~~StructureLocation~~ ``FIXED``
             - ~~TileLocation~~ ``FIXED``
     - packet
-        - action
+        - ~~action~~
             - ~~BlockPacket~~ ``FIXED``
         - level
             - LittleLevelInitPacket
-        - update
+        - ~~update~~
             - ~~BlocksUpdate~~ ``FIXED``
             - ~~BlockUpdate~~ ``FIXED``
-        - LittlePacketTypes
+        - ~~LittlePacketTypes~~ ``FIXED``
     - placement
         - mark
             - IMarkMode
