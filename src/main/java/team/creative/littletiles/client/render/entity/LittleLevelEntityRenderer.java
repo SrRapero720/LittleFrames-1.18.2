@@ -33,6 +33,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.common.ForgeConfig;
 import team.creative.littletiles.client.level.little.LittleClientLevel;
 import team.creative.littletiles.client.render.level.LittleRenderChunk;
@@ -73,11 +74,11 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
             ChunkPos chunkpos = new ChunkPos(chunk.pos);
             if (chunk.isDirty() && (!animation.isReal() || level.getChunk(chunkpos.x, chunkpos.z).isClientLightReady())) {
                 boolean immediate = false;
-                if (mc.options.prioritizeChunkUpdates().get() == PrioritizeChunkUpdates.PLAYER_AFFECTED)
+                if (mc.options.prioritizeChunkUpdates == PrioritizeChunkUpdates.PLAYER_AFFECTED)
                     immediate = chunk.isDirtyFromPlayer();
-                else if (mc.options.prioritizeChunkUpdates().get() == PrioritizeChunkUpdates.NEARBY) {
+                else if (mc.options.prioritizeChunkUpdates == PrioritizeChunkUpdates.NEARBY) {
                     immediate = !ForgeConfig.CLIENT.alwaysSetupTerrainOffThread
-                        .get() && (chunk.pos.offset(8, 8, 8).distSqr(manager.getCameraBlockPos()) < 768.0D || chunk.isDirtyFromPlayer()); // the target is the else block below, so invert the forge addition to get there early
+                            .get() && (chunk.pos.offset(8, 8, 8).distSqr(manager.getCameraBlockPos()) < 768.0D || chunk.isDirtyFromPlayer()); // the target is the else block below, so invert the forge addition to get there early
                 }
 
                 if (immediate) {
@@ -104,7 +105,7 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
             if (j1 >= 0) {
                 PoseStack.Pose posestack$pose1 = pose.last();
                 VertexConsumer vertexconsumer = new SheetedDecalTextureGenerator(mc.renderBuffers().crumblingBufferSource()
-                    .getBuffer(ModelBakery.DESTROY_TYPES.get(j1)), posestack$pose1.pose(), posestack$pose1.normal(), 1.0F);
+                        .getBuffer(ModelBakery.DESTROY_TYPES.get(j1)), posestack$pose1.pose(), posestack$pose1.normal());
 
                 newSource = (type) -> type.affectsCrumbling() ? VertexMultiConsumer.create(vertexconsumer, bufferSource.getBuffer(type)) : bufferSource.getBuffer(type);
             }
@@ -129,7 +130,7 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                 pose.pushPose();
                 pose.translate(blockpos4.getX() - cam.x, blockpos4.getY() - cam.y, blockpos4.getZ() - cam.z);
                 mc.getBlockEntityRenderDispatcher()
-                    .render(blockentity, frameTime, pose, prepareBlockEntity(pose, (LittleClientLevel) animation.getSubLevel(), blockpos4, bufferSource));
+                        .render(blockentity, frameTime, pose, prepareBlockEntity(pose, (LittleClientLevel) animation.getSubLevel(), blockpos4, bufferSource));
                 pose.popPose();
             }
         }
@@ -147,9 +148,11 @@ public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
                     pose.translate(blockpos2.getX() - cam.x, blockpos2.getY() - cam.y, blockpos2.getZ() - cam.z);
                     PoseStack.Pose last = pose.last();
                     VertexConsumer consumer = new SheetedDecalTextureGenerator(mc.renderBuffers().crumblingBufferSource().getBuffer(ModelBakery.DESTROY_TYPES.get(k1)), last
-                        .pose(), last.normal(), 1.0F);
-                    ModelData modelData = level.getModelDataManager().getAt(blockpos2);
-                    mc.getBlockRenderer().renderBreakingTexture(level.getBlockState(blockpos2), blockpos2, level, pose, consumer, modelData == null ? ModelData.EMPTY : modelData);
+                            .pose(), last.normal());
+
+//                  TODO: WHAT?
+//                    ModelDataMap modelData = level.getModelDataManager().getAt(blockpos2);
+//                    mc.getBlockRenderer().renderBreakingTexture(level.getBlockState(blockpos2), blockpos2, level, pose, consumer, modelData == null ? ModelData.EMPTY : modelData);
                     pose.popPose();
                 }
             }

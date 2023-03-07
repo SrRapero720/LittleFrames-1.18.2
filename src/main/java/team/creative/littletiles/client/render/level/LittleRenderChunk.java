@@ -56,6 +56,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.client.model.data.ModelDataMap;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.client.LittleTilesClient;
 import team.creative.littletiles.client.render.cache.ChunkLayerCache;
@@ -187,6 +188,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
         return this.dirty && this.playerChanged;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public boolean resortTransparency(RenderType layer) {
         CompiledChunk compiled = this.getCompiledChunk();
         if (this.lastResortTransparencyTask != null) this.lastResortTransparencyTask.cancel();
@@ -251,7 +253,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
         protected final double distAtCreation;
         protected final AtomicBoolean isCancelled = new AtomicBoolean(false);
         public final boolean isHighPriority;
-        protected Map<BlockPos, ModelData> modelData;
+        protected Map<BlockPos, ModelDataMap> modelData;
 
         public ChunkCompileTask(@Nullable ChunkPos pos, double distAtCreation, boolean isHighPriority) {
             this.distAtCreation = distAtCreation;
@@ -270,8 +272,8 @@ public class LittleRenderChunk implements RenderChunkExtender {
             return Doubles.compare(this.distAtCreation, other.distAtCreation);
         }
 
-        public ModelData getModelData(BlockPos pos) {
-            return modelData.getOrDefault(pos, ModelData.EMPTY);
+        public ModelDataMap getModelData(BlockPos pos) {
+            return modelData.getOrDefault(pos, new ModelDataMap.Builder().build());
         }
     }
 
@@ -301,7 +303,8 @@ public class LittleRenderChunk implements RenderChunkExtender {
         @Override
         public CompletableFuture<ChunkTaskResult> doTask(ChunkBufferBuilderPack pack) {
             if (this.isCancelled.get()) return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
-            
+
+//            TODO: WHAT JUST HAPPEND?
             /*if (!LittleRenderChunk.this.hasAllNeighbors()) {
                 this.level = null;
                 LittleRenderChunk.this.setDirty(false);

@@ -1,59 +1,30 @@
 package team.creative.littletiles.client;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-
-import net.minecraft.world.level.levelgen.RandomSource;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.client.model.data.ModelDataMap;
-import net.minecraftforge.event.RegistryEvent;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
-
-import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.brigadier.Command;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
-
-import java.util.Random;
-
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ModelEvent.RegisterAdditional;
 import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
-import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.client.settings.KeyModifier;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.jetbrains.annotations.NotNull;
 import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.client.render.box.RenderBox;
 import team.creative.creativecore.client.render.model.CreativeBlockModel;
@@ -67,30 +38,26 @@ import team.creative.littletiles.client.level.LittleAnimationHandlerClient;
 import team.creative.littletiles.client.level.LittleInteractionHandlerClient;
 import team.creative.littletiles.client.render.block.BETilesRenderer;
 import team.creative.littletiles.client.render.block.LittleBlockClientRegistry;
-import team.creative.littletiles.client.render.entity.LittleLevelEntityRenderer;
-import team.creative.littletiles.client.render.entity.RenderSizedTNTPrimed;
 import team.creative.littletiles.client.render.item.ItemRenderCache;
 import team.creative.littletiles.client.render.item.LittleModelItemBackground;
 import team.creative.littletiles.client.render.item.LittleModelItemPreview;
 import team.creative.littletiles.client.render.item.LittleModelItemTilesBig;
 import team.creative.littletiles.client.render.level.LittleChunkDispatcher;
-import team.creative.littletiles.client.render.level.LittleClientEventHandler;
-import team.creative.littletiles.client.render.overlay.LittleTilesProfilerOverlay;
-import team.creative.littletiles.client.render.overlay.PreviewRenderer;
-import team.creative.littletiles.client.render.overlay.TooltipOverlay;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.ingredient.BlockIngredientEntry;
 import team.creative.littletiles.common.ingredient.ColorIngredient;
-import team.creative.littletiles.common.item.ItemBlockIngredient;
-import team.creative.littletiles.common.item.ItemColorIngredient;
-import team.creative.littletiles.common.item.ItemLittleChisel;
-import team.creative.littletiles.common.item.ItemLittleGlove;
+import team.creative.littletiles.common.item.*;
 import team.creative.littletiles.common.item.ItemLittleGlove.GloveMode;
-import team.creative.littletiles.common.item.ItemLittlePaintBrush;
-import team.creative.littletiles.common.item.ItemPremadeStructure;
 import team.creative.littletiles.common.structure.registry.premade.LittlePremadeRegistry;
 import team.creative.littletiles.common.structure.registry.premade.LittlePremadeType;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @OnlyIn(Dist.CLIENT)
 public class LittleTilesClient {
@@ -101,7 +68,6 @@ public class LittleTilesClient {
     public static LittleActionHandlerClient ACTION_HANDLER;
     public static LittleAnimationHandlerClient ANIMATION_HANDLER;
     public static LittleInteractionHandlerClient INTERACTION_HANDLER;
-    public static PreviewRenderer PREVIEW_RENDERER;
     public static ItemRenderCache ITEM_RENDER_CACHE;
 
     public static KeyMapping flip;
@@ -136,20 +102,10 @@ public class LittleTilesClient {
             return ItemLittlePaintBrush.getColor(stack);
         }, LittleTilesRegistry.PAINT_BRUSH.get());
 
-        // MinecraftForge.EVENT_BUS.register(overlay = new OverlayRenderer());
-        // overlay.add(new OverlayControl(new GuiAxisIndicatorControl("axis"), OverlayPositionType.CENTER).setShouldRender(() -> PreviewRenderer.marked != null));
-        MinecraftForge.EVENT_BUS.register(new PreviewRenderer());
-        MinecraftForge.EVENT_BUS.register(new LittleClientEventHandler());
-
         LEVEL_HANDLERS.register(LittleActionHandlerClient::new, x -> ACTION_HANDLER = x);
         LEVEL_HANDLERS.register(LittleAnimationHandlerClient::new, x -> ANIMATION_HANDLER = x);
         LEVEL_HANDLERS.register(LittleInteractionHandlerClient::new, x -> INTERACTION_HANDLER = x);
-        LEVEL_HANDLERS.register(PREVIEW_RENDERER = new PreviewRenderer());
         LEVEL_HANDLERS.register(ITEM_RENDER_CACHE = new ItemRenderCache());
-
-        // Init overlays
-        MinecraftForge.EVENT_BUS.register(LittleTilesProfilerOverlay.class);
-        MinecraftForge.EVENT_BUS.register(TooltipOverlay.class);
 
         ReloadableResourceManager reloadableResourceManager = (ReloadableResourceManager) mc.getResourceManager();
         reloadableResourceManager.registerReloadListener(new PreparableReloadListener() {
@@ -164,9 +120,6 @@ public class LittleTilesClient {
         });
 
         CreativeCoreClient.registerClientConfig(LittleTiles.MODID);
-
-        EntityRenderers.register(LittleTilesRegistry.SIZED_TNT_TYPE.get(), RenderSizedTNTPrimed::new);
-        EntityRenderers.register(LittleTilesRegistry.ENTITY_LEVEL_LARGE.get(), LittleLevelEntityRenderer::new);
 
         blockEntityRenderer = new BETilesRenderer();
         BlockEntityRenderers.register(LittleTilesRegistry.BE_TILES_TYPE_RENDERED.get(), x -> blockEntityRenderer);

@@ -107,7 +107,7 @@ public class LittleLevelRenderManager implements Iterable<LittleRenderChunk> {
         }
     }
 
-    public CompletableFuture<Void> uploadChunkLayer(BufferBuilder.RenderedBuffer rendered, VertexBuffer buffer) {
+    public CompletableFuture<Void> uploadChunkLayer(BufferBuilder rendered, VertexBuffer buffer) {
         return LittleTilesClient.ANIMATION_HANDLER.uploadChunkLayer(rendered, buffer);
     }
 
