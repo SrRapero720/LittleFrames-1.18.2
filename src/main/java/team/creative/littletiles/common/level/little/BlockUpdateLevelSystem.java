@@ -392,8 +392,7 @@ public class BlockUpdateLevelSystem {
     }
     
     private boolean isSameThread() {
-        if (level.isClientSide())
-            return isSameThreadClient();
+        if (level.isClientSide()) return isSameThreadClient();
         return level.getServer().isSameThread();
     }
     

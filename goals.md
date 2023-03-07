@@ -48,7 +48,7 @@ Total Completed: 21/59
         - physic
             - LittleLevelEntityPhysic
     - ingredient
-        - LittleIngredient
+        - ~~LittleIngredient~~ ``FIXED``
     - level
         - handler
             - LevelHandlers

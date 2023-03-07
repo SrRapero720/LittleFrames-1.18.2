@@ -433,9 +433,6 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
         if (result == null || !(result instanceof BlockHitResult))
             return InteractionResult.PASS;
         
-        if (player != null && player.getMainHandItem().getItem() instanceof ItemLittleWrench)
-            return ((ItemLittleWrench) player.getMainHandItem().getItem()).useOn(new UseOnContext(player, InteractionHand.MAIN_HAND, (BlockHitResult) result));
-        
         return subLevel.getBlockState(((BlockHitResult) result).getBlockPos()).use((Level) subLevel, player, InteractionHand.MAIN_HAND, (BlockHitResult) result);
     }
     
