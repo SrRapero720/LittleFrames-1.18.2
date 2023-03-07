@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 16/59
+Total Completed: 19/59
 
 - client (13 Currently)
     - level
@@ -25,18 +25,18 @@ Total Completed: 16/59
 - common (39 Currently)
     - action
         - LittleAction
-    - animation
-        - preview
-            - AnimationPreview
+    - ~~animation~~
+        - ~~preview~~
+            - ~~AnimationPreview~~ ``DELETED``
     - block
         - little
             - registry
                 - LittleMissingBlock
-            - tile
-                - collection
-                    - LittleBlockCollection
-                    - LittleCollection
-                - group
+            - ~~tile~~
+                - ~~collection~~
+                    - ~~LittleBlockCollection~~ ``FIXED``
+                    - ~~LittleCollection~~ ``FIXED``
+                - ~~group~~
                     - ~~LittleGroup~~ ``FIXED``
         - mc
             - BlockTile
@@ -104,8 +104,8 @@ Total Completed: 16/59
     - common
         - entity
             - EntityMixin
-    - server
-        - level
+    - ~~server~~
+        - ~~level~~
             - ~~ServerChunkCacheMixin~~ ``FIXED``
 
 - server (3 Currently)

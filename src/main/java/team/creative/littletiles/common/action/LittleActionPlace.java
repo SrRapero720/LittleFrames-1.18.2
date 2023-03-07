@@ -45,7 +45,7 @@ public class LittleActionPlace extends LittleAction<Boolean> {
     }
     
     @Override
-    public LittleAction revert(Player player) throws LittleActionException {
+    public LittleAction revert(Player player) {
         if (result == null)
             return null;
         result.placedBoxes.convertToSmallest();
