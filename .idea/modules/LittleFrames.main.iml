@@ -15,12 +15,12 @@
     <option name="mappingFile" value="A:\Programacion\JavaApps\LittleFrames\build\createMcpToSrg\output.tsrg" />
     <option name="mcpVersion" value="official_1.18.2" />
     <option name="minecraftVersion" value="1.18.2" />
+    <option name="platformVersion" value="40.2.0" />
     <option name="srgType" value="TSRG" />
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../../build/generated/sources/annotationProcessor/java/main">
       <sourceFolder url="file://$MODULE_DIR$/../../build/generated/sources/annotationProcessor/java/main" isTestSource="false" generated="true" />
     </content>
-    <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
