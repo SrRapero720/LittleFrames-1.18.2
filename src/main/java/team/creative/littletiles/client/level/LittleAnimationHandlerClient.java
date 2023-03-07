@@ -126,7 +126,7 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
                         .whenComplete((result, throwable) -> {
 //                            TODO: Requires a FIX
                             if (throwable != null)
-                                Minecraft.getInstance().delayCrash(CrashReport.forThrowable(throwable, "Batching chunks"));
+                                Minecraft.getInstance().delayCrash(() -> CrashReport.forThrowable(throwable, "Batching chunks"));
                             else
                                 this.mailbox.tell(() -> {
                                     if (result == LittleRenderChunk.ChunkTaskResult.SUCCESSFUL)
@@ -340,7 +340,7 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
             if (mc.hitResult instanceof LittleHitResult result && result.level instanceof ISubLevel) {
                 Entity entity = ((ISubLevel) result.level).getHolder();
                 if (entity instanceof LittleEntity levelEntity)
-                    levelEntity.onRightClick(event.getEntity(), result.hit);
+                    levelEntity.onRightClick(event.getPlayer(), result.hit);
             }
         }
     }
