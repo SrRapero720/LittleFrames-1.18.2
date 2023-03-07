@@ -68,8 +68,8 @@ Total Completed: 24/59
         - level
             - LittleLevelInitPacket
         - update
-            - BlocksUpdate
-            - BlockUpdate
+            - ~~BlocksUpdate~~ ``FIXED``
+            - ~~BlockUpdate~~ ``FIXED``
         - LittlePacketTypes
     - placement
         - mark

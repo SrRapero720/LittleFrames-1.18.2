@@ -70,7 +70,7 @@ public class BlocksUpdate extends CreativePacket {
             if (entity == null)
                 return;
             
-            level = entity.getSubLevel();
+            level = (LevelAccessor) entity.getSubLevel();
         }
         
         for (int i = 0; i < positions.size(); i++) {

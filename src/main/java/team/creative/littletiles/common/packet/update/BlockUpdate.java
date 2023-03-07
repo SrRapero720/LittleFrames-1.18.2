@@ -46,7 +46,7 @@ public class BlockUpdate extends CreativePacket {
             if (entity == null)
                 return;
             
-            level = entity.getSubLevel();
+            level = (LevelAccessor) entity.getSubLevel();
         }
         
         if (level instanceof ClientLevel)
