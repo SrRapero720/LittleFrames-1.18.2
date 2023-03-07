@@ -47,7 +47,7 @@ Total Completed: 34/59
             - LittleEntity
         - physic
             - LittleLevelEntityPhysic
-    - ingredient
+    - ~~ingredient~~
         - ~~LittleIngredient~~ ``FIXED``
     - level
         - handler
@@ -59,7 +59,7 @@ Total Completed: 34/59
     - math
         - box
             - TransformableVoxelShape
-        - location
+        - ~~location~~
             - ~~StructureLocation~~ ``FIXED``
             - ~~TileLocation~~ ``FIXED``
     - packet
