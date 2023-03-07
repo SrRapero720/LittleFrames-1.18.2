@@ -6,6 +6,7 @@ import net.minecraft.nbt.EndTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.Align;
+import team.creative.creativecore.common.gui.GuiControl;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.parent.GuiColumn;
@@ -22,6 +23,7 @@ import team.creative.creativecore.common.gui.controls.simple.GuiTextfield;
 import team.creative.creativecore.common.gui.flow.GuiFlow;
 import team.creative.creativecore.common.gui.style.GuiIcon;
 import team.creative.creativecore.common.gui.sync.GuiSyncLocal;
+import team.creative.creativecore.common.util.math.geo.Rect;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.creativecore.common.util.text.TextBuilder;
 import team.creative.creativecore.common.util.text.TextMapBuilder;
@@ -160,5 +162,29 @@ public class GuiLittlePictureFrame extends GuiLayer {
             }
         }).setTranslate("gui.creative_frame.reload").setTooltip(new TextBuilder().translate("gui.creative_frame.reloadtooltip").build()));
     }
-    
+
+    @Override
+    public void flowY(int width, int height, int preferred) {
+
+    }
+
+    @Override
+    protected int preferredWidth(int availableWidth) {
+        return 0;
+    }
+
+    @Override
+    protected int preferredHeight(int width, int availableHeight) {
+        return 0;
+    }
+
+    @Override
+    public Rect toScreenRect(GuiControl control, Rect rect) {
+        return null;
+    }
+
+    @Override
+    public Rect toLayerRect(GuiControl control, Rect rect) {
+        return null;
+    }
 }

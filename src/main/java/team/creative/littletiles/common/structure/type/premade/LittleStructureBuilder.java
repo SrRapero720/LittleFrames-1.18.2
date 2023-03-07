@@ -36,8 +36,7 @@ public class LittleStructureBuilder extends LittleStructurePremade {
         REGISTRY.register(type.type.id, type);
     }
     
-    public static final LittleStructureGuiCreator GUI = GuiCreator
-            .register("structure_builder", new LittleStructureGuiCreator((nbt, player, structure) -> new GuiBuilder((LittleStructureBuilder) structure)));
+    public static final LittleStructureGuiCreator GUI = GuiCreator.register("structure_builder", new LittleStructureGuiCreator((nbt, player, structure) -> new GuiBuilder((LittleStructureBuilder) structure)));
     
     public SimpleContainer inventory = new SimpleContainer(1);
     public int lastSizeX = 16;

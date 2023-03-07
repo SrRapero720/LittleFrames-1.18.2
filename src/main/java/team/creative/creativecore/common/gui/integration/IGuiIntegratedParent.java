@@ -24,7 +24,32 @@ import java.util.Optional;
 public interface IGuiIntegratedParent extends IGuiParent {
     
     GuiLayer EMPTY = new GuiLayer("empty") {
-        
+
+        @Override
+        public Rect toScreenRect(GuiControl control, Rect rect) {
+            return null;
+        }
+
+        @Override
+        public Rect toLayerRect(GuiControl control, Rect rect) {
+            return null;
+        }
+
+        @Override
+        public void flowY(int width, int height, int preferred) {
+
+        }
+
+        @Override
+        protected int preferredWidth(int availableWidth) {
+            return 0;
+        }
+
+        @Override
+        protected int preferredHeight(int width, int availableHeight) {
+            return 0;
+        }
+
         @Override
         public void create() {}
     };

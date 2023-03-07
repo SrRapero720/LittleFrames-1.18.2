@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 10/59
+Total Completed: 13/59
 
 - client (13 Currently)
     - level
@@ -37,7 +37,7 @@ Total Completed: 10/59
                     - LittleBlockCollection
                     - LittleCollection
                 - group
-                    - LittleGroup
+                    - ~~LittleGroup~~ ``FIXED``
         - mc
             - BlockTile
     - config
@@ -87,13 +87,13 @@ Total Completed: 10/59
             - LittleSignalHandler
         - type
             - premade
-                - LittleBlankOMatic
+                - ~~LittleBlankOMatic~~ ``DELETED``
                 - ~~LittleExporter~~ ``DELETED``
                 - ~~LittleImporter~~ ``DELETED``
                 - ~~LittleParticleEmitter~~ ``DELETED``
-                - LittleStructureBuilder
+                - LittleStructureBuilder ``Almost fixed``
                 - ~~LittleWorkbench~~ ``DELETED``
-            - LittleStorage
+            - ~~LittleStorage~~ ``FIXED``
         - LittleStructure
 
 - mixin (4 Currently)

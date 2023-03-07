@@ -25,7 +25,6 @@ import team.creative.littletiles.common.structure.LittleStructureType;
 import team.creative.littletiles.common.structure.attribute.LittleAttributeBuilder;
 import team.creative.littletiles.common.structure.registry.LittleStructureRegistry;
 import team.creative.littletiles.common.structure.signal.logic.SignalMode;
-import team.creative.littletiles.common.structure.type.premade.LittleBlankOMatic;
 import team.creative.littletiles.common.structure.type.premade.LittleStructureBuilder;
 import team.creative.littletiles.common.structure.type.premade.LittleStructurePremade;
 import team.creative.littletiles.common.structure.type.premade.signal.LittleSignalCable;
@@ -131,8 +130,6 @@ public class LittlePremadeRegistry {
     }
     
     public static void initStructures() {
-        register("blankomatic", LittleTiles.MODID, LittleBlankOMatic.class, LittleBlankOMatic::new);
-        
         register(new LittleStructureTypeCable("single_cable1", LittleSignalCable.class, LittleSignalCable::new, new LittleAttributeBuilder()
                 .extraRendering(), LittleTiles.MODID, 1));
         register(new LittleStructureTypeCable("single_cable4", LittleSignalCable.class, LittleSignalCable::new, new LittleAttributeBuilder()
