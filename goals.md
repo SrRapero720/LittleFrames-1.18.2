@@ -2,24 +2,24 @@
 
 - client (13 Currently)
     - level
-        - LittleAnimationHandlerClient
-        - LittleInteractionHandlerClient
+        - LittleAnimationHandlerClient 
+        - LittleInteractionHandlerClient `Partial fixed`
     - render
         - block
-            - BERenderManager
+            - ~~BERenderManager~~ `DELETED`
             - LittleBlockClientRegistry
         - entity
-            - LittleLevelEntityRenderer
-            - LittleLevelRenderManager
+            - LittleLevelEntityRenderer `More broken`
+            - LittleLevelRenderManager ``Partial Fix``
         - level
-            - LittleClientEventHandler
-            - LittleRenderChunk
-            - LittleRenderChunks
-        - overlay
-            - LittleTilesProfilerOverlay
-            - PreviewRenderer
-            - TooltipOverlay
-        - LittleTilesClient
+            - LittleClientEventHandler ``DELETED``
+            - LittleRenderChunk ``More broken``
+            - ~~LittleRenderChunks~~ ``DUPLICATED``
+        - ~~overlay~~ ``FULL DELETED``
+            - ~~LittleTilesProfilerOverlay~~
+            - ~~PreviewRenderer~~
+            - ~~TooltipOverlay~~
+        - LittleTilesClient ``More Broken``
 
 - common (39 Currently)
     - action
@@ -98,7 +98,7 @@
 - mixin (4 Currently)
     - client
         - render
-            - LevelRendererMixin
+            - LevelRendererMixin ``For removal``
         - MinecraftMixin
     - common
         - entity
@@ -112,4 +112,4 @@
         - little
             - LittleChunkMap
             - LittleServerLevel
-            - LittleServerPlayerHandler
+            - LittleServerPlayerHandler ``More freaking broken``
