@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.DefaultedRegistry;
+import net.minecraftforge.event.world.ChunkDataEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -14,8 +16,6 @@ import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.LongArrayTag;
@@ -44,7 +44,6 @@ import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.ticks.LevelChunkTicks;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.ChunkDataEvent;
 import me.srrapero720.waterframes.mixin.server.level.ChunkSerializerAccessor;
 import team.creative.littletiles.server.level.little.LittleServerLevel;
 
@@ -57,18 +56,18 @@ public class LittleChunkSerializer {
         ChunkPos chunkpos = new ChunkPos(nbt.getInt("xPos"), nbt.getInt("zPos"));
         
         ListTag listtag = nbt.getList("sections", 10);
-        int i = level.getSectionsCount();
+        int i = level.asLevel().getSectionsCount();
         LevelChunkSection[] alevelchunksection = new LevelChunkSection[i];
-        boolean chunkSkyLight = level.dimensionType().hasSkyLight();
-        ChunkSource chunksource = level.getChunkSource();
+        boolean chunkSkyLight = level.asLevel().dimensionType().hasSkyLight();
+        ChunkSource chunksource = level.asLevel().getChunkSource();
         LevelLightEngine levellightengine = chunksource.getLightEngine();
-        Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
+        Registry<Biome> registry = level.asLevel().registryAccess().registryOrThrow(DefaultedRegistry.BIOME_REGISTRY);
         boolean retained = false;
         
         for (int j = 0; j < listtag.size(); ++j) {
             CompoundTag compoundtag = listtag.getCompound(j);
             int y = compoundtag.getByte("Y");
-            int l = level.getSectionIndexFromSectionY(y);
+            int l = level.asLevel().getSectionIndexFromSectionY(y);
             if (l >= 0 && l < alevelchunksection.length) {
                 PalettedContainer<BlockState> states;
                 if (compoundtag.contains("block_states", 10))
@@ -100,9 +99,9 @@ public class LittleChunkSerializer {
         }
         
         LevelChunkTicks<Block> blockTicks = LevelChunkTicks
-                .load(nbt.getList("block_ticks", 10), (x) -> BuiltInRegistries.BLOCK.getOptional(ResourceLocation.tryParse(x)), chunkpos);
+                .load(nbt.getList("block_ticks", 10), (x) -> DefaultedRegistry.BLOCK.getOptional(ResourceLocation.tryParse(x)), chunkpos);
         LevelChunkTicks<Fluid> fluidTicks = LevelChunkTicks
-                .load(nbt.getList("fluid_ticks", 10), (x) -> BuiltInRegistries.FLUID.getOptional(ResourceLocation.tryParse(x)), chunkpos);
+                .load(nbt.getList("fluid_ticks", 10), (x) -> DefaultedRegistry.FLUID.getOptional(ResourceLocation.tryParse(x)), chunkpos);
         
         LevelChunk chunk = new LevelChunk(level.asLevel(), chunkpos, UpgradeData.EMPTY, blockTicks, fluidTicks, nbt
                 .getLong("InhabitedTime"), alevelchunksection, postLoadChunk(level, nbt), null);
@@ -215,8 +214,8 @@ public class LittleChunkSerializer {
     
     private static void saveTicks(Level level, CompoundTag nbt, ChunkAccess.TicksToSave ticks) {
         long i = level.getLevelData().getGameTime();
-        nbt.put("block_ticks", ticks.blocks().save(i, x -> BuiltInRegistries.BLOCK.getKey(x).toString()));
-        nbt.put("fluid_ticks", ticks.fluids().save(i, (x) -> BuiltInRegistries.FLUID.getKey(x).toString()));
+        nbt.put("block_ticks", ticks.blocks().save(i, x -> DefaultedRegistry.BLOCK.getKey(x).toString()));
+        nbt.put("fluid_ticks", ticks.fluids().save(i, (x) -> DefaultedRegistry.FLUID.getKey(x).toString()));
     }
     
     @Nullable

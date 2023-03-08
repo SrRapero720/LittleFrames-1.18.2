@@ -55,7 +55,7 @@ Total Completed: 43/58
             - ~~LittleAnimationHandler~~ ``FIXED``
         - little
             - BlockUpdateLevelSystem
-            - LevelChunkSerializer
+            - ~~LevelChunkSerializer~~ ``FIXED``
     - ~~math~~
         - ~~box~~
             - ~~TransformableVoxelShape~~ ``FIXED``
