@@ -5,7 +5,6 @@ import java.util.HashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.client.ChunkRenderTypeSet;
-import net.minecraftforge.client.model.data.ModelDataMap;
 import team.creative.littletiles.api.common.block.ILittleMCBlock;
 import team.creative.littletiles.api.common.block.LittleBlock;
 
@@ -19,8 +18,7 @@ public class LittleBlockClientRegistry {
         if (layers == null) {
             if (block.shouldUseStateForRenderType())
                 Minecraft.getInstance().executeBlocking(() -> {
-                    CACHED_LAYERS.put(block, Minecraft.getInstance().getBlockRenderer().getBlockModel(block.getState())
-                        .getRenderTypes(block.getState(), ILittleMCBlock.RANDOM, builder.build()));
+                    CACHED_LAYERS.put(block, Minecraft.getInstance().getBlockRenderer().getBlockModel(block.getState()).getRenderTypes(block.getState(), ILittleMCBlock.RANDOM, builder.build()));
                 });
             else
                 Minecraft.getInstance().executeBlocking(() -> CACHED_LAYERS.put(block, SOLID));
