@@ -5,6 +5,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -68,7 +69,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
     public final SectionPos section;
     public final BlockPos pos;
     public final AtomicReference<CompiledChunk> compiled = new AtomicReference<>(CompiledChunk.UNCOMPILED);
-    private AABB bb;
+    private final AABB bb;
     public final AtomicBoolean considered = new AtomicBoolean();
     @Nullable
     private RebuildTask lastRebuildTask;
@@ -290,13 +291,13 @@ public class LittleRenderChunk implements RenderChunkExtender {
         public CompletableFuture<ChunkTaskResult> doTask(ChunkBufferBuilderPack pack) {
             if (this.isCancelled.get()) return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
 
-//            TODO: WHAT JUST HAPPEND?
-            /*if (!LittleRenderChunk.this.hasAllNeighbors()) {
+            //TODO: WHAT JUST HAPPEND?
+            if (!LittleRenderChunk.this.hasAllNeighbors()) {
                 this.level = null;
                 LittleRenderChunk.this.setDirty(false);
                 this.isCancelled.set(true);
                 return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
-            }*/
+            }
 
             if (this.isCancelled.get()) return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
 
@@ -305,14 +306,14 @@ public class LittleRenderChunk implements RenderChunkExtender {
             LittleRenderChunk.this.updateGlobalBlockEntities(results.globalBlockEntities);
 
             if (this.isCancelled.get()) {
-                results.renderedLayers.values().forEach(BufferBuilder.RenderedBuffer::release);
+                results.renderedLayers.values().forEach(BufferBuilder::end);
                 return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
             }
 
             if (results.isEmpty()) {
                 manager.emptyChunk(LittleRenderChunk.this);
                 LittleRenderChunk.this.compiled.set(CompiledChunk.UNCOMPILED);
-                results.renderedLayers.values().forEach(BufferBuilder.RenderedBuffer::release);
+                results.renderedLayers.values().forEach(BufferBuilder::end);
                 return CompletableFuture.completedFuture(ChunkTaskResult.SUCCESSFUL);
             }
 
@@ -392,15 +393,18 @@ public class LittleRenderChunk implements RenderChunkExtender {
 
                 if (renderTypes.contains(RenderType.translucent())) {
                     BufferBuilder bufferbuilder1 = pack.builder(RenderType.translucent());
-                    if (!bufferbuilder1.isCurrentBatchEmpty()) {
+                    if (!bufferbuilder1.building()) {
                         bufferbuilder1.setQuadSortOrigin(x - pos.getX(), y - pos.getY(), z - pos.getZ());
                         results.transparencyState = bufferbuilder1.getSortState();
                     }
                 }
 
                 for (RenderType rendertype1 : renderTypes) {
-                    BufferBuilder.RenderedBuffer rendered = pack.builder(rendertype1).endOrDiscardIfEmpty();
-                    if (rendered != null) results.renderedLayers.put(rendertype1, rendered);
+                    BufferBuilder rendered = pack.builder(rendertype1);
+                    if (rendered != null) {
+                        rendered.end();
+                        results.renderedLayers.put(rendertype1, rendered);
+                    }
                 }
 
                 ModelBlockRenderer.clearCache();
@@ -457,7 +461,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
 
             public final List<BlockEntity> globalBlockEntities = new ArrayList<>();
             public final List<BlockEntity> blockEntities = new ArrayList<>();
-            public final Map<RenderType, RenderBuffers> renderedLayers = new Reference2ObjectArrayMap<>();
+            public final Map<RenderType, BufferBuilder> renderedLayers = new Reference2ObjectArrayMap<>();
             public VisibilitySet visibilitySet = new VisibilitySet();
             @Nullable
             public BufferBuilder.SortState transparencyState;
@@ -507,9 +511,9 @@ public class LittleRenderChunk implements RenderChunkExtender {
                 bufferbuilder.restoreSortState(sortstate);
                 bufferbuilder.setQuadSortOrigin((float) cam.x - pos.getX(), (float) cam.y - pos.getY(), (float) cam.z - pos.getZ());
                 ((CompiledChunkAccessor) this.compiledChunk).setTransparencyState(bufferbuilder.getSortState());
-                BufferBuilder.RenderedBuffer rendered = bufferbuilder.end();
+                bufferbuilder.end();
                 if (this.isCancelled.get()) {
-                    rendered.release();
+                    bufferbuilder.clear();
                     return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
                 }
                 return completablefuture.handle((result, exception) -> {
