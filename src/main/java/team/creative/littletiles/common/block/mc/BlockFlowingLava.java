@@ -126,12 +126,7 @@ public class BlockFlowingLava extends Block implements ILittleMCBlock, IFakeRend
         }
         return ILittleMCBlock.super.use(parent, tile, box, player, result);
     }
-    
-    @Override
-    public Vector3d getFogColor(IParentCollection parent, LittleTile tile, Entity entity, Vector3d originalColor, float partialTicks) {
-        return new Vector3d(0.6F, 0.1F, 0.0F);
-    }
-    
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean canBeRenderCombined(LittleTile one, LittleTile two) {

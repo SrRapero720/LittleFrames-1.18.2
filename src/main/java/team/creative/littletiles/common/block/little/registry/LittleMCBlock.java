@@ -166,11 +166,6 @@ public class LittleMCBlock implements LittleBlock {
     public void entityCollided(IParentCollection parent, LittleTile tile, Entity entity) {}
     
     @Override
-    public Vector3d getFogColor(IParentCollection parent, LittleTile tile, Entity entity, Vector3d originalColor, float partialTicks) {
-        return tile.getFogColor(parent, entity, originalColor, partialTicks);
-    }
-    
-    @Override
     public Vec3d modifyAcceleration(IParentCollection parent, LittleTile tile, Entity entity, Vec3d motion) {
         return motion;
     }

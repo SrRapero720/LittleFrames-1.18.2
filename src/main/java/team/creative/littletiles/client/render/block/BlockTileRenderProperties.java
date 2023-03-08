@@ -105,17 +105,4 @@ public class BlockTileRenderProperties implements IBlockRenderProperties {
         }
         return true;
     }
-
-    @Override
-    public Vector3d getFogColor(BlockState state, LevelReader level, BlockPos pos, Entity entity, Vector3d originalColor, float partialTicks) {
-        BETiles be = BlockTile.loadBE(level, pos);
-        if (be != null)
-            for (Pair<IParentCollection, LittleTile> pair : be.allTiles())
-                for (LittleBox box : pair.getValue())
-                    if (box.getBB(pair.key.getGrid(), pos).intersects(entity.getBoundingBox()))
-                        return pair.value.getFogColor(pair.key, entity, originalColor, partialTicks);
-
-        return originalColor;
-    }
-
 }

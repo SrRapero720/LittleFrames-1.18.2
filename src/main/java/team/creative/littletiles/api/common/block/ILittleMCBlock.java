@@ -166,11 +166,6 @@ public interface ILittleMCBlock extends LittleBlock {
     public default void entityCollided(IParentCollection parent, LittleTile tile, Entity entity) {}
     
     @Override
-    public default Vector3d getFogColor(IParentCollection parent, LittleTile tile, Entity entity, Vector3d originalColor, float partialTicks) {
-        return originalColor;
-    }
-    
-    @Override
     public default Vec3d modifyAcceleration(IParentCollection parent, LittleTile tile, Entity entity, Vec3d motion) {
         return motion;
     }

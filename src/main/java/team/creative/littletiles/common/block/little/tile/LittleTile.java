@@ -439,11 +439,6 @@ public final class LittleTile extends LittleElement implements Iterable<LittleBo
         return block.isLiquid();
     }
     
-    public Vector3d getFogColor(IParentCollection parent, Entity entity, Vector3d originalColor, float partialTicks) {
-
-        return block.getFogColor(parent, this, entity, originalColor, partialTicks);
-    }
-    
     public Vec3d modifyAcceleration(IParentCollection parent, Entity entity, Vec3d motion) {
         return block.modifyAcceleration(parent, this, entity, motion);
     }

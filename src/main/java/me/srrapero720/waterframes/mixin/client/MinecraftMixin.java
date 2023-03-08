@@ -42,7 +42,7 @@ public class MinecraftMixin {
         if (holding && mc.hitResult instanceof LittleHitResult result && result.hit.getType() == HitResult.Type.BLOCK) {
             BlockHitResult blockhitresult = result.asBlockHit();
             BlockPos blockpos = blockhitresult.getBlockPos();
-            if (!result.level.isEmptyBlock(blockpos)) {
+            if (!result.level.asLevel().isEmptyBlock(blockpos)) {
                 var inputEvent = ForgeHooksClient.onClickInput(0, mc.options.keyAttack, InteractionHand.MAIN_HAND);
                 if (inputEvent.isCanceled()) {
                     if (inputEvent.shouldSwingHand()) {
@@ -79,9 +79,9 @@ public class MinecraftMixin {
             
             BlockHitResult blockhitresult = hit.asBlockHit();
             BlockPos blockpos = blockhitresult.getBlockPos();
-            if (!hit.level.isEmptyBlock(blockpos)) {
+            if (!hit.level.asLevel().isEmptyBlock(blockpos)) {
                 LittleTilesClient.INTERACTION_HANDLER.startDestroyBlock((LittleClientLevel) hit.level, blockpos, blockhitresult.getDirection());
-                info.setReturnValue(hit.level.getBlockState(blockpos).isAir());
+                info.setReturnValue(hit.level.asLevel().getBlockState(blockpos).isAir());
             }
             
         }
@@ -101,7 +101,7 @@ public class MinecraftMixin {
             if (hit.isEntity()) {
                 EntityHitResult entityhitresult = hit.asEntityHit();
                 Entity entity = entityhitresult.getEntity();
-                if (!hit.level.getWorldBorder().isWithinBounds(entity.blockPosition()))
+                if (!hit.level.asLevel().getWorldBorder().isWithinBounds(entity.blockPosition()))
                     return;
                 
                 if (!player.canInteractWith(entityhitresult.getEntity(), 0))

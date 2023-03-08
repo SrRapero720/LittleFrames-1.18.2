@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 42/58
+Total Completed: 43/58
 
 - client (7 Remaining)
     - level
@@ -22,16 +22,16 @@ Total Completed: 42/58
             - ~~TooltipOverlay~~
         - LittleTilesClient ``More Broken``
 
-- common (5 Remaining)
+- common (4 Remaining)
     - ~~action~~
         - ~~LittleAction~~ ``FIXED``
     - ~~animation~~
         - ~~preview~~
             - ~~AnimationPreview~~ ``DELETED``
-    - block
-        - little
-            - registry
-                - LittleMissingBlock
+    - ~~block~~
+        - ~~little~~
+            - ~~registry~~
+                - ~~LittleMissingBlock~~ ``FIXED``
             - ~~tile~~
                 - ~~collection~~
                     - ~~LittleBlockCollection~~ ``FIXED``
