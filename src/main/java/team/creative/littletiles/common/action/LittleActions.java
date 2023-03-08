@@ -44,5 +44,10 @@ public class LittleActions extends LittleAction<Boolean> {
     public Boolean failed() {
         return false;
     }
-    
+
+    @Override
+    public LittleAction mirror(Axis axis, LittleBoxAbsolute box) {
+        return null;
+    }
+
 }

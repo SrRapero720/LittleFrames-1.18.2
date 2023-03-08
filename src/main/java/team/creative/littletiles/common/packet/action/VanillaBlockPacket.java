@@ -12,41 +12,8 @@ import team.creative.littletiles.common.action.LittleAction;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 
 public class VanillaBlockPacket extends CreativePacket {
-    
-    public static enum VanillaBlockAction {
-        
-        CHISEL {
-            
-            @Override
-            public void action(Level level, Player player, BlockPos pos, BlockState state) {
-                if (LittleAction.isBlockValid(state))
-                    ItemLittleChisel.setElement(player.getMainHandItem(), new LittleElement(state, ColorUtils.WHITE));
-            }
-            
-        },
-        GRABBER {
-            
-            @Override
-            public void action(Level level, Player player, BlockPos pos, BlockState state) {
-                if (LittleAction.isBlockValid(state)) {
-                    ItemStack stack = player.getMainHandItem();
-                    ItemLittleGlove.getMode(stack).vanillaBlockAction(level, stack, pos, state);
-                }
-            }
-            
-        };
-        
-        public abstract void action(Level level, Player player, BlockPos pos, BlockState state);
-        
-    }
-    
     public BlockPos pos;
-    public VanillaBlockAction action;
-    
-    public VanillaBlockPacket(BlockPos pos, VanillaBlockAction action) {
-        this.action = action;
-        this.pos = pos;
-    }
+
     
     public VanillaBlockPacket() {
         
@@ -57,7 +24,6 @@ public class VanillaBlockPacket extends CreativePacket {
     
     @Override
     public void executeServer(ServerPlayer player) {
-        action.action(player.level, player, pos, player.level.getBlockState(pos));
         player.inventoryMenu.broadcastChanges();
     }
     

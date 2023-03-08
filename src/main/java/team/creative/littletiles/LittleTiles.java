@@ -37,7 +37,6 @@ import team.creative.littletiles.common.recipe.StructureIngredient.StructureIngr
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.registry.LittleStructureRegistry;
 import team.creative.littletiles.common.structure.signal.LittleSignalHandler;
-import team.creative.littletiles.common.structure.type.bed.LittleBedEventHandler;
 import team.creative.littletiles.server.LittleTilesServer;
 
 @Mod(LittleTiles.MODID)
@@ -145,7 +144,7 @@ public class LittleTiles {
         LittleActionRegistry.register(LittleActionDestroyBoxesFiltered.class, LittleActionDestroyBoxesFiltered::new);
         LittleActionRegistry.register(LittleActionDestroy.class, LittleActionDestroy::new);
         
-        MinecraftForge.EVENT_BUS.register(new LittleBedEventHandler());
+//        MinecraftForge.EVENT_BUS.register(new LittleBedEventHandler());
         MinecraftForge.EVENT_BUS.register(LittleAnimationHandlers.class);
         // MinecraftForge.EVENT_BUS.register(ChiselAndBitsConveration.class);
         MinecraftForge.EVENT_BUS.register(new LittleSignalHandler());

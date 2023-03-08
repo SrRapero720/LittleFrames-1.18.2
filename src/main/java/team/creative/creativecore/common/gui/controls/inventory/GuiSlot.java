@@ -34,19 +34,4 @@ public class GuiSlot extends GuiSlotBase {
     public ItemStack getStack() {
         return this.container.getItem(this.index);
     }
-
-    @Override
-    public void flowY(int width, int height, int preferred) {
-
-    }
-
-    @Override
-    protected int preferredWidth(int availableWidth) {
-        return 0;
-    }
-
-    @Override
-    protected int preferredHeight(int width, int availableHeight) {
-        return 0;
-    }
 }

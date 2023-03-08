@@ -19,7 +19,8 @@ public class LittleAnimationHandlers extends LevelHandlers<LittleAnimationHandle
     
     @OnlyIn(Dist.CLIENT)
     private static LittleAnimationHandler getClient() {
-        return LittleTilesClient.ANIMATION_HANDLER;
+//        return LittleTilesClient.ANIMATION_HANDLER;
+        return null;
     }
     
     public static LittleAnimationHandler get(Level level) {
@@ -38,7 +39,8 @@ public class LittleAnimationHandlers extends LevelHandlers<LittleAnimationHandle
     
     @OnlyIn(Dist.CLIENT)
     public static LittleEntity findClient(UUID uuid) {
-        return LittleTilesClient.ANIMATION_HANDLER.find(uuid);
+//        return LittleTilesClient.ANIMATION_HANDLER.find(uuid);
+        return null;
     }
     
     public static LittleEntity findServer(UUID uuid) {

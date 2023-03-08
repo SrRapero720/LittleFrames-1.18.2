@@ -556,8 +556,7 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     @OnlyIn(Dist.CLIENT)
     public boolean removedByPlayerClient(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         LittleTileContext result = LittleTileContext.selectFocused(level, pos, player, 1.0F);
-        if (result.isComplete())
-            return LittleTilesClient.ACTION_HANDLER.execute(new LittleActionDestroy(level, pos, player));
+//        if (result.isComplete()) return LittleTilesClient.ACTION_HANDLER.execute(new LittleActionDestroy(level, pos, player));
         return false;
     }
     

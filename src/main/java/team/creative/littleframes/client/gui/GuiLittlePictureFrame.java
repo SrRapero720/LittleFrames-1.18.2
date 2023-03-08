@@ -162,29 +162,4 @@ public class GuiLittlePictureFrame extends GuiLayer {
             }
         }).setTranslate("gui.creative_frame.reload").setTooltip(new TextBuilder().translate("gui.creative_frame.reloadtooltip").build()));
     }
-
-    @Override
-    public void flowY(int width, int height, int preferred) {
-
-    }
-
-    @Override
-    protected int preferredWidth(int availableWidth) {
-        return 0;
-    }
-
-    @Override
-    protected int preferredHeight(int width, int availableHeight) {
-        return 0;
-    }
-
-    @Override
-    public Rect toScreenRect(GuiControl control, Rect rect) {
-        return null;
-    }
-
-    @Override
-    public Rect toLayerRect(GuiControl control, Rect rect) {
-        return null;
-    }
 }

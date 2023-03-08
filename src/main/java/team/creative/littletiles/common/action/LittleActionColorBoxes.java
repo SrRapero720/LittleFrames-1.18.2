@@ -241,18 +241,6 @@ public class LittleActionColorBoxes extends LittleActionBoxes {
     }
 
     @Override
-    public LittleAction revert(Player player) {
-        List<LittleAction> actions = new ArrayList<>();
-        for (Entry<Integer, ArrayList<LittleBoxes>> entry : revertList.entrySet()) {
-            for (LittleBoxes boxes : entry.getValue()) {
-                boxes.convertToSmallest();
-                actions.add(new LittleActionColorBoxes(levelUUID, boxes, entry.getKey(), true));
-            }
-        }
-        return new LittleActions(actions.toArray(new LittleAction[0]));
-    }
-
-    @Override
     public LittleAction mirror(Axis axis, LittleBoxAbsolute box) {
         LittleActionColorBoxes action = new LittleActionColorBoxes();
         action.color = color;

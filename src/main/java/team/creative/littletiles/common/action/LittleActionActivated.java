@@ -42,11 +42,6 @@ public class LittleActionActivated extends LittleActionInteract<InteractionResul
     }
 
     @Override
-    public LittleAction revert(Player player) {
-        return null;
-    }
-
-    @Override
     protected boolean isRightClick() {
         return true;
     }

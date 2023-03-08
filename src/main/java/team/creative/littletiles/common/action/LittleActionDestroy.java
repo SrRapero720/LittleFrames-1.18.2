@@ -55,11 +55,7 @@ public class LittleActionDestroy extends LittleActionInteract<Boolean> {
                     LevelUtils.dropItem(level, structure.getStructureDrop(), pos);
                 structure.onLittleTileDestroy();
             } catch (CorruptedConnectionException | NotYetConnectedException e) {
-                if (player.getMainHandItem().getItem() instanceof ItemLittleWrench) {
-                    ((StructureParentCollection) context.parent).remove();
-                    be.updateTiles();
-                } else
-                    throw new LittleActionException.StructureNotLoadedException();
+                throw new LittleActionException.StructureNotLoadedException();
             }
         } else {
             LittleInventory inventory = new LittleInventory(player);
