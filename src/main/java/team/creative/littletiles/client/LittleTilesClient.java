@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,9 +27,6 @@ import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.client.level.LevelHandlersClient;
 import team.creative.littletiles.client.render.block.BETilesRenderer;
-import team.creative.littletiles.client.render.item.ItemRenderCache;
-import team.creative.littletiles.client.render.item.LittleModelItemPreview;
-import team.creative.littletiles.client.render.item.LittleModelItemTilesBig;
 import team.creative.littletiles.client.render.level.LittleChunkDispatcher;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.ingredient.BlockIngredientEntry;
@@ -53,7 +49,7 @@ public class LittleTilesClient {
 //    public static LittleActionHandlerClient ACTION_HANDLER;
 //    public static LittleAnimationHandlerClient ANIMATION_HANDLER;
 //    public static LittleInteractionHandlerClient INTERACTION_HANDLER;
-    public static ItemRenderCache ITEM_RENDER_CACHE;
+//    public static ItemRenderCache ITEM_RENDER_CACHE;
 
     public static KeyMapping flip;
     public static KeyMapping mark;
@@ -82,7 +78,7 @@ public class LittleTilesClient {
 //        LEVEL_HANDLERS.register(LittleActionHandlerClient::new, x -> ACTION_HANDLER = x);
 //        LEVEL_HANDLERS.register(LittleAnimationHandlerClient::new, x -> ANIMATION_HANDLER = x);
 //        LEVEL_HANDLERS.register(LittleInteractionHandlerClient::new, x -> INTERACTION_HANDLER = x);
-        LEVEL_HANDLERS.register(ITEM_RENDER_CACHE = new ItemRenderCache());
+//        LEVEL_HANDLERS.register(ITEM_RENDER_CACHE = new ItemRenderCache());
 
         ReloadableResourceManager reloadableResourceManager = (ReloadableResourceManager) mc.getResourceManager();
         reloadableResourceManager.registerReloadListener((p_10638_, p_10639_, p_10640_, p_10641_, p_10642_, p_10643_) -> CompletableFuture.runAsync(() -> {
@@ -114,23 +110,6 @@ public class LittleTilesClient {
                 return modelData;
             }
         });
-
-        CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "tiles"), new LittleModelItemTilesBig());
-        CreativeCoreClient
-            .registerItemModel(new ResourceLocation(LittleTiles.MODID, "glove"), new LittleModelItemPreview(new ModelResourceLocation(LittleTiles.MODID, "glove_background", "inventory"), null) {
-
-                @Override
-                public boolean shouldRenderFake(ItemStack stack) {
-                    return true;
-                }
-
-                @Override
-                protected ItemStack getFakeStack(ItemStack current) {
-                    // Temporary fix, may not work
-                    return new ItemStack(Items.STONE);
-                }
-            });
-
         CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "blockingredient"), new CreativeItemBoxModel(new ModelResourceLocation("miencraft", "stone", "inventory")) {
 
                 @Override
