@@ -5,7 +5,6 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -19,6 +18,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
 import net.minecraft.CrashReport;
@@ -36,6 +36,7 @@ import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher;
 import net.minecraft.client.renderer.chunk.ChunkRenderDispatcher.CompiledChunk;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.client.renderer.chunk.VisibilitySet;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
@@ -57,6 +58,7 @@ import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.client.LittleTilesClient;
 import team.creative.littletiles.client.render.cache.ChunkLayerCache;
 import team.creative.littletiles.client.render.entity.LittleLevelRenderManager;
+import team.creative.littletiles.client.render.entity.LittleVertexBuffer;
 import team.creative.littletiles.client.render.mc.RebuildTaskExtender;
 import team.creative.littletiles.client.render.mc.RenderChunkExtender;
 import team.creative.littletiles.common.block.entity.BETiles;
@@ -379,7 +381,9 @@ public class LittleRenderChunk implements RenderChunkExtender {
                         var model = blockrenderdispatcher.getBlockModel(blockstate);
                         var modelData = getModelData(blockpos2);
                         randomsource.setSeed(blockstate.getSeed(blockpos2));
-                        for (RenderType rendertype2 : model.getRenderTypes(blockstate, randomsource, modelData)) {
+                        List<Pair<BakedModel, RenderType>> renderTypes2 = Collections.singletonList(Pair.of(model, ItemBlockRenderTypes.getRenderType(blockstate, false)));
+                        for (Pair<BakedModel, RenderType> pair : renderTypes2) {
+                            RenderType rendertype2 = pair.getSecond();
                             BufferBuilder bufferbuilder2 = pack.builder(rendertype2);
                             if (renderTypes.add(rendertype2)) LittleRenderChunk.this.beginLayer(bufferbuilder2);
 
@@ -516,9 +520,11 @@ public class LittleRenderChunk implements RenderChunkExtender {
                     bufferbuilder.clear();
                     return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
                 }
+                CompletableFuture<ChunkTaskResult> completablefuture = manager.uploadChunkLayer(bufferbuilder, (LittleVertexBuffer) LittleRenderChunk.this.getVertexBuffer(RenderType.translucent()))
+                    .thenApply(x -> ChunkTaskResult.CANCELLED);
                 return completablefuture.handle((result, exception) -> {
                     if (exception != null && !(exception instanceof CancellationException) && !(exception instanceof InterruptedException))
-                        Minecraft.getInstance().delayCrash(CrashReport.forThrowable(exception, "Rendering chunk"));
+                        Minecraft.getInstance().delayCrash(() -> CrashReport.forThrowable(exception, "Rendering chunk"));
 
                     return this.isCancelled.get() ? ChunkTaskResult.CANCELLED : ChunkTaskResult.SUCCESSFUL;
                 });

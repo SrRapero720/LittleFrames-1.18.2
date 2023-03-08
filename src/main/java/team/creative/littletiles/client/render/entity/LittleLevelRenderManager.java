@@ -1,6 +1,8 @@
 package team.creative.littletiles.client.render.entity;
 
+import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -45,6 +47,7 @@ public class LittleLevelRenderManager implements Iterable<LittleRenderChunk> {
 
     @Nullable
     public Future<?> lastFullRenderChunkUpdate;
+    private final Queue<Runnable> toUpload = Queues.newConcurrentLinkedQueue();
 
     private final BlockingQueue<LittleRenderChunk> queuedCompiled = new LinkedBlockingQueue<>();
     private final BlockingQueue<LittleRenderChunk> emptyCompiled = new LinkedBlockingQueue<>();
@@ -99,6 +102,16 @@ public class LittleLevelRenderManager implements Iterable<LittleRenderChunk> {
     public void queueChunk(LittleRenderChunk chunk) {
         if (chunk.considered.compareAndSet(false, true))
             queuedCompiled.add(chunk);
+    }
+
+    public CompletableFuture<Void> uploadChunkLayer(BufferBuilder rendered, LittleVertexBuffer buffer) {
+        return CompletableFuture.runAsync(() -> {
+            if (!buffer.isInvalid()) {
+                buffer.bind();
+                buffer.upload(rendered);
+                LittleVertexBuffer.unbind();
+            }
+        }, this.toUpload::add);
     }
 
     public void setupRender(LittleEntity animation, Vec3d cam, @Nullable Frustum frustum, boolean capturedFrustum, boolean spectator) {

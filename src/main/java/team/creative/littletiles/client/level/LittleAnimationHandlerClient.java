@@ -18,7 +18,6 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import com.mojang.math.Matrix4f;
@@ -67,6 +66,7 @@ import team.creative.creativecore.common.util.type.itr.FilterIterator;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.client.level.little.LittleClientLevel;
 import team.creative.littletiles.client.render.entity.LittleLevelEntityRenderer;
+import team.creative.littletiles.client.render.entity.LittleVertexBuffer;
 import team.creative.littletiles.client.render.level.LittleRenderChunk;
 import team.creative.littletiles.common.entity.level.LittleEntity;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandler;
@@ -201,11 +201,11 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
         });
     }
 
-    public CompletableFuture<Void> uploadChunkLayer(BufferBuilder rendered, VertexBuffer buffer) {
+    public CompletableFuture<Void> uploadChunkLayer(BufferBuilder rendered, LittleVertexBuffer buffer) {
         return CompletableFuture.runAsync(() -> {
             buffer.bind();
             buffer.upload(rendered);
-            VertexBuffer.unbind();
+            LittleVertexBuffer.unbind();
 //            TODO: Make a mixin to BufferBuilder to get Access into Buffer params. No problems then ignore
 //            if (!buffer.isInvalid()) {
 //
