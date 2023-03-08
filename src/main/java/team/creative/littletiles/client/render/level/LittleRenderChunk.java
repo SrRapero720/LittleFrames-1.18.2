@@ -49,7 +49,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.client.LittleTilesClient;
@@ -107,7 +106,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
     }
 
     private boolean doesChunkExistAt(SectionPos pos) {
-        return level().getChunk(pos.getX(), pos.getZ(), ChunkStatus.FULL, false) != null;
+        return level().asLevel().getChunk(pos.getX(), pos.getZ(), ChunkStatus.FULL, false) != null;
     }
 
     public boolean hasAllNeighbors() {
@@ -243,7 +242,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
         public ChunkCompileTask(@Nullable ChunkPos pos, double distAtCreation, boolean isHighPriority) {
             this.distAtCreation = distAtCreation;
             this.isHighPriority = isHighPriority;
-            this.modelData = pos == null ? java.util.Collections.emptyMap() : manager.level.getModelDataManager().getAt(pos);
+            this.modelData = pos == null ? java.util.Collections.emptyMap() : manager.level.modelgetModelDataManager().getAt(pos);
         }
 
         public abstract CompletableFuture<ChunkTaskResult> doTask(ChunkBufferBuilderPack p_112853_);
@@ -327,7 +326,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
 
             return Util.sequenceFailFast(list).handle((voids, throwable) -> {
                 if (throwable != null && !(throwable instanceof CancellationException) && !(throwable instanceof InterruptedException))
-                    Minecraft.getInstance().delayCrash(CrashReport.forThrowable(throwable, "Rendering chunk"));
+                    Minecraft.getInstance().delayCrash(() -> CrashReport.forThrowable(throwable, "Rendering chunk"));
 
                 if (this.isCancelled.get()) return ChunkTaskResult.CANCELLED;
 
