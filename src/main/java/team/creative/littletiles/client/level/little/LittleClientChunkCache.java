@@ -20,7 +20,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkEvent;
-import team.creative.littletiles.mixin.client.level.ClientChunkCacheAccessor;
+import me.srrapero720.waterframes.mixin.client.level.ClientChunkCacheAccessor;
 
 public class LittleClientChunkCache extends ClientChunkCache {
 

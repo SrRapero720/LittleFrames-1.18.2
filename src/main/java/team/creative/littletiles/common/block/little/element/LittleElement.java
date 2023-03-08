@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.littletiles.api.common.block.LittleBlock;
 import team.creative.littletiles.common.block.little.registry.LittleBlockRegistry;
-import team.creative.littletiles.mixin.common.block.StateHolderAccessor;
+import me.srrapero720.waterframes.mixin.common.block.StateHolderAccessor;
 
 public class LittleElement {
     

@@ -26,7 +26,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureMana
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess;
 import team.creative.creativecore.common.util.type.itr.FunctionIterator;
-import team.creative.littletiles.mixin.server.level.ServerChunkCacheAccessor;
+import me.srrapero720.waterframes.mixin.server.level.ServerChunkCacheAccessor;
 
 import javax.annotation.Nullable;
 import java.io.IOException;

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 
-import team.creative.creativecore.mixin.BufferBuilderAccessor;
+import me.srrapero720.waterframes.mixin.client.BufferBuilderAccessor;
 import team.creative.littletiles.client.render.cache.buffer.BufferHolder;
 import team.creative.littletiles.client.render.cache.buffer.UploadableBufferHolder;
 

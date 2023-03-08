@@ -1,6 +1,6 @@
 package team.creative.littleframes.client.texture;
 
-import com.madgag.gif.fmsware.GifDecoder;
+import me.srrapero720.waterframes.gifs.GifDecoder;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;

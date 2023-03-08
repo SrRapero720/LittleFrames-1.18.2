@@ -34,7 +34,7 @@ import team.creative.littletiles.client.render.entity.LittleLevelRenderManager;
 import team.creative.littletiles.common.level.little.BlockUpdateLevelSystem;
 import team.creative.littletiles.common.level.little.LevelBoundsListener;
 import team.creative.littletiles.common.level.little.LittleLevel;
-import team.creative.littletiles.mixin.client.level.ClientLevelAccessor;
+import me.srrapero720.waterframes.mixin.client.level.ClientLevelAccessor;
 
 import java.util.function.Supplier;
 

@@ -2,16 +2,11 @@ package team.creative.littletiles.server.level.little;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.*;
-import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.core.DefaultedRegistry;
-import net.minecraft.core.Registry;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TextComponent;
@@ -20,7 +15,6 @@ import net.minecraft.server.network.TextFilter;
 import net.minecraftforge.event.world.BlockEvent;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -83,7 +77,6 @@ import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.network.protocol.game.ServerboundTeleportToEntityPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.FilteredText;
@@ -93,13 +86,11 @@ import net.minecraft.util.StringUtil;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BaseCommandBlock;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
@@ -114,18 +105,14 @@ import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
-import org.apache.logging.log4j.core.util.UuidUtil;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.packet.level.LittleLevelPacket;
-import team.creative.littletiles.mixin.server.network.ServerGamePacketListenerImplAccessor;
 
 public class LittleServerPlayerHandler implements ServerPlayerConnection, PacketListener, ServerGamePacketListener {
 

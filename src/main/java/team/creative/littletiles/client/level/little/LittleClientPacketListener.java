@@ -22,7 +22,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.entity.CommandBlockEntity;
 import team.creative.creativecore.common.util.unsafe.CreativeHackery;
-import team.creative.littletiles.mixin.client.network.ClientPacketListenerAccessor;
+import me.srrapero720.waterframes.mixin.client.network.ClientPacketListenerAccessor;
 
 public class LittleClientPacketListener extends ClientPacketListener {
 

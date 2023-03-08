@@ -44,8 +44,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import team.creative.littletiles.client.level.little.LittleClientLevel;
 import team.creative.littletiles.common.level.handler.LevelHandler;
-import team.creative.littletiles.mixin.client.MultiPlayerGameModeAccessor;
-import team.creative.littletiles.mixin.client.level.ClientLevelAccessor;
+import me.srrapero720.waterframes.mixin.client.MultiPlayerGameModeAccessor;
+import me.srrapero720.waterframes.mixin.client.level.ClientLevelAccessor;
 
 public class LittleInteractionHandlerClient extends LevelHandler {
 

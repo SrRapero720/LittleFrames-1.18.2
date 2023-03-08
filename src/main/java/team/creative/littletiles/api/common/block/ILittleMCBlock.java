@@ -24,7 +24,7 @@ import team.creative.littletiles.common.block.little.tile.parent.IParentCollecti
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
-import team.creative.littletiles.mixin.common.level.BlockBehaviourAccessor;
+import me.srrapero720.waterframes.mixin.common.level.BlockBehaviourAccessor;
 
 import java.util.Random;
 

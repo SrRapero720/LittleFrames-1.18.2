@@ -1,20 +1,30 @@
 modLoader="javafml"
-loaderVersion="[24,)"
-issueTrackerURL="https://github.com/CreativeMD/LittleFrames/issues"
-logoFile="littleframes.png"
-license="GNU General Public License v3.0"
+loaderVersion="[40.2,)"
+issueTrackerURL="https://github.com/SrRapero720/LittleFrames-1.18.2/issues"
+logoFile=""
+license="All rights reserved"
 
 [[mods]]
-	modId="littleframes"
+	modId="waterframes"
 	version="${file.jarVersion}"
-	displayName="LittleFrames"
-	displayURL="https://minecraft.curseforge.com/projects/littleframes"
-	authors="CreativeMD"
-	description='''#ShowItIngame'''
+	displayName="WATERFraMES"
+	displayURL="https://www.curseforge.com/minecraft/mc-mods/littleframes-1-18-2"
+	authors="SrRapero720 | CoolDCB"
+	description='''
+	#ShowItIngame
+	'''
 
-[[dependencies.littleframes]]
+[[dependencies.waterframes]]
 	modId="creativecore"
 	mandatory=true
 	ordering="NONE"
 	side="BOTH"
-	versionRange="[2.5.0,)"
+	versionRange="[2.6,)"
+
+# FURUTE REPLACEMENT FOR CreativeCore
+[[dependencies.waterframes]]
+    modId="watercore"
+    mandatory=false
+    ordering="BEFORE"
+    side="BOTH"
+    versionRange="[2.6,)"

@@ -70,7 +70,7 @@ import team.creative.littletiles.client.render.level.LittleRenderChunk;
 import team.creative.littletiles.common.entity.level.LittleEntity;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandler;
 import team.creative.littletiles.common.math.vec.LittleHitResult;
-import team.creative.littletiles.mixin.client.render.GameRendererAccessor;
+import me.srrapero720.waterframes.mixin.client.render.GameRendererAccessor;
 
 @OnlyIn(Dist.CLIENT)
 public class LittleAnimationHandlerClient extends LittleAnimationHandler implements Iterable<LittleEntity> {

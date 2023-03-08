@@ -59,7 +59,7 @@ import team.creative.littletiles.client.render.mc.RebuildTaskExtender;
 import team.creative.littletiles.client.render.mc.RenderChunkExtender;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.level.little.LittleLevel;
-import team.creative.littletiles.mixin.client.render.CompiledChunkAccessor;
+import me.srrapero720.waterframes.mixin.client.render.CompiledChunkAccessor;
 
 public class LittleRenderChunk implements RenderChunkExtender {
 
