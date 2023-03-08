@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[40.2,)"
+loaderVersion="[40,)"
 issueTrackerURL="https://github.com/SrRapero720/LittleFrames-1.18.2/issues"
 logoFile=""
 license="All rights reserved"
@@ -13,6 +13,14 @@ license="All rights reserved"
 	description='''
 	#ShowItIngame
 	'''
+
+
+[[dependencies.waterframes]]
+	modId = "forge"
+	mandatory = true
+	versionRange = "[40.2,)"
+	ordering = "NONE"
+	side = "BOTH"
 
 [[dependencies.waterframes]]
 	modId="creativecore"
