@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.Util;
+import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -13,7 +14,6 @@ import org.apache.commons.lang3.mutable.MutableInt;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -62,7 +62,6 @@ import team.creative.littletiles.common.ingredient.LittleIngredient;
 import team.creative.littletiles.common.ingredient.LittleIngredients;
 import team.creative.littletiles.common.ingredient.LittleInventory;
 import team.creative.littletiles.common.ingredient.NotEnoughIngredientsException;
-import team.creative.littletiles.common.item.ItemPremadeStructure;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
 import team.creative.littletiles.common.packet.update.BlockUpdate;
@@ -264,7 +263,7 @@ public abstract class LittleAction<T> extends CreativePacket {
         if (!rightClick && PlayerUtils.isAdventure(player)) {
             ItemStack stack = player.getMainHandItem();
             BlockInWorld blockinworld = new BlockInWorld(level, pos, false);
-            if (!stack.hasAdventureModePlaceTagForBlock(level.registryAccess().registryOrThrow(Registries.BLOCK), blockinworld))
+            if (!stack.hasAdventureModePlaceTagForBlock(level.registryAccess().registryOrThrow(DefaultedRegistry.BLOCK_REGISTRY), blockinworld))
                 return false;
         } else if (!rightClick && !player.mayBuild())
             return false;
@@ -356,16 +355,16 @@ public abstract class LittleAction<T> extends CreativePacket {
     }
 
     public static boolean take(Player player, LittleInventory inventory, ItemStack toDrain) throws NotEnoughIngredientsException {
-        if (!needIngredients(player))
-            return true;
+        if (!needIngredients(player)) return true;
 
-        String id = ItemPremadeStructure.getPremadeId(toDrain);
-        for (ItemStack stack : inventory) {
-            if (stack.getItem() == LittleTilesRegistry.PREMADE.get() && ItemPremadeStructure.getPremadeId(stack).equals(id)) {
-                stack.shrink(1);
-                return true;
-            }
-        }
+        // I don't think this is needed
+//        String id = ItemPremadeStructure.getPremadeId(toDrain);
+//        for (ItemStack stack : inventory) {
+//            if (stack.getItem() == LittleTilesRegistry.PREMADE.get() && ItemPremadeStructure.getPremadeId(stack).equals(id)) {
+//                stack.shrink(1);
+//                return true;
+//            }
+//        }
         throw new NotEnoughIngredientsException(toDrain);
     }
 

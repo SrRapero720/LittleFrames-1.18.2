@@ -23,8 +23,8 @@ Total Completed: 39/58
         - LittleTilesClient ``More Broken``
 
 - common (39 Currently)
-    - action
-        - LittleAction
+    - ~~action~~
+        - ~~LittleAction~~ ``FIXED``
     - ~~animation~~
         - ~~preview~~
             - ~~AnimationPreview~~ ``DELETED``
