@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 49/58
+Total Completed: 51/58
 
 - client (6 Remaining)
     - level
@@ -10,8 +10,8 @@ Total Completed: 49/58
             - ~~BERenderManager~~ `DELETED`
             - LittleBlockClientRegistry
         - entity
-            - LittleLevelEntityRenderer `More broken`
-            - LittleLevelRenderManager ``Partial Fix``
+            - ~~LittleLevelEntityRenderer~~ `FIXED`
+            - ~~LittleLevelRenderManager~~ ``POTENTIAL FIX``
         - level
             - ~~LittleClientEventHandler~~ ``DELETED``
             - LittleRenderChunk ``More broken``
