@@ -1,16 +1,16 @@
 # LittleTiles Classes to Backport
-Total Completed: 54/58
+Total Completed: 57/58
 
-- client (4 Remaining)
+- client (1 Remaining)
     - level
         - ~~LittleAnimationHandlerClient~~ ``FIXED``
-        - LittleInteractionHandlerClient `Partial fixed`
+        - ~~LittleInteractionHandlerClient~~ ``POTENTIAL FIX``
     - render
-        - block
-            - ~~BERenderManager~~ `DELETED`
-            - LittleBlockClientRegistry
-        - entity
-            - ~~LittleLevelEntityRenderer~~ `FIXED`
+        - ~~block~~
+            - ~~BERenderManager~~ ``REMOVED``
+            - ~~LittleBlockClientRegistry~~ ``REMOVED``
+        - ~~entity~~
+            - ~~LittleLevelEntityRenderer~~ ``FIXED``
             - ~~LittleLevelRenderManager~~ ``POTENTIAL FIX``
         - level
             - ~~LittleClientEventHandler~~ ``DELETED``
@@ -20,14 +20,14 @@ Total Completed: 54/58
             - ~~LittleTilesProfilerOverlay~~
             - ~~PreviewRenderer~~
             - ~~TooltipOverlay~~
-        - LittleTilesClient ``More Broken``
+        - ~~LittleTilesClient~~ ``FIXED``
 
 - ~~common~~ (0 Remaining)
     - ~~action~~
         - ~~LittleAction~~ ``FIXED``
     - ~~animation~~
         - ~~preview~~
-            - ~~AnimationPreview~~ ``DELETED``
+            - ~~AnimationPreview~~ ``REMOVED``
     - ~~block~~
         - ~~little~~
             - ~~registry~~
