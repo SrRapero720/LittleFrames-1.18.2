@@ -1,9 +1,9 @@
 # LittleTiles Classes to Backport
-Total Completed: 48/58
+Total Completed: 49/58
 
-- client (7 Remaining)
+- client (6 Remaining)
     - level
-        - LittleAnimationHandlerClient 
+        - ~~LittleAnimationHandlerClient~~ ``FIXED``
         - LittleInteractionHandlerClient `Partial fixed`
     - render
         - block
@@ -22,7 +22,7 @@ Total Completed: 48/58
             - ~~TooltipOverlay~~
         - LittleTilesClient ``More Broken``
 
-- common (3 Remaining)
+- common (2 Remaining)
     - ~~action~~
         - ~~LittleAction~~ ``FIXED``
     - ~~animation~~
