@@ -9,10 +9,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.LongArrayTag;
 import net.minecraft.nbt.Tag;
+import org.jetbrains.annotations.NotNull;
+import team.creative.creativecore.common.util.math.box.OBBVoxelShape;
+import team.creative.creativecore.common.util.type.itr.ComputeNextIterator;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
-public class QuadBitSet {
+public class QuadBitSet implements Iterable<OBBVoxelShape.Vector2d> {
     private static final int CHUNK_SIZE = 8;
     private long[][] chunks;
     private int minChunkX;
@@ -230,5 +235,45 @@ public class QuadBitSet {
         chunks = null;
         minChunkX = 0;
         minChunkY = 0;
+    }
+
+    @NotNull
+    @Override
+    public Iterator<OBBVoxelShape.Vector2d> iterator() {
+        return new ComputeNextIterator<>() {
+
+            private OBBVoxelShape.Vector2d vec;
+            private int found = 0;
+            private int i = 0;
+            private int j = 0;
+            private int k = 0;
+
+            @Override
+            protected OBBVoxelShape.Vector2d computeNext() {
+                if (found >= count) return end();
+                while (i < chunks.length) {
+                    while (j < chunks[i].length) {
+                        long word = chunks[i][j];
+                        if (word != 0) {
+                            while (k < 64) {
+                                long data = word & (1L << k);
+                                if (data != 0) {
+                                    vec = new OBBVoxelShape.Vector2d((minChunkX + i) * CHUNK_SIZE + k / CHUNK_SIZE, (minChunkY + j) * CHUNK_SIZE + k % CHUNK_SIZE);
+                                    found++;
+                                    k++;
+                                    return vec;
+                                }
+                                k++;
+                            }
+                            k = 0;
+                        }
+                        j++;
+                    }
+                    j = 0;
+                    i++;
+                }
+                return end();
+            }
+        };
     }
 }
