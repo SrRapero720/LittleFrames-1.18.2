@@ -186,6 +186,14 @@ public class QuadBitSet {
         }
     }
 
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public int count() {
+        return count;
+    }
+
     public String toString() {
         StringBuilder result = new StringBuilder("{");
         boolean first = true;
