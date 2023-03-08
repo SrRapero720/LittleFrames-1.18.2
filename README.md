@@ -13,7 +13,7 @@ mod (Still requires CreativeCore-1.18.2)
 Because I am not a huge fan of CreativeCore (it is overcomplicated)
 this mod is going to depend on [WATERCoRE](https://github.com/SrRapero720/WATERCoRE), but isn't ready.
 
-## AUTORS
+## AUTHORS
 - [SrRapero720](https://github.com/SrRapero720)
 - [CoolDCB](https://github.com/CoolDCB)
 
