@@ -7,28 +7,22 @@ import team.creative.creativecore.common.util.math.geo.Rect;
 
 public interface IGuiParent {
 
-    public boolean isContainer();
+    boolean isContainer();
 
-    public boolean isClient();
+    boolean isClient();
 
-    public Player getPlayer();
+    Player getPlayer();
 
-    public void closeTopLayer();
+    void closeTopLayer();
 
-    public void closeLayer(GuiLayer layer);
+    void closeLayer(GuiLayer layer);
 
-    public void raiseEvent(GuiEvent event);
+    void raiseEvent(GuiEvent event);
 
-    public void reflow();
+    void reflow();
 
-    public boolean hasGui();
+    boolean hasGui();
 
-    public boolean isParent(IGuiParent parent);
-
-    public Rect toScreenRect(GuiControl control, Rect rect);
-
-    public Rect toLayerRect(GuiControl control, Rect rect);
-
-    public IGuiIntegratedParent getIntegratedParent();
+    IGuiIntegratedParent getIntegratedParent();
 
 }

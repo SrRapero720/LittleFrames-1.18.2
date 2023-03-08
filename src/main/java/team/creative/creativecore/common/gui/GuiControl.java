@@ -1,25 +1,15 @@
 package team.creative.creativecore.common.gui;
 
-import java.util.List;
-
-import net.minecraft.network.chat.TextComponent;
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.common.gui.event.GuiEvent;
 import team.creative.creativecore.common.gui.event.GuiTooltipEvent;
@@ -32,6 +22,8 @@ import team.creative.creativecore.common.gui.style.display.StyleDisplay;
 import team.creative.creativecore.common.util.math.geo.Rect;
 import team.creative.creativecore.common.util.mc.LanguageUtils;
 import team.creative.creativecore.common.util.text.TextBuilder;
+
+import java.util.List;
 
 public abstract class GuiControl {
 
@@ -145,12 +137,6 @@ public abstract class GuiControl {
         this.parent = parent;
     }
 
-    public boolean isParent(IGuiParent parent) {
-        if (this.parent == parent)
-            return true;
-        return this.parent.isParent(parent);
-    }
-
     public IGuiParent getParent() {
         return parent;
     }
@@ -215,10 +201,6 @@ public abstract class GuiControl {
 
     // SIZE
 
-    public abstract void flowX(int width, int preferred);
-
-    public abstract void flowY(int width, int height, int preferred);
-
     public void reflow() {
         parent.reflow();
     }
@@ -234,17 +216,6 @@ public abstract class GuiControl {
                 return minWidth;
         }
         return minWidth(availableWidth);
-    }
-
-    protected abstract int preferredWidth(int availableWidth);
-
-    public final int getPreferredWidth(int availableWidth) {
-        if (preferred != null) {
-            int prefWidth = preferred.preferredWidth(this, availableWidth);
-            if (prefWidth != -1)
-                return prefWidth;
-        }
-        return preferredWidth(availableWidth);
     }
 
     protected int maxWidth(int availableWidth) {
@@ -273,17 +244,6 @@ public abstract class GuiControl {
         return minHeight(width, availableHeight);
     }
 
-    protected abstract int preferredHeight(int width, int availableHeight);
-
-    public final int getPreferredHeight(int width, int availableHeight) {
-        if (preferred != null) {
-            int prefHeight = preferred.preferredHeight(this, width, availableHeight);
-            if (prefHeight != -1)
-                return prefHeight;
-        }
-        return preferredHeight(width, availableHeight);
-    }
-
     protected int maxHeight(int width, int availableHeight) {
         return -1;
     }
@@ -295,14 +255,6 @@ public abstract class GuiControl {
                 return maxHeight;
         }
         return maxHeight(width, availableHeight);
-    }
-
-    public Rect toLayerRect(Rect rect) {
-        return getParent().toLayerRect(this, rect);
-    }
-
-    public Rect toScreenRect(Rect rect) {
-        return getParent().toScreenRect(this, rect);
     }
 
     // INTERACTION
@@ -387,22 +339,18 @@ public abstract class GuiControl {
     }
 
     // RENDERING
-
-    @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
     public StyleDisplay getBorder(GuiStyle style, StyleDisplay display) {
         return display;
     }
 
-    @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
     public StyleDisplay getBackground(GuiStyle style, StyleDisplay display) {
         return display;
     }
 
-    @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
-    public void render(PoseStack pose, GuiChildControl control, Rect controlRect, Rect realRect, double scale, int mouseX) {
+    public void render(PoseStack pose, GuiChildControl control, Rect controlRect, Rect realRect, double scale, int mouseX, int mouseY) {
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
 
         Rect rectCopy = null;
@@ -441,7 +389,6 @@ public abstract class GuiControl {
         }
     }
 
-    @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
     protected void renderContent(PoseStack pose, GuiChildControl control, ControlFormatting formatting, int borderWidth, Rect controlRect, Rect realRect, double scale, int mouseX, int mouseY) {
         controlRect.shrink(formatting.padding * scale);
@@ -453,13 +400,11 @@ public abstract class GuiControl {
             pose.popPose();
     }
 
-    @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
     protected void renderContent(PoseStack pose, GuiChildControl control, Rect controlRect, Rect realRect, double scale, int mouseX, int mouseY) {
         renderContent(pose, control, controlRect, mouseX, mouseY);
     }
 
-    @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
     protected abstract void renderContent(PoseStack pose, GuiChildControl control, Rect rect, int mouseX, int mouseY);
 
@@ -470,14 +415,13 @@ public abstract class GuiControl {
     }
 
     // UTILS
-
-    public static MutableComponent translatable(String text) {
-        return new TextComponent(translate(text));
-    }
-
-    public static MutableComponent translatable(String text, Object... parameters) {
-        return new TextComponent(translate(text, parameters));
-    }
+//    public static MutableComponent translatable(String text) {
+//        return new TextComponent(translate(text));
+//    }
+//
+//    public static MutableComponent translatable(String text, Object... parameters) {
+//        return new TextComponent(translate(text, parameters));
+//    }
 
     public static String translate(String text) {
         return LanguageUtils.translate(text);
@@ -491,33 +435,33 @@ public abstract class GuiControl {
         return LanguageUtils.translateOr(text, defaultText);
     }
 
-    @Environment(EnvType.CLIENT)
-    @OnlyIn(Dist.CLIENT)
-    public static void playSound(SoundInstance sound) {
-        Minecraft.getInstance().getSoundManager().play(sound);
-    }
-
-    @Environment(EnvType.CLIENT)
-    @OnlyIn(Dist.CLIENT)
-    public static void playSound(Holder.Reference<SoundEvent> sound) {
-        playSound(sound.value());
-    }
-
-    @Environment(EnvType.CLIENT)
-    @OnlyIn(Dist.CLIENT)
-    public static void playSound(SoundEvent event) {
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, 1.0F));
-    }
-
-    @Environment(EnvType.CLIENT)
-    @OnlyIn(Dist.CLIENT)
-    public static void playSound(SoundEvent event, float volume, float pitch) {
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
-    }
-
-    @Environment(EnvType.CLIENT)
-    @OnlyIn(Dist.CLIENT)
-    public static void playSound(Holder.Reference<SoundEvent> event, float volume, float pitch) {
-        playSound(event.value(), volume, pitch);
-    }
+//    @Environment(EnvType.CLIENT)
+//    @OnlyIn(Dist.CLIENT)
+//    public static void playSound(SoundInstance sound) {
+//        Minecraft.getInstance().getSoundManager().play(sound);
+//    }
+//
+//    @Environment(EnvType.CLIENT)
+//    @OnlyIn(Dist.CLIENT)
+//    public static void playSound(Holder.Reference<SoundEvent> sound) {
+//        playSound(sound.value());
+//    }
+//
+//    @Environment(EnvType.CLIENT)
+//    @OnlyIn(Dist.CLIENT)
+//    public static void playSound(SoundEvent event) {
+//        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, 1.0F));
+//    }
+//
+//    @Environment(EnvType.CLIENT)
+//    @OnlyIn(Dist.CLIENT)
+//    public static void playSound(SoundEvent event, float volume, float pitch) {
+//        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
+//    }
+//
+//    @Environment(EnvType.CLIENT)
+//    @OnlyIn(Dist.CLIENT)
+//    public static void playSound(Holder.Reference<SoundEvent> event, float volume, float pitch) {
+//        playSound(event.value(), volume, pitch);
+//    }
 }

@@ -24,32 +24,6 @@ import java.util.Optional;
 public interface IGuiIntegratedParent extends IGuiParent {
     
     GuiLayer EMPTY = new GuiLayer("empty") {
-
-        @Override
-        public Rect toScreenRect(GuiControl control, Rect rect) {
-            return null;
-        }
-
-        @Override
-        public Rect toLayerRect(GuiControl control, Rect rect) {
-            return null;
-        }
-
-        @Override
-        public void flowY(int width, int height, int preferred) {
-
-        }
-
-        @Override
-        protected int preferredWidth(int availableWidth) {
-            return 0;
-        }
-
-        @Override
-        protected int preferredHeight(int width, int availableHeight) {
-            return 0;
-        }
-
         @Override
         public void create() {}
     };
@@ -92,7 +66,7 @@ public interface IGuiIntegratedParent extends IGuiParent {
             
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             Rect controlRect = new Rect(offX, offY, offX + layer.getWidth(), offY + layer.getHeight());
-            layer.render(matrixStack, null, controlRect, screenRect.intersection(controlRect), mouseX, mouseY);
+            layer.render(matrixStack, null, controlRect, screenRect.intersection(controlRect), 1.0f, mouseX, mouseY);
             matrixStack.popPose();
             
             RenderSystem.disableScissor();
@@ -119,12 +93,7 @@ public interface IGuiIntegratedParent extends IGuiParent {
     public void openLayer(GuiLayer layer);
     
     public void closeLayer(int layer);
-    
-    @Override
-    public default boolean isParent(IGuiParent parent) {
-        return parent == this;
-    }
-    
+
     @Override
     public default boolean hasGui() {
         return true;
