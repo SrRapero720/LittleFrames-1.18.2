@@ -30,7 +30,7 @@ public class LittleLevelInitPacket extends CreativePacket {
     public LittleLevelInitPacket(LittleEntity entity) {
         this.uuid = entity.getUUID();
         this.absolute = entity.getCenter();
-        LittleServerChunkCache cache = (LittleServerChunkCache) entity.getSubLevel().getChunkSource();
+        LittleServerChunkCache cache = (LittleServerChunkCache) entity.getSubLevel().asLevel().getChunkSource();
         chunks = new ArrayList<>(cache.chunkMap.size());
         for (LevelChunk chunk : cache.all())
             chunks.add(((LittleChunkMap) cache.chunkMap).createPacket(chunk));
