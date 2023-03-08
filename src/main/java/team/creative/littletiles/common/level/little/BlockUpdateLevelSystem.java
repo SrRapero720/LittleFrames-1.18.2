@@ -244,7 +244,7 @@ public class BlockUpdateLevelSystem {
         }
         
         emptyLevel = false;
-        int sectionIndex = level.getSectionYFromSectionIndex(currentSection);
+        int sectionIndex = level.asLevel().getSectionYFromSectionIndex(currentSection);
         boolean ignoreStart = SectionPos.blockToSectionCoord(start) != sectionIndex;
         int blockPosOffset = SectionPos.sectionToBlockCoord(sectionIndex);
         int axisValueStart;
@@ -392,8 +392,8 @@ public class BlockUpdateLevelSystem {
     }
     
     private boolean isSameThread() {
-        if (level.isClientSide()) return isSameThreadClient();
-        return level.getServer().isSameThread();
+        if (level.asLevel().isClientSide()) return isSameThreadClient();
+        return level.asLevel().getServer().isSameThread();
     }
     
     public void blockChanged(BlockPos pos, BlockState newState) {
