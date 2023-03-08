@@ -68,18 +68,18 @@ public class LittleChunkDispatcher {
     }
 
     public static void add(RenderChunkExtender chunk, BETiles be, RebuildTaskExtender rebuildTask) {
-        if (chunk.dynamicLightUpdate())
-            be.render.hasLightChanged = true;
+        if (chunk.dynamicLightUpdate()) be.updateLighting();
 
         be.updateQuadCache(chunk);
 
-        for (RenderType layer : RenderType.chunkBufferLayers()) {
-            synchronized (be.render.getBufferCache()) {
-                if (!be.render.getBufferCache().has(layer))
-                    continue;
-
-                be.render.getBufferCache().add(layer, rebuildTask.builder(layer), rebuildTask.getOrCreate(layer));
-            }
-        }
+//        TODO: FIX MISSING
+//        for (RenderType layer : RenderType.chunkBufferLayers()) {
+//            synchronized (be.render.getBufferCache()) {
+//                if (!be.render.getBufferCache().has(layer))
+//                    continue;
+//
+//                be.render.getBufferCache().add(layer, rebuildTask.builder(layer), rebuildTask.getOrCreate(layer));
+//            }
+//        }
     }
 }
