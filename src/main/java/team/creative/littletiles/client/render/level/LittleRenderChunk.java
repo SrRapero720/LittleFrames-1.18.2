@@ -49,6 +49,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.ModelDataManager;
+import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.client.LittleTilesClient;
@@ -237,12 +239,12 @@ public class LittleRenderChunk implements RenderChunkExtender {
         protected final double distAtCreation;
         protected final AtomicBoolean isCancelled = new AtomicBoolean(false);
         public final boolean isHighPriority;
-        protected Map<BlockPos, ModelDataMap> modelData;
+        protected Map<BlockPos, IModelData> modelData;
 
         public ChunkCompileTask(@Nullable ChunkPos pos, double distAtCreation, boolean isHighPriority) {
             this.distAtCreation = distAtCreation;
             this.isHighPriority = isHighPriority;
-            this.modelData = pos == null ? java.util.Collections.emptyMap() : manager.level.getModelDataManager().getAt(pos);
+            this.modelData = pos == null ? java.util.Collections.emptyMap() : ModelDataManager.getModelData(manager.level.asLevel(), pos);
         }
 
         public abstract CompletableFuture<ChunkTaskResult> doTask(ChunkBufferBuilderPack p_112853_);
@@ -256,7 +258,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
             return Doubles.compare(this.distAtCreation, other.distAtCreation);
         }
 
-        public ModelDataMap getModelData(BlockPos pos) {
+        public IModelData getModelData(BlockPos pos) {
             return modelData.getOrDefault(pos, new ModelDataMap.Builder().build());
         }
     }
