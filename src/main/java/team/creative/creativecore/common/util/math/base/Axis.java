@@ -3,6 +3,7 @@ package team.creative.creativecore.common.util.math.base;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Mirror;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.math.vec.Vec3f;
@@ -19,6 +20,14 @@ public enum Axis {
 
         public int get(int x, int y, int z) {
             return x;
+        }
+
+        public int get(BlockPos pos) {
+            return pos.getX();
+        }
+
+        public int get(ChunkPos pos) {
+            return pos.x;
         }
 
         public <T> T get(T x, T y, T z) {
@@ -66,6 +75,14 @@ public enum Axis {
             return y;
         }
 
+        public int get(BlockPos pos) {
+            return pos.getY();
+        }
+
+        public int get(ChunkPos pos) {
+            throw new UnsupportedOperationException();
+        }
+
         public <T> T get(T x, T y, T z) {
             return y;
         }
@@ -109,6 +126,14 @@ public enum Axis {
 
         public int get(int x, int y, int z) {
             return z;
+        }
+
+        public int get(BlockPos pos) {
+            return pos.getZ();
+        }
+
+        public int get(ChunkPos pos) {
+            return pos.z;
         }
 
         public <T> T get(T x, T y, T z) {
@@ -207,6 +232,10 @@ public enum Axis {
     public abstract float get(float var1, float var2, float var3);
 
     public abstract int get(int var1, int var2, int var3);
+
+    public abstract int get(BlockPos pos);
+
+    public abstract int get(ChunkPos pos);
 
     public abstract <T> T get(T var1, T var2, T var3);
 
