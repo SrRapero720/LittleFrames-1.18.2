@@ -10,11 +10,14 @@ import javax.annotation.Nullable;
 
 import net.minecraft.*;
 import net.minecraft.commands.arguments.UuidArgument;
+import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.network.TextFilter;
+import net.minecraftforge.event.world.BlockEvent;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.advancements.CriteriaTriggers;
@@ -586,7 +589,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
 //        ((ServerGamePacketListenerImplAccessor) getVanilla()).callFilterTextPacket(list).thenAcceptAsync((lines) -> this.updateSignText(packet, lines), this.server);
     }
 
-    private void updateSignText(ServerboundSignUpdatePacket packet, List<FilteredText> lines) {
+    private void updateSignText(ServerboundSignUpdatePacket packet, List<TextFilter.FilteredText> lines) {
         this.player.resetLastActionTime();
         BlockPos blockpos = packet.getPos();
         if (level.hasChunkAt(blockpos)) {
@@ -866,7 +869,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
                 preCancelEvent = true;
 
             if (!entityPlayer.mayBuild() && itemstack.isEmpty() || !itemstack
-                    .hasAdventureModeBreakTagForBlock(level.registryAccess().registryOrThrow(Registries.BLOCK), new BlockInWorld(level, pos, false)))
+                    .hasAdventureModeBreakTagForBlock(level.registryAccess().registryOrThrow(DefaultedRegistry.BLOCK_REGISTRY), new BlockInWorld(level, pos, false)))
                 preCancelEvent = true;
         }
 
@@ -934,63 +937,63 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
         return result.getResult();
     }
 
-    public InteractionResult useItemOn(ServerPlayer player, ItemStack stack, InteractionHand hand, BlockHitResult hit) {
-        BlockPos blockpos = hit.getBlockPos();
-        BlockState blockstate = level.getBlockState(blockpos);
-        if (!blockstate.getBlock().isEnabled(level.enabledFeatures()))
-            return InteractionResult.FAIL;
-
-        PlayerInteractEvent.RightClickBlock event = ForgeHooks.onRightClickBlock(player, hand, blockpos, hit);
-        if (event.isCanceled())
-            return event.getCancellationResult();
-
-        if (this.getGameMode() == GameType.SPECTATOR) {
-            MenuProvider menuprovider = blockstate.getMenuProvider(level, blockpos);
-            if (menuprovider != null) {
-                player.openMenu(menuprovider);
-                return InteractionResult.SUCCESS;
-            }
-            return InteractionResult.PASS;
-        }
-
-        UseOnContext useoncontext = new UseOnContext(level, player, hand, stack, hit);
-        if (event.getUseItem() != Event.Result.DENY) {
-            InteractionResult result = stack.onItemUseFirst(useoncontext);
-            if (result != InteractionResult.PASS)
-                return result;
-        }
-
-        boolean flag = !player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty();
-        boolean flag1 = (player.isSecondaryUseActive() && flag) && !(player.getMainHandItem().doesSneakBypassUse(level, blockpos, player) && player.getOffhandItem()
-                .doesSneakBypassUse(level, blockpos, player));
-        ItemStack itemstack = stack.copy();
-        if (event.getUseBlock() == Event.Result.ALLOW || (event.getUseBlock() != Event.Result.DENY && !flag1)) {
-            InteractionResult interactionresult = blockstate.use(level, player, hand, hit);
-            if (interactionresult.consumesAction()) {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(player, blockpos, itemstack);
-                return interactionresult;
-            }
-        }
-
-        if (event.getUseItem() == Event.Result.ALLOW || (!stack.isEmpty() && !player.getCooldowns().isOnCooldown(stack.getItem()))) {
-            if (event.getUseItem() == Event.Result.DENY)
-                return InteractionResult.PASS;
-            InteractionResult interactionresult1;
-            if (this.isCreative()) {
-                int i = stack.getCount();
-                interactionresult1 = stack.useOn(useoncontext);
-                stack.setCount(i);
-            } else {
-                interactionresult1 = stack.useOn(useoncontext);
-            }
-
-            if (interactionresult1.consumesAction())
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(player, blockpos, itemstack);
-
-            return interactionresult1;
-        }
-        return InteractionResult.PASS;
-    }
+//    public InteractionResult useItemOn(ServerPlayer player, ItemStack stack, InteractionHand hand, BlockHitResult hit) {
+//        BlockPos blockpos = hit.getBlockPos();
+//        BlockState blockstate = level.getBlockState(blockpos);
+//        if (!blockstate.getBlock().isEnabled(level.enabledFeatures()))
+//            return InteractionResult.FAIL;
+//
+//        PlayerInteractEvent.RightClickBlock event = ForgeHooks.onRightClickBlock(player, hand, blockpos, hit);
+//        if (event.isCanceled())
+//            return event.getCancellationResult();
+//
+//        if (this.getGameMode() == GameType.SPECTATOR) {
+//            MenuProvider menuprovider = blockstate.getMenuProvider(level, blockpos);
+//            if (menuprovider != null) {
+//                player.openMenu(menuprovider);
+//                return InteractionResult.SUCCESS;
+//            }
+//            return InteractionResult.PASS;
+//        }
+//
+//        UseOnContext useoncontext = new UseOnContext(level, player, hand, stack, hit);
+//        if (event.getUseItem() != Event.Result.DENY) {
+//            InteractionResult result = stack.onItemUseFirst(useoncontext);
+//            if (result != InteractionResult.PASS)
+//                return result;
+//        }
+//
+//        boolean flag = !player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty();
+//        boolean flag1 = (player.isSecondaryUseActive() && flag) && !(player.getMainHandItem().doesSneakBypassUse(level, blockpos, player) && player.getOffhandItem()
+//                .doesSneakBypassUse(level, blockpos, player));
+//        ItemStack itemstack = stack.copy();
+//        if (event.getUseBlock() == Event.Result.ALLOW || (event.getUseBlock() != Event.Result.DENY && !flag1)) {
+//            InteractionResult interactionresult = blockstate.use(level, player, hand, hit);
+//            if (interactionresult.consumesAction()) {
+//                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(player, blockpos, itemstack);
+//                return interactionresult;
+//            }
+//        }
+//
+//        if (event.getUseItem() == Event.Result.ALLOW || (!stack.isEmpty() && !player.getCooldowns().isOnCooldown(stack.getItem()))) {
+//            if (event.getUseItem() == Event.Result.DENY)
+//                return InteractionResult.PASS;
+//            InteractionResult interactionresult1;
+//            if (this.isCreative()) {
+//                int i = stack.getCount();
+//                interactionresult1 = stack.useOn(useoncontext);
+//                stack.setCount(i);
+//            } else {
+//                interactionresult1 = stack.useOn(useoncontext);
+//            }
+//
+//            if (interactionresult1.consumesAction())
+//                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(player, blockpos, itemstack);
+//
+//            return interactionresult1;
+//        }
+//        return InteractionResult.PASS;
+//    }
 
     @FunctionalInterface
     interface EntityInteraction {
