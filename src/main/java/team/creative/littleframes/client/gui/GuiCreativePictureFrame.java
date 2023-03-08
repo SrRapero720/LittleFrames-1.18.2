@@ -3,25 +3,20 @@ package team.creative.littleframes.client.gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.EndTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.common.gui.Align;
+import team.creative.creativecore.common.gui.GuiControl;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.parent.GuiColumn;
 import team.creative.creativecore.common.gui.controls.parent.GuiRow;
 import team.creative.creativecore.common.gui.controls.parent.GuiTable;
-import team.creative.creativecore.common.gui.controls.simple.GuiButton;
-import team.creative.creativecore.common.gui.controls.simple.GuiCheckBox;
-import team.creative.creativecore.common.gui.controls.simple.GuiCounterDecimal;
-import team.creative.creativecore.common.gui.controls.simple.GuiIconButton;
-import team.creative.creativecore.common.gui.controls.simple.GuiLabel;
-import team.creative.creativecore.common.gui.controls.simple.GuiSlider;
-import team.creative.creativecore.common.gui.controls.simple.GuiStateButton;
-import team.creative.creativecore.common.gui.controls.simple.GuiSteppedSlider;
-import team.creative.creativecore.common.gui.controls.simple.GuiTextfield;
+import team.creative.creativecore.common.gui.controls.simple.*;
 import team.creative.creativecore.common.gui.flow.GuiFlow;
 import team.creative.creativecore.common.gui.style.GuiIcon;
 import team.creative.creativecore.common.gui.sync.GuiSyncLocal;
+import team.creative.creativecore.common.util.math.geo.Rect;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.creativecore.common.util.text.TextBuilder;
 import team.creative.creativecore.common.util.text.TextListBuilder;
@@ -194,7 +189,7 @@ public class GuiCreativePictureFrame extends GuiLayer {
             
             if (frame.display != null)
                 sizeYField.setValue(frame.display.getHeight() / (frame.display.getWidth() / x));
-        }).setTitle(Component.literal("x->y")));
+        }).setTitle(new TextComponent("x->y")));
         
         size.add(new GuiCounterDecimal("sizeY", frame.getSizeY(), 0, Float.MAX_VALUE) {
             @Override
@@ -220,7 +215,7 @@ public class GuiCreativePictureFrame extends GuiLayer {
             
             if (frame.display != null)
                 sizeXField.setValue(frame.display.getWidth() / (frame.display.getHeight() / y));
-        }).setTitle(Component.literal("y->x")));
+        }).setTitle(new TextComponent("y->x")));
         
         GuiParent flip = new GuiParent(GuiFlow.STACK_X);
         add(flip);
@@ -242,19 +237,19 @@ public class GuiCreativePictureFrame extends GuiLayer {
         GuiColumn right;
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("t_label").setTitle(Component.translatable("gui.creative_frame.rotation").append(":")));
+        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.creative_frame.rotation").append(":")));
         right.add(new GuiSlider("rotation", frame.rotation, 0, 360).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("t_label").setTitle(Component.translatable("gui.creative_frame.transparency").append(":")));
+        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.creative_frame.transparency").append(":")));
         right.add(new GuiSlider("transparency", frame.alpha, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("b_label").setTitle(Component.translatable("gui.creative_frame.brightness").append(":")));
+        left.add(new GuiLabel("b_label").setTitle(new TranslatableComponent("gui.creative_frame.brightness").append(":")));
         right.add(new GuiSlider("brightness", frame.brightness, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("d_label").setTitle(Component.translatable("gui.creative_frame.distance").append(":")));
+        left.add(new GuiLabel("d_label").setTitle(new TranslatableComponent("gui.creative_frame.distance").append(":")));
         right.add(new GuiSteppedSlider("distance", frame.renderDistance, 5, 1024).setExpandableX());
         
         GuiParent rendering = new GuiParent(GuiFlow.STACK_X);
@@ -296,5 +291,5 @@ public class GuiCreativePictureFrame extends GuiLayer {
         }).setTranslate("gui.creative_frame.reload").setTooltip(new TextBuilder().translate("gui.creative_frame.reloadtooltip").build()));
         
     }
-    
+
 }

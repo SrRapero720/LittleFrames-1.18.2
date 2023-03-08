@@ -13,6 +13,8 @@ import team.creative.creativecore.common.config.api.CreativeConfig;
 import team.creative.creativecore.common.config.sync.ConfigSynchronization;
 import team.creative.creativecore.common.util.mc.PlayerUtils;
 
+@Deprecated(forRemoval = false)
+//TODO: Replace this class with server.LittleConfig
 public class LittleFramesConfig {
     
     @CreativeConfig
