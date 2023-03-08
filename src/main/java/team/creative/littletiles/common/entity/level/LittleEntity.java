@@ -421,7 +421,7 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
         
         Vec3 newPos = origin.transformPointToFakeWorld(pos);
         Vec3 newLook = origin.transformPointToFakeWorld(look);
-        HitResult tempResult = subLevel.clip(new ClipContext(newPos, newLook, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, null));
+        HitResult tempResult = subLevel.asLevel().clip(new ClipContext(newPos, newLook, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, null));
         if (tempResult == null || tempResult.getType() != Type.BLOCK || !(tempResult instanceof BlockHitResult))
             return result;
         if (result == null || pos.distanceTo(tempResult.getLocation()) < distance)
@@ -433,7 +433,7 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
         if (result == null || !(result instanceof BlockHitResult))
             return InteractionResult.PASS;
         
-        return subLevel.getBlockState(((BlockHitResult) result).getBlockPos()).use((Level) subLevel, player, InteractionHand.MAIN_HAND, (BlockHitResult) result);
+        return subLevel.asLevel().getBlockState(((BlockHitResult) result).getBlockPos()).use((Level) subLevel, player, InteractionHand.MAIN_HAND, (BlockHitResult) result);
     }
     
     // ================CLIENT================
