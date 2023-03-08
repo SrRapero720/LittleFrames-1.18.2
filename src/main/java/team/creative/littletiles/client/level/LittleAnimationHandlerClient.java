@@ -31,6 +31,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.util.Mth;
 import net.minecraft.util.thread.ProcessorMailbox;
@@ -375,12 +376,12 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
             ItemStack itemstack = ((LivingEntity) entity).getMainHandItem();
             if (result.isBlock()) {
                 BlockPos blockpos = result.asBlockHit().getBlockPos();
-                BlockState blockstate = result.level.getBlockState(blockpos);
+                BlockState blockstate = result.level.asLevel().getBlockState(blockpos);
                 if (mc.gameMode.getPlayerMode() == GameType.SPECTATOR)
                     flag = blockstate.getMenuProvider((Level) result.level, blockpos) != null;
                 else {
-                    BlockInWorld blockinworld = new BlockInWorld(result.level, blockpos, false);
-                    Registry<Block> registry = result.level.registryAccess().registryOrThrow(Registries.BLOCK);
+                    BlockInWorld blockinworld = new BlockInWorld(result.level.asLevel(), blockpos, false);
+                    Registry<Block> registry = result.level.asLevel().registryAccess().registryOrThrow(DefaultedRegistry.BLOCK_REGISTRY);
                     flag = !itemstack.isEmpty() && (itemstack.hasAdventureModeBreakTagForBlock(registry, blockinworld) || itemstack
                             .hasAdventureModePlaceTagForBlock(registry, blockinworld));
                 }
@@ -406,7 +407,7 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
         pose.pushPose();
         RenderSystem.applyModelViewMatrix();
         BlockPos pos = result.asBlockHit().getBlockPos();
-        BlockState state = result.level.getBlockState(pos);
+        BlockState state = result.level.asLevel().getBlockState(pos);
         VertexConsumer vertexconsumer2 = mc.renderBuffers().bufferSource().getBuffer(RenderType.lines());
         LittleEntity entity = result.getHolder();
         entity.getOrigin().setupRendering(event.getPoseStack(), entity, event.getPartialTick());
@@ -419,7 +420,7 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
 
         if (!state.isAir() && this.level.getWorldBorder().isWithinBounds(pos)) {
             PoseStack.Pose posestack$pose = event.getPoseStack().last();
-            state.getShape(result.level, pos, CollisionContext.of(mc.cameraEntity)).forAllEdges((p_194324_, p_194325_, p_194326_, p_194327_, p_194328_, p_194329_) -> {
+            state.getShape(result.level.asLevel(), pos, CollisionContext.of(mc.cameraEntity)).forAllEdges((p_194324_, p_194325_, p_194326_, p_194327_, p_194328_, p_194329_) -> {
                 float f = (float) (p_194327_ - p_194324_);
                 float f1 = (float) (p_194328_ - p_194325_);
                 float f2 = (float) (p_194329_ - p_194326_);
