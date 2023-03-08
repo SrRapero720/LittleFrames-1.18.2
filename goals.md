@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 44/58
+Total Completed: 47/58
 
 - client (7 Remaining)
     - level
@@ -97,14 +97,14 @@ Total Completed: 44/58
             - ~~LittleStorage~~ ``FIXED``
         - ~~LittleStructure~~ ``POTENTIAL FIX``
 
-- mixin (3 Remaining)
-    - client
-        - render
-            - LevelRendererMixin ``Triage``
-        - MinecraftMixin
-    - common
-        - entity
-            - EntityMixin
+- ~~mixin~~ (0 Remaining)
+    - ~~client~~
+        - ~~render~~
+            - ~~LevelRendererMixin~~ ``DELETED``
+        - ~~MinecraftMixin~~ ``DELETED``
+    - ~~common~~
+        - ~~entity~~
+            - ~~EntityMixin~~ ``FIXED``
     - ~~server~~
         - ~~level~~
             - ~~ServerChunkCacheMixin~~ ``FIXED``
