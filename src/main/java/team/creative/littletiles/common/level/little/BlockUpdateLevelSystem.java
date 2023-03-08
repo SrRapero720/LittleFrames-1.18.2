@@ -161,8 +161,8 @@ public class BlockUpdateLevelSystem {
         Axis one = facing.one();
         Axis two = facing.two();
         return () -> new FunctionIterator<>(getEdgeSet(facing), x -> {
-            one.set(pos, x.x);
-            two.set(pos, x.y);
+            one.set(pos, (int) x.x);
+            two.set(pos, (int) x.y);
             return pos;
         });
     }
