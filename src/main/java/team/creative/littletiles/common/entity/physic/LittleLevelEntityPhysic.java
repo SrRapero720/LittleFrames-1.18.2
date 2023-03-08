@@ -115,7 +115,7 @@ public class LittleLevelEntityPhysic implements LevelBoundsListener {
     public void rescan(LittleLevel level, BlockUpdateLevelSystem system, Facing facing, Iterable<BlockPos> possible, int boundary) {
         double value = facing.positive ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         for (BlockPos pos : possible) {
-            BlockState state = level.getBlockState(pos);
+            BlockState state = level.asLevel().getBlockState(pos);
             if (state.getBlock() instanceof LittlePhysicBlock block)
                 value = facing.positive ? Math.max(value, block.bound(level, pos, facing)) : Math.min(value, block.bound(level, pos, facing));
             else

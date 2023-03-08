@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 39/58
+Total Completed: 41/58
 
 - client (13 Currently)
     - level
@@ -45,8 +45,8 @@ Total Completed: 39/58
     - entity
         - level
             - LittleEntity
-        - physic
-            - LittleLevelEntityPhysic
+        - ~~physic~~
+            - ~~LittleLevelEntityPhysic~~ ``FIXED``
     - ~~ingredient~~
         - ~~LittleIngredient~~ ``FIXED``
     - level
