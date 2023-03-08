@@ -20,9 +20,6 @@ public class LittleModelItemTiles extends CreativeItemBoxModel {
 
     @Override
     public List<? extends RenderBox> getBoxes(ItemStack stack, boolean translucent) {
-        ILittlePlacer tool = (ILittlePlacer) stack.getItem();
-        if (tool.hasTiles(stack))
-            return tool.getTiles(stack).getRenderingBoxes(translucent);
         return Collections.EMPTY_LIST;
     }
 

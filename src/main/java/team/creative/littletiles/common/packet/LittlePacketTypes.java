@@ -409,30 +409,6 @@ public class LittlePacketTypes {
             
         }, LittleBoxes.class, LittleBoxesNoOverlap.class, LittleBoxesSimple.class);
         
-        NetworkFieldTypes.register(new NetworkFieldTypeClass<PlacementPreview>() {
-            
-            @Override
-            protected void writeContent(PlacementPreview content, FriendlyByteBuf buffer) {
-                if (content.levelUUID != null) {
-                    buffer.writeBoolean(true);
-                    buffer.writeUUID(content.levelUUID);
-                } else
-                    buffer.writeBoolean(false);
-                
-                NetworkFieldTypes.write(LittleGroup.class, content.previews, buffer);
-                NetworkFieldTypes.write(PlacementMode.class, content.mode, buffer);
-                NetworkFieldTypes.write(PlacementPosition.class, content.position, buffer);
-                NetworkFieldTypes.write(LittleBoxAbsolute.class, content.box, buffer);
-            }
-            
-            @Override
-            protected PlacementPreview readContent(FriendlyByteBuf buffer) {
-                return PlacementPreview.load(buffer.readBoolean() ? buffer.readUUID() : null, NetworkFieldTypes.read(LittleGroup.class, buffer), NetworkFieldTypes
-                        .read(PlacementMode.class, buffer), NetworkFieldTypes.read(PlacementPosition.class, buffer), NetworkFieldTypes.read(LittleBoxAbsolute.class, buffer));
-            }
-            
-        }, PlacementPreview.class);
-        
         NetworkFieldTypes.register(new NetworkFieldTypeClass<SignalState>() {
             
             @Override

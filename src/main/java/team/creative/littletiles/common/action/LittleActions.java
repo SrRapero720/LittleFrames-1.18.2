@@ -22,17 +22,7 @@ public class LittleActions extends LittleAction<Boolean> {
         }
         return true;
     }
-    
-    @Override
-    public LittleAction revert(Player player) throws LittleActionException {
-        LittleAction[] newActions = new LittleAction[actions.length];
-        for (int i = 0; i < newActions.length; i++) {
-            if (actions[actions.length - 1 - i] != null)
-                newActions[i] = actions[actions.length - 1 - i].revert(player);
-        }
-        return new LittleActions(newActions);
-    }
-    
+
     @Override
     public Boolean action(Player player) throws LittleActionException {
         if (actions.length == 0)
@@ -44,15 +34,7 @@ public class LittleActions extends LittleAction<Boolean> {
         }
         return success;
     }
-    
-    @Override
-    public LittleAction mirror(Axis axis, LittleBoxAbsolute box) {
-        LittleAction[] newActions = new LittleAction[actions.length];
-        for (int i = 0; i < actions.length; i++)
-            newActions[i] = actions[i].mirror(axis, box);
-        return new LittleActions(newActions);
-    }
-    
+
     @Override
     public boolean wasSuccessful(Boolean result) {
         return result;

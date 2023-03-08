@@ -8,7 +8,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -28,8 +27,6 @@ import team.creative.littletiles.common.packet.LittlePacketTypes;
 import team.creative.littletiles.common.packet.action.ActionMessagePacket;
 import team.creative.littletiles.common.packet.action.BlockPacket;
 import team.creative.littletiles.common.packet.action.VanillaBlockPacket;
-import team.creative.littletiles.common.packet.item.MirrorPacket;
-import team.creative.littletiles.common.packet.item.RotatePacket;
 import team.creative.littletiles.common.packet.level.LittleLevelInitPacket;
 import team.creative.littletiles.common.packet.level.LittleLevelPacket;
 import team.creative.littletiles.common.packet.level.LittleLevelPackets;
@@ -127,9 +124,6 @@ public class LittleTiles {
         
         NETWORK.registerType(BedUpdate.class, BedUpdate::new);
         
-        NETWORK.registerType(RotatePacket.class, RotatePacket::new);
-        NETWORK.registerType(MirrorPacket.class, MirrorPacket::new);
-        
         NETWORK.registerType(StructureUpdate.class, StructureUpdate::new);
         NETWORK.registerType(NeighborUpdate.class, NeighborUpdate::new);
         NETWORK.registerType(BlockUpdate.class, BlockUpdate::new);
@@ -144,7 +138,6 @@ public class LittleTiles {
         CreativeConfigRegistry.ROOT.registerValue(MODID, CONFIG = new LittleTilesConfig());
         
         LittleActionRegistry.register(LittleActions.class, LittleActions::new);
-        LittleActionRegistry.register(LittleActionPlace.class, LittleActionPlace::new);
         LittleActionRegistry.register(LittleActionActivated.class, LittleActionActivated::new);
         LittleActionRegistry.register(LittleActionColorBoxes.class, LittleActionColorBoxes::new);
         LittleActionRegistry.register(LittleActionColorBoxesFiltered.class, LittleActionColorBoxesFiltered::new);

@@ -83,12 +83,6 @@ public abstract class LittleAction<T> extends CreativePacket {
     @OnlyIn(Dist.CLIENT)
     public abstract boolean canBeReverted();
 
-    /**
-     * @return null if an revert action is not available
-     */
-    @OnlyIn(Dist.CLIENT)
-    public abstract LittleAction revert(Player player) throws LittleActionException;
-
     public abstract T action(Player player) throws LittleActionException;
 
     public abstract boolean wasSuccessful(T result);

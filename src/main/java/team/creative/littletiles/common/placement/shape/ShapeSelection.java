@@ -1,14 +1,8 @@
 package team.creative.littletiles.common.placement.shape;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -29,7 +23,6 @@ import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.creativecore.common.util.math.vec.VectorUtils;
 import team.creative.creativecore.common.util.mc.PlayerUtils;
 import team.creative.creativecore.common.util.mc.TickUtils;
-import team.creative.littletiles.api.common.tool.ILittleTool;
 import team.creative.littletiles.common.block.little.tile.LittleTileContext;
 import team.creative.littletiles.common.grid.IGridBased;
 import team.creative.littletiles.common.grid.LittleGrid;
@@ -40,10 +33,14 @@ import team.creative.littletiles.common.placement.PlacementPosition;
 import team.creative.littletiles.common.placement.mark.IMarkMode;
 import team.creative.littletiles.common.placement.shape.ShapeSelection.ShapeSelectPos;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
 public class ShapeSelection implements Iterable<ShapeSelectPos>, IGridBased, IMarkMode {
     
     public ItemStack stack;
-    public ILittleTool tool;
     private final List<ShapeSelectPos> positions = new ArrayList<>();
     
     public final boolean inside;
@@ -64,7 +61,6 @@ public class ShapeSelection implements Iterable<ShapeSelectPos>, IGridBased, IMa
     
     public ShapeSelection(ItemStack stack, boolean inside) {
         this.inside = inside;
-        this.tool = (ILittleTool) stack.getItem();
         this.stack = stack;
         
         shapeKey = getNBT().getString("shape");

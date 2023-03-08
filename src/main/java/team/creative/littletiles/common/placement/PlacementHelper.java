@@ -1,7 +1,5 @@
 package team.creative.littletiles.common.placement;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -12,7 +10,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.littletiles.api.common.tool.ILittlePlacer;
-import team.creative.littletiles.api.common.tool.ILittleTool;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.grid.LittleGrid;
@@ -20,6 +17,8 @@ import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecAbsolute;
 import team.creative.littletiles.common.placement.mode.PlacementMode;
+
+import javax.annotation.Nullable;
 
 /** This class does all calculate on where to place a block. Used for rendering
  * preview and placing **/
@@ -85,7 +84,7 @@ public class PlacementHelper {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public static PlacementPosition getPosition(Level level, BlockHitResult moving, LittleGrid context, ILittleTool tile, ItemStack stack) {
+    public static PlacementPosition getPosition(Level level, BlockHitResult moving, LittleGrid context) {
         int x = moving.getBlockPos().getX();
         int y = moving.getBlockPos().getY();
         int z = moving.getBlockPos().getZ();

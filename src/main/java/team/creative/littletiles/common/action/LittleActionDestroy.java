@@ -7,9 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import team.creative.creativecore.common.util.math.base.Axis;
-import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.mc.LevelUtils;
-import team.creative.littletiles.common.action.LittleActionPlace.PlaceAction;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.block.little.tile.LittleTileContext;
@@ -21,8 +19,6 @@ import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
 import team.creative.littletiles.common.math.box.collection.LittleBoxes;
 import team.creative.littletiles.common.math.box.collection.LittleBoxesSimple;
-import team.creative.littletiles.common.placement.PlacementPreview;
-import team.creative.littletiles.common.placement.mode.PlacementMode;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
@@ -42,15 +38,7 @@ public class LittleActionDestroy extends LittleActionInteract<Boolean> {
     public boolean canBeReverted() {
         return destroyedTiles != null || structurePreview != null;
     }
-    
-    @Override
-    public LittleAction revert(Player player) {
-        if (structurePreview != null)
-            return structurePreview.getPlaceAction();
-        destroyedTiles.convertToSmallest();
-        return new LittleActionPlace(PlaceAction.ABSOLUTE, PlacementPreview.load(uuid, PlacementMode.normal, destroyedTiles, null));
-    }
-    
+
     @Override
     protected boolean requiresBreakEvent() {
         return true;
@@ -149,12 +137,7 @@ public class LittleActionDestroy extends LittleActionInteract<Boolean> {
             requiresItemStack = previews.getStructureType().canOnlyBePlacedByItemStack();
             this.structure = structure;
         }
-        
-        public LittleAction getPlaceAction() {
-            return new LittleActionPlace(requiresItemStack ? PlaceAction.PREMADE : PlaceAction.ABSOLUTE, PlacementPreview
-                    .absolute(structure.getLevel(), PlacementMode.all, previews, Facing.EAST));
-        }
-        
+
         @Override
         public int hashCode() {
             return previews.getStructureTag().hashCode();

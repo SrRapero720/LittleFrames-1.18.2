@@ -1,10 +1,5 @@
 package team.creative.littletiles.common.action;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Consumer;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,10 +8,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import team.creative.creativecore.common.util.filter.BiFilter;
 import team.creative.creativecore.common.util.math.base.Axis;
-import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.mc.LevelUtils;
 import team.creative.littletiles.common.action.LittleActionDestroy.StructurePreview;
-import team.creative.littletiles.common.action.LittleActionPlace.PlaceAction;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.entity.BETiles.BlockEntityInteractor;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
@@ -31,11 +24,14 @@ import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
 import team.creative.littletiles.common.math.box.collection.LittleBoxes;
 import team.creative.littletiles.common.math.box.volume.LittleBoxReturnedVolume;
-import team.creative.littletiles.common.placement.PlacementPreview;
-import team.creative.littletiles.common.placement.mode.PlacementMode;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class LittleActionDestroyBoxes extends LittleActionBoxes {
     
@@ -207,20 +203,7 @@ public class LittleActionDestroyBoxes extends LittleActionBoxes {
     public boolean canBeReverted() {
         return true;
     }
-    
-    @Override
-    public LittleAction revert(Player player) {
-        boolean additionalPreviews = destroyed != null && !destroyed.isEmpty();
-        LittleAction[] actions = new LittleAction[(additionalPreviews ? 1 : 0) + destroyedStructures.size()];
-        if (additionalPreviews) {
-            destroyed.convertToSmallest();
-            actions[0] = new LittleActionPlace(PlaceAction.ABSOLUTE, PlacementPreview.load(levelUUID, PlacementMode.fill, destroyed, Facing.EAST));
-        }
-        for (int i = 0; i < destroyedStructures.size(); i++)
-            actions[(additionalPreviews ? 1 : 0) + i] = destroyedStructures.get(i).getPlaceAction();
-        return new LittleActions(actions);
-    }
-    
+
     public static class LittleActionDestroyBoxesFiltered extends LittleActionDestroyBoxes {
         
         public BiFilter<IParentCollection, LittleTile> filter;

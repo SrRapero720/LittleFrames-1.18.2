@@ -20,76 +20,31 @@ import team.creative.littletiles.common.placement.mode.PlacementMode;
 import team.creative.littletiles.common.structure.LittleStructureType;
 import team.creative.littletiles.common.structure.registry.LittleStructureRegistry;
 
-public interface ILittlePlacer extends ILittleTool {
+
+public interface ILittlePlacer {
     
-    public boolean hasTiles(ItemStack stack);
+    boolean hasTiles(ItemStack stack);
     
-    public LittleGroup getTiles(ItemStack stack);
+    LittleGroup getTiles(ItemStack stack);
     
-    public LittleGroup getLow(ItemStack stack);
+    LittleGroup getLow(ItemStack stack);
     
-    public default LittleGroup get(ItemStack stack, boolean low) {
+    default LittleGroup get(ItemStack stack, boolean low) {
         if (low)
             return getLow(stack);
         return getTiles(stack);
     }
-    
-    public PlacementPreview getPlacement(Level level, ItemStack stack, PlacementPosition position, boolean low);
-    
-    public void saveTiles(ItemStack stack, LittleGroup group);
-    
-    @Override
-    public default void rotate(Player player, ItemStack stack, Rotation rotation, boolean client) {
-        LittleGroup group = getTiles(stack);
-        if (group == null || group.isEmpty())
-            return;
-        group.rotate(rotation, group.getGrid().rotationCenter);
-        saveTiles(stack, group);
-    }
-    
-    @Override
-    public default void mirror(Player player, ItemStack stack, Axis axis, boolean client) {
-        LittleGroup group = getTiles(stack);
-        if (group == null || group.isEmpty())
-            return;
-        group.mirror(axis, group.getGrid().rotationCenter);
-        saveTiles(stack, group);
-    }
-    
-    public default LittleGrid getTilesGrid(ItemStack stack) {
-        if (stack.hasTag())
-            return LittleGrid.get(stack.getTag());
-        return LittleGrid.defaultGrid();
-    }
-    
-    public boolean containsIngredients(ItemStack stack);
-    
-    @OnlyIn(Dist.CLIENT)
-    public default float getPreviewAlphaFactor() {
-        return 1;
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    public default boolean shouldCache() {
-        return true;
-    }
-    
-    public default PlacementMode getPlacementMode(ItemStack stack) {
-        if (stack.hasTag())
-            return PlacementMode.getMode(stack.getTag().getString("mode"));
-        return PlacementMode.getDefault();
-    }
-    
-    public default boolean snapToGridByDefault(ItemStack stack) {
-        return false;
-    }
-    
+
+    void saveTiles(ItemStack stack, LittleGroup group);
+
+    boolean containsIngredients(ItemStack stack);
+
     /** needs to be implemented by any ILittleTile which supports low resolution and
      * only uses full blocks
      * 
      * @param stack
      * @return */
-    public default LittleVec getCachedSize(ItemStack stack) {
+    default LittleVec getCachedSize(ItemStack stack) {
         return null;
     }
     
@@ -98,12 +53,12 @@ public interface ILittlePlacer extends ILittleTool {
      * 
      * @param stack
      * @return */
-    public default LittleVec getCachedMin(ItemStack stack) {
+    default LittleVec getCachedMin(ItemStack stack) {
         return null;
     }
     
     @OnlyIn(Dist.CLIENT)
-    public default List<RenderBox> getPositingCubes(Level level, BlockPos pos, ItemStack stack) {
+    default List<RenderBox> getPositingCubes(Level level, BlockPos pos, ItemStack stack) {
         if (stack.hasTag() && stack.getTag().contains("structure")) {
             LittleStructureType type = LittleStructureRegistry.REGISTRY.get(stack.getTag().getCompound("structure").getString("id"));
             if (type != null)

@@ -115,5 +115,4 @@ Total Completed: 53/58
         - ~~little~~
             - ~~LittleChunkMap~~ ``FIXED``
             - ~~LittleServerLevel~~ ``FIXED``
-            - LittleServerPlayerHandler ``More freaking broken +1``
             - ~~LittleServerPlayerHandler~~ ``FIXED``
