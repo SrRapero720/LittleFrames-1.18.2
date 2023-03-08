@@ -1,15 +1,11 @@
 package team.creative.littletiles.common.block.mc;
 
-import com.mojang.math.Vector3d;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -139,19 +135,6 @@ public class BlockFlowingWater extends Block implements ILittleMCBlock, IFakeRen
         if (tile.getBlock() == LittleTilesRegistry.WATER.get())
             return true;
         return false;
-    }
-    
-    @Override
-    public Vector3d getFogColor(IParentCollection parent, LittleTile tile, Entity entity, Vector3d originalColor, float partialTicks) {
-        float f12 = 0.0F;
-        if (entity instanceof LivingEntity) {
-            LivingEntity ent = (LivingEntity) entity;
-            f12 = EnchantmentHelper.getRespiration(ent) * 0.2F;
-            
-            if (ent.hasEffect(MobEffects.WATER_BREATHING))
-                f12 = f12 * 0.3F + 0.6F;
-        }
-        return new Vector3d(0.02F + f12, 0.02F + f12, 0.2F + f12);
     }
     
     @Override
