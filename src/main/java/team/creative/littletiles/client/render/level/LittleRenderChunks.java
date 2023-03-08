@@ -134,8 +134,8 @@ public class LittleRenderChunks implements Iterable<LittleRenderChunk> {
         return new NestedIterator<>(rings);
     }
 
-    public Iterator<LittleRenderChunk> inverseIterator() {
-        Iterator[] itrs = new Iterator[rings.size()];
+    public InverseConsecutiveIterator<LittleRenderChunk> inverseIterator() {
+        Iterator<LittleRenderChunk>[] itrs = new Iterator[rings.size()];
         for (int i = 0; i < itrs.length; i++)
             itrs[i] = new InverseListIterator<>(rings.get(i));
         return new InverseConsecutiveIterator<>(itrs);

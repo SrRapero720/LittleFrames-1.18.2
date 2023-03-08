@@ -54,7 +54,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class BETiles extends BlockEntityCreative implements IGridBased, ILittleBlockEntity, IForgeBlockEntity {
-
     private boolean hasLoaded = false;
     private boolean preventUnload = false;
     protected final BlockEntityInteractor interactor = new BlockEntityInteractor();

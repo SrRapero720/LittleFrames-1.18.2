@@ -4,19 +4,19 @@ Total Completed: 43/58
 - client (7 Remaining)
     - level
         - LittleAnimationHandlerClient 
-        - LittleInteractionHandlerClient `Partial fixed`
+        - LittleInteractionHandlerClient `TRIAGE`
     - render
         - block
-            - ~~BERenderManager~~ `DELETED`
+            - ~~BERenderManager~~ `REMOVED`
             - LittleBlockClientRegistry
         - entity
             - LittleLevelEntityRenderer `More broken`
             - LittleLevelRenderManager ``Partial Fix``
         - level
-            - ~~LittleClientEventHandler~~ ``DELETED``
+            - ~~LittleClientEventHandler~~ ``REMOVED``
             - LittleRenderChunk ``More broken``
-            - ~~LittleRenderChunks~~ ``DUPLICATED``
-        - ~~overlay~~ ``FULL DELETED``
+            - ~~LittleRenderChunks~~ ``FIXED``
+        - ~~overlay~~ ``FULL REMOVED``
             - ~~LittleTilesProfilerOverlay~~
             - ~~PreviewRenderer~~
             - ~~TooltipOverlay~~
@@ -27,7 +27,7 @@ Total Completed: 43/58
         - ~~LittleAction~~ ``FIXED``
     - ~~animation~~
         - ~~preview~~
-            - ~~AnimationPreview~~ ``DELETED``
+            - ~~AnimationPreview~~ ``REMOVED``
     - ~~block~~
         - ~~little~~
             - ~~registry~~
@@ -43,10 +43,11 @@ Total Completed: 43/58
     - ~~config~~
         - ~~LittleTilesConfig~~ ``FIXED``
     - entity
-        - level
-            - LittleEntity
+        - ~~level~~
+            - LittleEntity ``FIXED``
         - ~~physic~~
             - ~~LittleLevelEntityPhysic~~ ``FIXED``
+        - BETiles ``NEW: MISSING VARIABLES``
     - ~~ingredient~~
         - ~~LittleIngredient~~ ``FIXED``
     - level
@@ -88,23 +89,23 @@ Total Completed: 43/58
             - ~~LittleSignalHandler~~ ``FIXED``
         - ~~type~~
             - ~~premade~~
-                - ~~LittleBlankOMatic~~ ``DELETED``
-                - ~~LittleExporter~~ ``DELETED``
-                - ~~LittleImporter~~ ``DELETED``
-                - ~~LittleParticleEmitter~~ ``DELETED``
+                - ~~LittleBlankOMatic~~ ``REMOVED``
+                - ~~LittleExporter~~ ``REMOVED``
+                - ~~LittleImporter~~ ``REMOVED``
+                - ~~LittleParticleEmitter~~ ``REMOVED``
                 - ~~LittleStructureBuilder~~ ``FIXED``
-                - ~~LittleWorkbench~~ ``DELETED``
+                - ~~LittleWorkbench~~ ``REMOVED``
             - ~~LittleStorage~~ ``FIXED``
         - ~~LittleStructure~~ ``POTENTIAL FIX``
 
-- mixin (3 Remaining)
-    - client
-        - render
-            - LevelRendererMixin ``Triage``
-        - MinecraftMixin
-    - common
-        - entity
-            - EntityMixin
+- mixin (Completed) - Moved all in ``me.srrapero720.waterframes.mixin``
+    - ~~client~~
+        - ~~render~~
+            - ~~LevelRendererMixin~~ ``REMOVED``
+        - ~~MinecraftMixin~~ ``REMOVED``
+    - ~~common~~
+        - ~~entity~~
+            - ~~EntityMixin~~ ``FIXED``
     - ~~server~~
         - ~~level~~
             - ~~ServerChunkCacheMixin~~ ``FIXED``
@@ -114,4 +115,4 @@ Total Completed: 43/58
         - little
             - ~~LittleChunkMap~~ ``FIXED``
             - ~~LittleServerLevel~~ ``FIXED``
-            - LittleServerPlayerHandler ``More freaking broken``
+            - LittleServerPlayerHandler ``More freaking broken +1``

@@ -1,25 +1,12 @@
 package team.creative.littletiles.client.render.level;
 
-import java.util.*;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Doubles;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.blaze3d.vertex.VertexFormat;
-
+import com.mojang.blaze3d.vertex.*;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
+import me.srrapero720.waterframes.mixin.client.render.CompiledChunkAccessor;
 import net.minecraft.CrashReport;
 import net.minecraft.Util;
 import net.minecraft.client.Camera;
@@ -49,17 +36,22 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
-import team.creative.littletiles.client.LittleTilesClient;
 import team.creative.littletiles.client.render.cache.ChunkLayerCache;
 import team.creative.littletiles.client.render.entity.LittleLevelRenderManager;
 import team.creative.littletiles.client.render.mc.RebuildTaskExtender;
 import team.creative.littletiles.client.render.mc.RenderChunkExtender;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.level.little.LittleLevel;
-import me.srrapero720.waterframes.mixin.client.render.CompiledChunkAccessor;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public class LittleRenderChunk implements RenderChunkExtender {
 
@@ -225,8 +217,6 @@ public class LittleRenderChunk implements RenderChunkExtender {
             this.globalBlockEntities.clear();
             this.globalBlockEntities.addAll(blockEntities);
         }
-
-        LittleTilesClient.ANIMATION_HANDLER.updateGlobalBlockEntities(set1, set);
     }
 
     public static enum ChunkTaskResult {
@@ -383,7 +373,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
 
                             posestack.pushPose();
                             posestack.translate(blockpos2.getX() & 15, blockpos2.getY() & 15, blockpos2.getZ() & 15);
-                            blockrenderdispatcher.renderBatched(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource, modelData, rendertype2);
+                            blockrenderdispatcher.renderBatched(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource, modelData);
                             posestack.popPose();
                         }
                     }
@@ -391,15 +381,17 @@ public class LittleRenderChunk implements RenderChunkExtender {
 
                 if (renderTypes.contains(RenderType.translucent())) {
                     BufferBuilder bufferbuilder1 = pack.builder(RenderType.translucent());
-                    if (!bufferbuilder1.isCurrentBatchEmpty()) {
+                    if (!bufferbuilder1.building()) {
                         bufferbuilder1.setQuadSortOrigin(x - pos.getX(), y - pos.getY(), z - pos.getZ());
                         results.transparencyState = bufferbuilder1.getSortState();
                     }
                 }
 
                 for (RenderType rendertype1 : renderTypes) {
-                    BufferBuilder.RenderedBuffer rendered = pack.builder(rendertype1).endOrDiscardIfEmpty();
-                    if (rendered != null) results.renderedLayers.put(rendertype1, rendered);
+
+                    BufferBuilder rendered = pack.builder(rendertype1);
+                    rendered.end();
+                    results.renderedLayers.put(rendertype1, rendered);
                 }
 
                 ModelBlockRenderer.clearCache();
@@ -506,9 +498,9 @@ public class LittleRenderChunk implements RenderChunkExtender {
                 bufferbuilder.restoreSortState(sortstate);
                 bufferbuilder.setQuadSortOrigin((float) cam.x - pos.getX(), (float) cam.y - pos.getY(), (float) cam.z - pos.getZ());
                 ((CompiledChunkAccessor) this.compiledChunk).setTransparencyState(bufferbuilder.getSortState());
-                BufferBuilder.RenderedBuffer rendered = bufferbuilder.end();
+                bufferbuilder.end();
                 if (this.isCancelled.get()) {
-                    rendered.release();
+                    bufferbuilder.clear();
                     return CompletableFuture.completedFuture(ChunkTaskResult.CANCELLED);
                 }
                 return completablefuture.handle((result, exception) -> {
