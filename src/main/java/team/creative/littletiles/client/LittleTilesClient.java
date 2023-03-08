@@ -28,7 +28,6 @@ import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.client.level.LevelHandlersClient;
 import team.creative.littletiles.client.render.block.BETilesRenderer;
-import team.creative.littletiles.client.render.block.LittleBlockClientRegistry;
 import team.creative.littletiles.client.render.item.ItemRenderCache;
 import team.creative.littletiles.client.render.item.LittleModelItemPreview;
 import team.creative.littletiles.client.render.item.LittleModelItemTilesBig;
@@ -88,7 +87,6 @@ public class LittleTilesClient {
         ReloadableResourceManager reloadableResourceManager = (ReloadableResourceManager) mc.getResourceManager();
         reloadableResourceManager.registerReloadListener((p_10638_, p_10639_, p_10640_, p_10641_, p_10642_, p_10643_) -> CompletableFuture.runAsync(() -> {
             LittleChunkDispatcher.currentRenderState++;
-            LittleBlockClientRegistry.clearCache();
         }, p_10643_));
 
         CreativeCoreClient.registerClientConfig(LittleTiles.MODID);

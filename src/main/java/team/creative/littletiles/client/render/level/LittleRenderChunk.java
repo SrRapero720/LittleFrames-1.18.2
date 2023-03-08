@@ -225,7 +225,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
             this.globalBlockEntities.addAll(blockEntities);
         }
 
-        LittleTilesClient.ANIMATION_HANDLER.updateGlobalBlockEntities(set1, set);
+//        LittleTilesClient.ANIMATION_HANDLER.updateGlobalBlockEntities(set1, set);
     }
 
     public static enum ChunkTaskResult {
@@ -242,7 +242,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
         public ChunkCompileTask(@Nullable ChunkPos pos, double distAtCreation, boolean isHighPriority) {
             this.distAtCreation = distAtCreation;
             this.isHighPriority = isHighPriority;
-            this.modelData = pos == null ? java.util.Collections.emptyMap() : manager.level.modelgetModelDataManager().getAt(pos);
+            this.modelData = pos == null ? java.util.Collections.emptyMap() : manager.level.getModelDataManager().getAt(pos);
         }
 
         public abstract CompletableFuture<ChunkTaskResult> doTask(ChunkBufferBuilderPack p_112853_);
@@ -382,7 +382,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
 
                             posestack.pushPose();
                             posestack.translate(blockpos2.getX() & 15, blockpos2.getY() & 15, blockpos2.getZ() & 15);
-                            blockrenderdispatcher.renderBatched(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource, modelData, rendertype2);
+                            blockrenderdispatcher.renderBatched(blockstate, blockpos2, renderchunkregion, posestack, bufferbuilder2, true, randomsource);
                             posestack.popPose();
                         }
                     }
