@@ -11,12 +11,12 @@ import net.minecraft.client.renderer.culling.Frustum;
 public interface LevelRendererAccessor {
     
     @Accessor
-    public ViewArea getViewArea();
+    ViewArea getViewArea();
     
     @Accessor
-    public Frustum getCapturedFrustum();
+    Frustum getCapturedFrustum();
     
     @Accessor
-    public Frustum getCullingFrustum();
+    Frustum getCullingFrustum();
     
 }

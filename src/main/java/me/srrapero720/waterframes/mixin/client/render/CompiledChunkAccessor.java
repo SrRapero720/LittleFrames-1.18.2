@@ -15,18 +15,18 @@ import net.minecraft.client.renderer.chunk.VisibilitySet;
 public interface CompiledChunkAccessor {
     
     @Accessor
-    public BufferBuilder.SortState getTransparencyState();
+    BufferBuilder.SortState getTransparencyState();
     
     @Accessor
-    public void setTransparencyState(BufferBuilder.SortState state);
+    void setTransparencyState(BufferBuilder.SortState state);
     
     @Accessor
-    public Set<RenderType> getHasBlocks();
+    Set<RenderType> getHasBlocks();
     
     @Accessor
-    public VisibilitySet getVisibilitySet();
+    VisibilitySet getVisibilitySet();
     
     @Accessor
-    public void setVisibilitySet(VisibilitySet visibilitySet);
+    void setVisibilitySet(VisibilitySet visibilitySet);
     
 }

@@ -20,7 +20,6 @@
     "server.network.ServerGamePacketListenerImplMixin"
   ],
   "client": [
-    "client.MinecraftMixin",
     "client.MultiPlayerGameModeAccessor",
     "client.level.ClientLevelAccessor",
     "client.level.ClientLevelMixin",
@@ -30,7 +29,6 @@
     "client.render.RenderChunkMixin",
     "client.render.VertexBufferMixin",
     "client.render.CompiledChunkAccessor",
-    "client.render.LevelRendererMixin",
     "client.render.LevelRendererAccessor",
     "client.render.ViewAreaAccessor",
     "client.render.ParticleEngineAccessor",

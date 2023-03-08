@@ -4,25 +4,19 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.data.ModelDataMap;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.jetbrains.annotations.NotNull;
@@ -30,35 +24,26 @@ import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.client.render.box.RenderBox;
 import team.creative.creativecore.client.render.model.CreativeBlockModel;
 import team.creative.creativecore.client.render.model.CreativeItemBoxModel;
-import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
-import team.creative.littletiles.client.action.LittleActionHandlerClient;
 import team.creative.littletiles.client.level.LevelHandlersClient;
-import team.creative.littletiles.client.level.LittleAnimationHandlerClient;
-import team.creative.littletiles.client.level.LittleInteractionHandlerClient;
 import team.creative.littletiles.client.render.block.BETilesRenderer;
 import team.creative.littletiles.client.render.block.LittleBlockClientRegistry;
 import team.creative.littletiles.client.render.item.ItemRenderCache;
-import team.creative.littletiles.client.render.item.LittleModelItemBackground;
 import team.creative.littletiles.client.render.item.LittleModelItemPreview;
 import team.creative.littletiles.client.render.item.LittleModelItemTilesBig;
 import team.creative.littletiles.client.render.level.LittleChunkDispatcher;
-import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.ingredient.BlockIngredientEntry;
 import team.creative.littletiles.common.ingredient.ColorIngredient;
-import team.creative.littletiles.common.item.*;
-import team.creative.littletiles.common.item.ItemLittleGlove.GloveMode;
-import team.creative.littletiles.common.structure.registry.premade.LittlePremadeRegistry;
-import team.creative.littletiles.common.structure.registry.premade.LittlePremadeType;
+import team.creative.littletiles.common.item.ItemBlockIngredient;
+import team.creative.littletiles.common.item.ItemColorIngredient;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 @OnlyIn(Dist.CLIENT)
 public class LittleTilesClient {
@@ -66,9 +51,9 @@ public class LittleTilesClient {
     public static final Minecraft mc = Minecraft.getInstance();
 
     public static final LevelHandlersClient LEVEL_HANDLERS = new LevelHandlersClient();
-    public static LittleActionHandlerClient ACTION_HANDLER;
-    public static LittleAnimationHandlerClient ANIMATION_HANDLER;
-    public static LittleInteractionHandlerClient INTERACTION_HANDLER;
+//    public static LittleActionHandlerClient ACTION_HANDLER;
+//    public static LittleAnimationHandlerClient ANIMATION_HANDLER;
+//    public static LittleInteractionHandlerClient INTERACTION_HANDLER;
     public static ItemRenderCache ITEM_RENDER_CACHE;
 
     public static KeyMapping flip;
@@ -95,22 +80,16 @@ public class LittleTilesClient {
     }
 
     private static void setup(final FMLClientSetupEvent event) {
-        LEVEL_HANDLERS.register(LittleActionHandlerClient::new, x -> ACTION_HANDLER = x);
-        LEVEL_HANDLERS.register(LittleAnimationHandlerClient::new, x -> ANIMATION_HANDLER = x);
-        LEVEL_HANDLERS.register(LittleInteractionHandlerClient::new, x -> INTERACTION_HANDLER = x);
+//        LEVEL_HANDLERS.register(LittleActionHandlerClient::new, x -> ACTION_HANDLER = x);
+//        LEVEL_HANDLERS.register(LittleAnimationHandlerClient::new, x -> ANIMATION_HANDLER = x);
+//        LEVEL_HANDLERS.register(LittleInteractionHandlerClient::new, x -> INTERACTION_HANDLER = x);
         LEVEL_HANDLERS.register(ITEM_RENDER_CACHE = new ItemRenderCache());
 
         ReloadableResourceManager reloadableResourceManager = (ReloadableResourceManager) mc.getResourceManager();
-        reloadableResourceManager.registerReloadListener(new PreparableReloadListener() {
-
-            @Override
-            public CompletableFuture<Void> reload(PreparationBarrier p_10638_, ResourceManager p_10639_, ProfilerFiller p_10640_, ProfilerFiller p_10641_, Executor p_10642_, Executor p_10643_) {
-                return CompletableFuture.runAsync(() -> {
-                    LittleChunkDispatcher.currentRenderState++;
-                    LittleBlockClientRegistry.clearCache();
-                }, p_10643_);
-            }
-        });
+        reloadableResourceManager.registerReloadListener((p_10638_, p_10639_, p_10640_, p_10641_, p_10642_, p_10643_) -> CompletableFuture.runAsync(() -> {
+            LittleChunkDispatcher.currentRenderState++;
+            LittleBlockClientRegistry.clearCache();
+        }, p_10643_));
 
         CreativeCoreClient.registerClientConfig(LittleTiles.MODID);
 
@@ -124,7 +103,7 @@ public class LittleTilesClient {
     public static void modelLoader(ModelRegistryEvent event) {
     }
 
-    public static void modelEvent(RegisterGeometryLoaders event) {
+    public static void modelEvent(ModelRegistryEvent event) {
         CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleTiles.MODID, "empty"), new CreativeBlockModel() {
 
             @Override
@@ -139,24 +118,6 @@ public class LittleTilesClient {
         });
 
         CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "tiles"), new LittleModelItemTilesBig());
-        CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "premade"), new LittleModelItemTilesBig() {
-            @Override
-            public List<? extends RenderBox> getBoxes(ItemStack stack, boolean translucent) {
-                if (!stack.getOrCreateTag().contains("structure")) return Collections.EMPTY_LIST;
-
-                LittlePremadeType premade = LittlePremadeRegistry.get(stack.getOrCreateTagElement("structure").getString("id"));
-                if (premade == null) return Collections.EMPTY_LIST;
-                LittleGroup previews = ((ItemPremadeStructure) stack.getItem()).getTiles(stack);
-                if (previews == null) return Collections.EMPTY_LIST;
-                List<RenderBox> cubes = premade.getItemPreview(previews, translucent);
-                if (cubes == null) {
-                    cubes = previews.getRenderingBoxes(translucent);
-                    LittleGroup.shrinkCubesToOneBlock(cubes);
-                }
-
-                return cubes;
-            }
-        });
         CreativeCoreClient
             .registerItemModel(new ResourceLocation(LittleTiles.MODID, "glove"), new LittleModelItemPreview(new ModelResourceLocation(LittleTiles.MODID, "glove_background", "inventory"), null) {
 
