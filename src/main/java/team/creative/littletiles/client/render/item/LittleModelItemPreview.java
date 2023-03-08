@@ -25,10 +25,10 @@ public class LittleModelItemPreview extends LittleModelItemBackground {
         return true;
     }
 
-    @Override
-    protected ItemStack getFakeStack(ItemStack current) {
-        return ItemMultiTiles.of(func.apply(current));
-    }
+//    @Override
+//    protected ItemStack getFakeStack(ItemStack current) {
+//        return ItemMultiTiles.of(func.apply(current));
+//    }
 
     @Override
     public void prepareRenderer(PoseStack pose) {
