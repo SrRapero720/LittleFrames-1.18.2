@@ -142,15 +142,12 @@ public class LittleTilesClient {
         CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "premade"), new LittleModelItemTilesBig() {
             @Override
             public List<? extends RenderBox> getBoxes(ItemStack stack, boolean translucent) {
-                if (!stack.getOrCreateTag().contains("structure"))
-                    return Collections.EMPTY_LIST;
+                if (!stack.getOrCreateTag().contains("structure")) return Collections.EMPTY_LIST;
 
                 LittlePremadeType premade = LittlePremadeRegistry.get(stack.getOrCreateTagElement("structure").getString("id"));
-                if (premade == null)
-                    return Collections.EMPTY_LIST;
+                if (premade == null) return Collections.EMPTY_LIST;
                 LittleGroup previews = ((ItemPremadeStructure) stack.getItem()).getTiles(stack);
-                if (previews == null)
-                    return Collections.EMPTY_LIST;
+                if (previews == null) return Collections.EMPTY_LIST;
                 List<RenderBox> cubes = premade.getItemPreview(previews, translucent);
                 if (cubes == null) {
                     cubes = previews.getRenderingBoxes(translucent);

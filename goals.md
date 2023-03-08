@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 41/58
+Total Completed: 42/58
 
 - client (13 Currently)
     - level
@@ -50,9 +50,9 @@ Total Completed: 41/58
     - ~~ingredient~~
         - ~~LittleIngredient~~ ``FIXED``
     - level
-        - handler
+        - ~~handler~~
             - ~~LevelHandlers~~ ``FIXED``
-            - LittleAnimationHandler
+            - ~~LittleAnimationHandler~~ ``FIXED``
         - little
             - BlockUpdateLevelSystem
             - LevelChunkSerializer
