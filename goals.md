@@ -1,7 +1,7 @@
 # LittleTiles Classes to Backport
 Total Completed: 42/58
 
-- client (13 Currently)
+- client (7 Remaining)
     - level
         - LittleAnimationHandlerClient 
         - LittleInteractionHandlerClient `Partial fixed`
@@ -22,7 +22,7 @@ Total Completed: 42/58
             - ~~TooltipOverlay~~
         - LittleTilesClient ``More Broken``
 
-- common (39 Currently)
+- common (5 Remaining)
     - ~~action~~
         - ~~LittleAction~~ ``FIXED``
     - ~~animation~~
@@ -97,7 +97,7 @@ Total Completed: 42/58
             - ~~LittleStorage~~ ``FIXED``
         - ~~LittleStructure~~ ``POTENTIAL FIX``
 
-- mixin (4 Currently)
+- mixin (3 Remaining)
     - client
         - render
             - LevelRendererMixin ``Triage``
@@ -109,7 +109,7 @@ Total Completed: 42/58
         - ~~level~~
             - ~~ServerChunkCacheMixin~~ ``FIXED``
 
-- server (3 Currently)
+- server (1 Remaining)
     - level
         - little
             - ~~LittleChunkMap~~ ``FIXED``
