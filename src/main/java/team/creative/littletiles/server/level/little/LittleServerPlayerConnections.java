@@ -22,8 +22,7 @@ public class LittleServerPlayerConnections {
     }
     
     public void tick() {
-        for (LittleServerPlayerHandler handler : listeners.values())
-            handler.tick();
+        for (LittleServerPlayerHandler handler : listeners.values()) handler.tick();
     }
     
 }

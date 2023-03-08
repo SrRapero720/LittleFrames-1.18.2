@@ -9,6 +9,6 @@ import net.minecraft.client.renderer.GameRenderer;
 public interface GameRendererAccessor {
     
     @Accessor
-    public boolean getRenderBlockOutline();
+    boolean getRenderBlockOutline();
     
 }

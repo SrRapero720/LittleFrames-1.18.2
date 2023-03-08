@@ -1,95 +1,32 @@
 package team.creative.littletiles.server.level.little;
 
-import java.util.List;
-import java.util.Objects;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.*;
-import net.minecraft.core.DefaultedRegistry;
-import net.minecraft.network.PacketListener;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.network.TextFilter;
-import net.minecraftforge.event.world.BlockEvent;
-import org.apache.logging.log4j.Logger;
-
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.PacketSendListener;
-import net.minecraft.network.TickablePacketListener;
+import net.minecraft.network.PacketListener;
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketUtils;
-import net.minecraft.network.protocol.game.ClientboundBlockChangedAckPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundTagQueryPacket;
-import net.minecraft.network.protocol.game.ServerGamePacketListener;
-import net.minecraft.network.protocol.game.ServerboundAcceptTeleportationPacket;
-import net.minecraft.network.protocol.game.ServerboundBlockEntityTagQuery;
-import net.minecraft.network.protocol.game.ServerboundChangeDifficultyPacket;
-import net.minecraft.network.protocol.game.ServerboundChatAckPacket;
-import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
-import net.minecraft.network.protocol.game.ServerboundChatPacket;
-import net.minecraft.network.protocol.game.ServerboundChatSessionUpdatePacket;
-import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
-import net.minecraft.network.protocol.game.ServerboundClientInformationPacket;
-import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
-import net.minecraft.network.protocol.game.ServerboundContainerButtonClickPacket;
-import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
-import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
-import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
-import net.minecraft.network.protocol.game.ServerboundEditBookPacket;
-import net.minecraft.network.protocol.game.ServerboundEntityTagQuery;
-import net.minecraft.network.protocol.game.ServerboundInteractPacket;
-import net.minecraft.network.protocol.game.ServerboundJigsawGeneratePacket;
-import net.minecraft.network.protocol.game.ServerboundKeepAlivePacket;
-import net.minecraft.network.protocol.game.ServerboundLockDifficultyPacket;
-import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
-import net.minecraft.network.protocol.game.ServerboundMoveVehiclePacket;
-import net.minecraft.network.protocol.game.ServerboundPaddleBoatPacket;
-import net.minecraft.network.protocol.game.ServerboundPickItemPacket;
-import net.minecraft.network.protocol.game.ServerboundPlaceRecipePacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerAbilitiesPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
-import net.minecraft.network.protocol.game.ServerboundPongPacket;
-import net.minecraft.network.protocol.game.ServerboundRecipeBookChangeSettingsPacket;
-import net.minecraft.network.protocol.game.ServerboundRecipeBookSeenRecipePacket;
-import net.minecraft.network.protocol.game.ServerboundRenameItemPacket;
-import net.minecraft.network.protocol.game.ServerboundResourcePackPacket;
-import net.minecraft.network.protocol.game.ServerboundSeenAdvancementsPacket;
-import net.minecraft.network.protocol.game.ServerboundSelectTradePacket;
-import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
-import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
-import net.minecraft.network.protocol.game.ServerboundSetCommandBlockPacket;
-import net.minecraft.network.protocol.game.ServerboundSetCommandMinecartPacket;
-import net.minecraft.network.protocol.game.ServerboundSetCreativeModeSlotPacket;
-import net.minecraft.network.protocol.game.ServerboundSetJigsawBlockPacket;
-import net.minecraft.network.protocol.game.ServerboundSetStructureBlockPacket;
-import net.minecraft.network.protocol.game.ServerboundSignUpdatePacket;
-import net.minecraft.network.protocol.game.ServerboundSwingPacket;
-import net.minecraft.network.protocol.game.ServerboundTeleportToEntityPacket;
-import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
-import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.FilteredText;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.network.ServerPlayerConnection;
+import net.minecraft.server.network.TextFilter;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BaseCommandBlock;
 import net.minecraft.world.level.GameType;
@@ -98,21 +35,22 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CommandBlock;
 import net.minecraft.world.level.block.GameMasterBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.CommandBlockEntity;
-import net.minecraft.world.level.block.entity.JigsawBlockEntity;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
-import net.minecraft.world.level.block.entity.StructureBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
+import org.apache.logging.log4j.Logger;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.packet.level.LittleLevelPacket;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Objects;
 
 public class LittleServerPlayerHandler implements ServerPlayerConnection, PacketListener, ServerGamePacketListener {
 
@@ -145,7 +83,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
 
     @Override
     public Connection getConnection() {
-        return null;
+        return player.connection.getConnection();
     }
 
     public ServerGamePacketListenerImpl getVanilla() {
@@ -432,18 +370,6 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
         }
     }
 
-    private static boolean wasBlockPlacementAttempt(ServerPlayer player, ItemStack stack) {
-        if (stack.isEmpty())
-            return false;
-        Item item = stack.getItem();
-        return (item instanceof BlockItem || item instanceof BucketItem) && !player.getCooldowns().isOnCooldown(item);
-    }
-
-    @Override
-    public void handleUseItemOn(ServerboundUseItemOnPacket packet) {
-
-    }
-
     @Override
     public void handleUseItem(ServerboundUseItemPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
@@ -489,14 +415,14 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
 
     @Override
     public void send(Packet<?> packet) {
-        this.send(packet, (PacketSendListener) null);
+        this.send(packet, (ServerGamePacketListener) packet);
     }
 
-    public void send(Packet<?> packet, @Nullable PacketSendListener listener) {
+    public void send(Packet<?> packet, @Nullable PacketListener listener) {
         try {
             LittleTiles.NETWORK.sendToClient(new LittleLevelPacket(level, packet), player);
-            if (listener != null)
-                listener.onSuccess();
+//            TODO: remove if breaks things. idk why but onSuccess on packet no exists in 1.19.2 (maybe 1.19.3 feature)
+            if (listener != null) listener.getConnection().send(packet);
         } catch (Throwable throwable) {
             CrashReport crashreport = CrashReport.forThrowable(throwable, "Sending packet");
             CrashReportCategory crashreportcategory = crashreport.addCategory("Packet being sent");
@@ -513,16 +439,6 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     @Override
     public void handleChat(ServerboundChatPacket packet) {
         getVanilla().handleChat(packet);
-    }
-
-    @Override
-    public void handleChatCommand(ServerboundChatCommandPacket packet) {
-        getVanilla().handleChatCommand(packet);
-    }
-
-    @Override
-    public void handleChatAck(ServerboundChatAckPacket packet) {
-        getVanilla().handleChatAck(packet);
     }
 
     @Override
@@ -576,33 +492,8 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
 //        ((ServerGamePacketListenerImplAccessor) getVanilla()).callFilterTextPacket(list).thenAcceptAsync((lines) -> this.updateSignText(packet, lines), this.server);
     }
 
-    private void updateSignText(ServerboundSignUpdatePacket packet, List<TextFilter.FilteredText> lines) {
-        this.player.resetLastActionTime();
-        BlockPos blockpos = packet.getPos();
-        if (level.hasChunkAt(blockpos)) {
-            BlockState blockstate = level.getBlockState(blockpos);
-            BlockEntity blockentity = level.getBlockEntity(blockpos);
-            if (!(blockentity instanceof SignBlockEntity)) {
-                return;
-            }
-
-            SignBlockEntity signblockentity = (SignBlockEntity) blockentity;
-            if (!signblockentity.isEditable() || !this.player.getUUID().equals(signblockentity.getPlayerWhoMayEdit())) {
-                LOGGER.warn("Player {} just tried to change non-editable sign", this.player.getName().getString());
-                return;
-            }
-
-            for (int i = 0; i < lines.size(); ++i) {
-                FilteredText filteredtext = lines.get(i);
-                if (this.player.isTextFilteringEnabled())
-                    signblockentity.setMessage(i, new TextComponent(filteredtext.filteredOrEmpty()));
-                else
-                    signblockentity.setMessage(i, new TextComponent(filteredtext.raw()), new TextComponent(filteredtext.filteredOrEmpty()));
-            }
-
-            signblockentity.setChanged();
-            level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
-        }
+    @Override
+    public void handleUseItemOn(ServerboundUseItemOnPacket p_133783_) {
 
     }
 
@@ -636,52 +527,37 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
         getVanilla().handleLockDifficulty(packet);
     }
 
-    @Override
-    public void handleChatSessionUpdate(ServerboundChatSessionUpdatePacket packet) {
-        getVanilla().handleChatSessionUpdate(packet);
-    }
 
-    @Override
+//    TODO: MISSING?
+//    IF CAUSE TICKING PROBLEMS, THEN BACKPORT MINECRAFT PACKETS HERE
     public void tick() {
-        if (this.ackBlockChangesUpTo > -1) {
-            this.send(new ClientboundBlockChangedAckPacket(this.ackBlockChangesUpTo));
-            this.ackBlockChangesUpTo = -1;
-        }
+//        if (this.ackBlockChangesUpTo > -1) {
+//            this.send(new ClientboundSectionBlocksUpdatePacket(this.));
+//            this.ackBlockChangesUpTo = -1;
+//        }
+//
+//        ++this.gameTicks;
+//        if (this.hasDelayedDestroy) {
+//            BlockState blockstate = this.level.getBlockState(this.delayedDestroyPos);
+//            if (blockstate.isAir())
+//                this.hasDelayedDestroy = false;
+//            else {
+//                float f = this.incrementDestroyProgress(blockstate, this.delayedDestroyPos, this.delayedTickStart);
+//                if (f >= 1.0F) {
+//                    this.hasDelayedDestroy = false;
+//                    this.destroyBlock(this.delayedDestroyPos);
+//                }
+//            }
+//        } else if (this.isDestroyingBlock) {
+//            BlockState blockstate1 = this.level.getBlockState(this.destroyPos);
+//            if (blockstate1.isAir()) {
+//                this.level.destroyBlockProgress(this.player.getId(), this.destroyPos, -1);
+//                this.lastSentState = -1;
+//                this.isDestroyingBlock = false;
+//            } else
+//                this.incrementDestroyProgress(blockstate1, this.destroyPos, this.destroyProgressStart);
+//        }
 
-        ++this.gameTicks;
-        if (this.hasDelayedDestroy) {
-            BlockState blockstate = this.level.getBlockState(this.delayedDestroyPos);
-            if (blockstate.isAir())
-                this.hasDelayedDestroy = false;
-            else {
-                float f = this.incrementDestroyProgress(blockstate, this.delayedDestroyPos, this.delayedTickStart);
-                if (f >= 1.0F) {
-                    this.hasDelayedDestroy = false;
-                    this.destroyBlock(this.delayedDestroyPos);
-                }
-            }
-        } else if (this.isDestroyingBlock) {
-            BlockState blockstate1 = this.level.getBlockState(this.destroyPos);
-            if (blockstate1.isAir()) {
-                this.level.destroyBlockProgress(this.player.getId(), this.destroyPos, -1);
-                this.lastSentState = -1;
-                this.isDestroyingBlock = false;
-            } else
-                this.incrementDestroyProgress(blockstate1, this.destroyPos, this.destroyProgressStart);
-        }
-
-    }
-
-    private float incrementDestroyProgress(BlockState state, BlockPos pos, int ticks) {
-        int i = this.gameTicks - ticks;
-        float f = state.getDestroyProgress(this.player, level, pos) * (i + 1);
-        int j = (int) (f * 10.0F);
-        if (j != this.lastSentState) {
-            this.level.destroyBlockProgress(this.player.getId(), pos, j);
-            this.lastSentState = j;
-        }
-
-        return f;
     }
 
     private void debugLogging(BlockPos pos, boolean p_215127_, int sequence, String message) {
