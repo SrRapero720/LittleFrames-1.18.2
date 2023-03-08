@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 37/59
+Total Completed: 39/58
 
 - client (13 Currently)
     - level
@@ -56,9 +56,9 @@ Total Completed: 37/59
         - little
             - BlockUpdateLevelSystem
             - LevelChunkSerializer
-    - math
-        - box
-            - TransformableVoxelShape
+    - ~~math~~
+        - ~~box~~
+            - ~~TransformableVoxelShape~~ ``FIXED``
         - ~~location~~
             - ~~StructureLocation~~ ``FIXED``
             - ~~TileLocation~~ ``FIXED``
@@ -77,7 +77,7 @@ Total Completed: 37/59
             - ~~MarkMode~~ ``FIXED``
         - ~~shape~~
             - ~~ShapeSelection~~ ``FIXED``
-    - structure
+    - ~~structure~~
         - ~~registry~~
             - ~~premade~~
                 - ~~LittlePremadeRegistry~~ ``FIXED``
@@ -86,13 +86,13 @@ Total Completed: 37/59
             - ~~schedule~~
                 - ~~SignalTicker~~ ``FIXED``
             - ~~LittleSignalHandler~~ ``FIXED``
-        - type
-            - premade
+        - ~~type~~
+            - ~~premade~~
                 - ~~LittleBlankOMatic~~ ``DELETED``
                 - ~~LittleExporter~~ ``DELETED``
                 - ~~LittleImporter~~ ``DELETED``
                 - ~~LittleParticleEmitter~~ ``DELETED``
-                - LittleStructureBuilder ``Almost fixed``
+                - ~~LittleStructureBuilder~~ ``FIXED``
                 - ~~LittleWorkbench~~ ``DELETED``
             - ~~LittleStorage~~ ``FIXED``
         - ~~LittleStructure~~ ``POTENTIAL FIX``

@@ -14,6 +14,7 @@ import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
@@ -89,19 +90,11 @@ public class LittleTilesClient {
 
     public static void load(IEventBus bus) {
         bus.addListener(LittleTilesClient::setup);
-        MinecraftForge.EVENT_BUS.addListener(LittleTilesClient::commands);
-        bus.addListener(LittleTilesClient::initColors);
         bus.addListener(LittleTilesClient::modelEvent);
         bus.addListener(LittleTilesClient::modelLoader);
     }
 
     private static void setup(final FMLClientSetupEvent event) {
-        mc.getItemColors().register((stack, layer) -> {
-            if (layer == 0)
-                return ColorUtils.WHITE;
-            return ItemLittlePaintBrush.getColor(stack);
-        }, LittleTilesRegistry.PAINT_BRUSH.get());
-
         LEVEL_HANDLERS.register(LittleActionHandlerClient::new, x -> ACTION_HANDLER = x);
         LEVEL_HANDLERS.register(LittleAnimationHandlerClient::new, x -> ANIMATION_HANDLER = x);
         LEVEL_HANDLERS.register(LittleInteractionHandlerClient::new, x -> INTERACTION_HANDLER = x);
@@ -126,10 +119,6 @@ public class LittleTilesClient {
 
         ResourceLocation filled = new ResourceLocation(LittleTiles.MODID, "filled");
         ClampedItemPropertyFunction function = (stack, level, entity, x) -> ((ItemColorIngredient) stack.getItem()).getColor(stack) / (float) ColorIngredient.BOTTLE_SIZE;
-        ItemProperties.register(LittleTilesRegistry.BLACK_COLOR.get(), filled, function);
-        ItemProperties.register(LittleTilesRegistry.CYAN_COLOR.get(), filled, function);
-        ItemProperties.register(LittleTilesRegistry.MAGENTA_COLOR.get(), filled, function);
-        ItemProperties.register(LittleTilesRegistry.YELLOW_COLOR.get(), filled, function);
     }
 
     public static void modelLoader(ModelRegistryEvent event) {
@@ -181,25 +170,12 @@ public class LittleTilesClient {
 
                 @Override
                 protected ItemStack getFakeStack(ItemStack current) {
-                    GloveMode mode = ItemLittleGlove.getMode(current);
-                    if (mode.renderBlockSeparately(current)) {
-                        if (stack == null)
-                            stack = new ItemStack(LittleTilesRegistry.ITEM_TILES.get());
-                        stack.setTag(current.getTag());
-                        return stack;
-                    }
-                    return new ItemStack(mode.getSeparateRenderingPreview(current).getState().getBlock());
+                    // Temporary fix, may not work
+                    return new ItemStack(Items.STONE);
                 }
             });
-        CreativeCoreClient
-            .registerItemModel(new ResourceLocation(LittleTiles.MODID, "chisel"), new LittleModelItemPreview(new ModelResourceLocation(LittleTiles.MODID, "chisel_background", "inventory"), stack -> ItemLittleChisel
-                .getElement(stack)));
-        CreativeCoreClient
-            .registerItemModel(new ResourceLocation(LittleTiles.MODID, "blueprint"), new LittleModelItemBackground(new ModelResourceLocation(LittleTiles.MODID, "blueprint_background", "inventory"), () -> new ItemStack(LittleTilesRegistry.ITEM_TILES
-                .get())));
 
-        CreativeCoreClient
-            .registerItemModel(new ResourceLocation(LittleTiles.MODID, "blockingredient"), new CreativeItemBoxModel(new ModelResourceLocation("miencraft", "stone", "inventory")) {
+        CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "blockingredient"), new CreativeItemBoxModel(new ModelResourceLocation("miencraft", "stone", "inventory")) {
 
                 @Override
                 public List<? extends RenderBox> getBoxes(ItemStack stack, boolean translucent) {
