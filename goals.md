@@ -1,5 +1,5 @@
 # LittleTiles Classes to Backport
-Total Completed: 37/59
+Total Completed: 38/59
 
 - client (13 Currently)
     - level
@@ -92,7 +92,7 @@ Total Completed: 37/59
                 - ~~LittleExporter~~ ``DELETED``
                 - ~~LittleImporter~~ ``DELETED``
                 - ~~LittleParticleEmitter~~ ``DELETED``
-                - LittleStructureBuilder ``Almost fixed``
+                - ~~LittleStructureBuilder~~ ``FIXED``
                 - ~~LittleWorkbench~~ ``DELETED``
             - ~~LittleStorage~~ ``FIXED``
         - ~~LittleStructure~~ ``POTENTIAL FIX``
