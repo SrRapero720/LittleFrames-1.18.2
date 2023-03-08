@@ -10,12 +10,12 @@ I just want to make functional this backport. No port every new change from the 
 mod (Still requires CreativeCore-1.18.2)
 
 ### WATERCoRE
-Because i am not a huge fan of CreativeCore (is overcomplicated)
-this mod gonna depends on [WATERCoRE](https://github.com/SrRapero720/WATERCoRE), but isn't ready.
+Because I am not a huge fan of CreativeCore (it is overcomplicated)
+this mod is going to depend on [WATERCoRE](https://github.com/SrRapero720/WATERCoRE), but isn't ready.
 
 ## AUTORS
-- SrRapero720
-- CoolDCB
+- [SrRapero720](https://github.com/SrRapero720)
+- [CoolDCB](https://github.com/CoolDCB)
 
 ## LICENCE
 All rights reserved
