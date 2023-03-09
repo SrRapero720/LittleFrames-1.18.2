@@ -48,7 +48,7 @@ public abstract class GuiControl {
     public boolean isClient() {
         if (parent != null)
             return parent.isClient();
-        return CreativeCore.loader().getEffectiveSide().isClient();
+        return CreativeCore.loader().getOverallSide().isClient();
     }
 
     public GuiControl setTooltip(List<Component> tooltip) {
