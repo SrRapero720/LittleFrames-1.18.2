@@ -5,7 +5,7 @@ import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.event.GuiEvent;
 import me.srrapero720.creativecore.common.gui.integration.IGuiIntegratedParent;
 
-public interface IGuiParent {
+public interface IGuiParent extends team.creative.creativecore.common.gui.IGuiParent {
 
     boolean isContainer();
 

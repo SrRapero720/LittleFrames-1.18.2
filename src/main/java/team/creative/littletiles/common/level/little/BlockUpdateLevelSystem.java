@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import me.srrapero720.waterframes.backport.math.AxisUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.type.itr.FunctionIterator;
 import me.srrapero720.creativecore.common.util.type.set.QuadBitSet;
@@ -157,12 +158,12 @@ public class BlockUpdateLevelSystem {
     
     private Iterable<BlockPos> edges(Facing facing) {
         MutableBlockPos pos = new MutableBlockPos();
-        facing.axis.set(pos, get(facing));
+        AxisUtil.convertToAxisUtil(facing.axis).set(pos, get(facing));
         Axis one = facing.one();
         Axis two = facing.two();
         return () -> new FunctionIterator<>(getEdgeSet(facing), x -> {
-            one.set(pos, (int) x.x);
-            two.set(pos, (int) x.y);
+            AxisUtil.convertToAxisUtil(one).set(pos, (int) x.x);
+            AxisUtil.convertToAxisUtil(two).set(pos, (int) x.y);
             return pos;
         });
     }
@@ -254,8 +255,9 @@ public class BlockUpdateLevelSystem {
             axisValueStart = facing.positive ? Math.min(start - blockPosOffset, 15) : Math.max(start - blockPosOffset, 0);
         int axisValueEnd = facing.positive ? 0 : 15;
         
-        Axis one = facing.one();
-        Axis two = facing.two();
+        var one = AxisUtil.convertToAxisUtil(facing.one());
+        var two = AxisUtil.convertToAxisUtil(facing.two());
+
         for (ChunkAccess chunk : edgeChunks) {
             int offsetOne = SectionPos.sectionToBlockCoord(one.get(chunk.getPos()));
             int offsetTwo = SectionPos.sectionToBlockCoord(two.get(chunk.getPos()));
@@ -267,9 +269,9 @@ public class BlockUpdateLevelSystem {
                 
                 for (int valueOne = 0; valueOne < LevelChunkSection.SECTION_WIDTH; valueOne++) {
                     for (int valueTwo = 0; valueTwo < LevelChunkSection.SECTION_WIDTH; valueTwo++) {
-                        int x = one == Axis.X ? valueOne : valueTwo;
+                        int x = AxisUtil.revertToAxis(one) == Axis.X ? valueOne : valueTwo;
                         int y = axisValue;
-                        int z = one == Axis.Z ? valueOne : valueTwo;
+                        int z = AxisUtil.revertToAxis(one) == Axis.Z ? valueOne : valueTwo;
                         
                         if (section.getBlockState(x, y, z).isAir())
                             continue;
@@ -300,7 +302,7 @@ public class BlockUpdateLevelSystem {
             return;
         }
         
-        Axis axis = facing.axis;
+        var axis = AxisUtil.convertToAxisUtil(facing.axis);
         QuadBitSet edge = getEdgeSet(facing);
         edge.clear();
         List<ChunkAccess> edgeChunks = new ArrayList<>();
@@ -412,9 +414,9 @@ public class BlockUpdateLevelSystem {
         if (newState.isAir()) { // Shrinking
             for (int i = 0; i < Facing.VALUES.length; i++) {
                 Facing facing = Facing.get(i);
-                if (facing.axis.get(pos) == get(facing)) {
+                if (AxisUtil.convertToAxisUtil(facing.axis).get(pos) == get(facing)) {
                     QuadBitSet set = getEdgeSet(facing);
-                    set.set(facing.one().get(pos), facing.two().get(pos), false);
+                    set.set(AxisUtil.convertToAxisUtil(facing.one()).get(pos), AxisUtil.convertToAxisUtil(facing.two()).get(pos), false);
                     if (set.isEmpty())
                         findEdge(facing, get(facing) + (facing.positive ? -1 : 1));
                     changed[facing.ordinal()] = true;
@@ -426,16 +428,16 @@ public class BlockUpdateLevelSystem {
         for (int i = 0; i < Facing.VALUES.length; i++) {
             Facing facing = Facing.get(i);
             int bound = get(facing);
-            if (facing.axis.get(pos) == bound) {
+            if (AxisUtil.convertToAxisUtil(facing.axis).get(pos) == bound) {
                 QuadBitSet set = getEdgeSet(facing);
-                set.set(facing.one().get(pos), facing.two().get(pos), true);
+                set.set(AxisUtil.convertToAxisUtil(facing.one()).get(pos), AxisUtil.convertToAxisUtil(facing.two()).get(pos), true);
                 emptyLevel = false;
                 changed[facing.ordinal()] = true;
-            } else if (facing.positive ? facing.axis.get(pos) > bound : facing.axis.get(pos) < bound) {
+            } else if (facing.positive ? AxisUtil.convertToAxisUtil(facing.axis).get(pos) > bound : AxisUtil.convertToAxisUtil(facing.axis).get(pos) < bound) {
                 QuadBitSet set = getEdgeSet(facing);
                 set.clear();
-                set.set(facing.one().get(pos), facing.two().get(pos), true);
-                set(facing, facing.axis.get(pos));
+                set.set(AxisUtil.convertToAxisUtil(facing.one()).get(pos), AxisUtil.convertToAxisUtil(facing.two()).get(pos), true);
+                set(facing, AxisUtil.convertToAxisUtil(facing.axis).get(pos));
                 emptyLevel = false;
                 changed[facing.ordinal()] = true;
             }

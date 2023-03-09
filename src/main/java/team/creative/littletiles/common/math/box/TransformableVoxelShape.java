@@ -1,8 +1,8 @@
 package team.creative.littletiles.common.math.box;
 
 import net.minecraft.world.phys.AABB;
-import me.srrapero720.creativecore.common.util.math.Maths;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.Maths;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import me.srrapero720.creativecore.common.util.math.box.AABBVoxelShape;
 import team.creative.creativecore.common.util.math.geo.NormalPlane;
@@ -114,7 +114,7 @@ public class TransformableVoxelShape extends AABBVoxelShape {
                     Vec3f vec = tempFan.get(j);
                     float tempDistance = positive ? vec.get(axis) - otherAxis : otherAxis - vec.get(axis);
                     
-                    if (tempDistance < 0 && !Maths.equals(tempDistance, 0)) return offset;
+                    if (tempDistance < 0 && !voxelEquals(tempDistance, 0)) return offset;
                     
                     if (tempDistance < distance)
                         distance = tempDistance;
@@ -138,5 +138,8 @@ public class TransformableVoxelShape extends AABBVoxelShape {
         }
         return offset;
     }
-    
+
+    public static boolean voxelEquals(double a, double b) {
+        return a == b ? true : Math.abs(a - b) < 0.001F;
+    }
 }

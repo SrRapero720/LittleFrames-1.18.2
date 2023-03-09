@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.box.BoxCorner;
@@ -353,16 +353,16 @@ public class LittleBox {
     public boolean isBoxInsideBlock(LittleGrid grid) {
         return minX >= 0 && maxX <= grid.count && minY >= 0 && maxY <= grid.count && minZ >= 0 && maxZ <= grid.count;
     }
-    
+
     public void splitIterator(LittleGrid grid, MutableBlockPos toUse, LittleVec vec, BiConsumer<MutableBlockPos, LittleBox> consumer) {
         int minOffX = grid.toBlockOffset(minX + vec.x);
         int minOffY = grid.toBlockOffset(minY + vec.y);
         int minOffZ = grid.toBlockOffset(minZ + vec.z);
-        
+
         int maxOffX = grid.toBlockOffset(maxX + vec.x);
         int maxOffY = grid.toBlockOffset(maxY + vec.y);
         int maxOffZ = grid.toBlockOffset(maxZ + vec.z);
-        
+
         for (int x = minOffX; x <= maxOffX; x++) {
             for (int y = minOffY; y <= maxOffY; y++) {
                 for (int z = minOffZ; z <= maxOffZ; z++) {
@@ -372,10 +372,10 @@ public class LittleBox {
                     int maxX = Math.min(this.maxX + vec.x, x * grid.count + grid.count);
                     int maxY = Math.min(this.maxY + vec.y, y * grid.count + grid.count);
                     int maxZ = Math.min(this.maxZ + vec.z, z * grid.count + grid.count);
-                    
+
                     if (maxX > minX && maxY > minY && maxZ > minZ) {
                         toUse.set(x, y, z);
-                        
+
                         LittleBox box = extractBox(minX - vec.x, minY - vec.y, minZ - vec.z, maxX - vec.x, maxY - vec.y, maxZ - vec.z, null);
                         if (box != null) {
                             box.add(vec);
@@ -387,7 +387,7 @@ public class LittleBox {
             }
         }
     }
-    
+
     public void split(LittleGrid grid, BlockPos offset, LittleVec vec, HashMapList<BlockPos, LittleBox> boxes, @Nullable LittleBoxReturnedVolume volume) {
         int minOffX = grid.toBlockOffset(minX + vec.x);
         int minOffY = grid.toBlockOffset(minY + vec.y);
@@ -1050,11 +1050,8 @@ public class LittleBox {
         
         if (x && z && (minY == box.maxY || box.minY == maxY))
             return true;
-        
-        if (y && z && (minX == box.maxX || box.minX == maxX))
-            return true;
-        
-        return false;
+
+        return y && z && (minX == box.maxX || box.minX == maxX);
     }
     
     // ================Rotation & Flip================

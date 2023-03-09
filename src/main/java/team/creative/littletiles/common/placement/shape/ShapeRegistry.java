@@ -1,26 +1,12 @@
 package team.creative.littletiles.common.placement.shape;
 
+import team.creative.creativecore.common.util.registry.NamedHandlerRegistry;
+import team.creative.creativecore.common.util.type.map.HashMapList;
+import team.creative.littletiles.common.placement.shape.type.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import team.creative.creativecore.common.util.registry.NamedHandlerRegistry;
-import team.creative.creativecore.common.util.type.map.HashMapList;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeBox;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeConnected;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeCurve;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeCurveWall;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeCylinder;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeInnerCorner;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeOuterCorner;
-import team.creative.littletiles.common.placement.shape.type.LittleShapePillar;
-import team.creative.littletiles.common.placement.shape.type.LittleShapePolygon;
-import team.creative.littletiles.common.placement.shape.type.LittleShapePyramid;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeSlice;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeSphere;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeTile;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeType;
-import team.creative.littletiles.common.placement.shape.type.LittleShapeWall;
 
 public class ShapeRegistry {
     
@@ -59,20 +45,7 @@ public class ShapeRegistry {
         registerShape("box", DEFAULT_SHAPE, ShapeType.SHAPE);
         registerShape("connected", new LittleShapeConnected(), ShapeType.SELECTOR);
         
-        registerShape("slice", new LittleShapeSlice(), ShapeType.SHAPE);
-        registerShape("inner_corner", new LittleShapeInnerCorner(), ShapeType.SHAPE);
-        registerShape("outer_corner", new LittleShapeOuterCorner(), ShapeType.SHAPE);
-        
         registerShape("polygon", new LittleShapePolygon(), ShapeType.SHAPE);
-        
-        registerShape("wall", new LittleShapeWall(), ShapeType.SHAPE);
-        registerShape("pillar", new LittleShapePillar(), ShapeType.SHAPE);
-        registerShape("curve", new LittleShapeCurve(), ShapeType.SHAPE);
-        registerShape("curvewall", new LittleShapeCurveWall(), ShapeType.SHAPE);
-        
-        registerShape("cylinder", new LittleShapeCylinder(), ShapeType.SHAPE);
-        registerShape("sphere", new LittleShapeSphere(), ShapeType.SHAPE);
-        registerShape("pyramid", new LittleShapePyramid(), ShapeType.SHAPE);
         
     }
     

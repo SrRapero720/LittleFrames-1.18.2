@@ -13,8 +13,8 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement.Usage;
 
 import com.mojang.math.Vector3d;
-import me.srrapero720.creativecore.client.render.model.FBakedQuad;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.client.render.face.FRenderBoxFace;
+import team.creative.creativecore.client.render.model.CreativeBakedQuad;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
@@ -27,8 +27,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import me.srrapero720.creativecore.client.render.face.FRenderBoxFace;
+import team.creative.creativecore.client.render.box.RenderBox;
 import team.creative.creativecore.common.mod.OptifineHelper;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.geo.NormalPlane;
@@ -38,7 +39,7 @@ import team.creative.creativecore.common.util.math.vec.Vec3f;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 
 @OnlyIn(value = Dist.CLIENT)
-public class FRenderBox extends AlignedBox {
+public class FRenderBox extends RenderBox {
     
     private static final VectorFan DOWN = new VectorFanSimple(new Vec3f[] { new Vec3f(0, 0, 1), new Vec3f(0, 0, 0), new Vec3f(1, 0, 0), new Vec3f(1, 0, 1) });
     private static final VectorFan UP = new VectorFanSimple(new Vec3f[] { new Vec3f(0, 1, 0), new Vec3f(0, 1, 1), new Vec3f(1, 1, 1), new Vec3f(1, 1, 0) });
@@ -98,7 +99,7 @@ public class FRenderBox extends AlignedBox {
     }
     
     public FRenderBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, BlockState state) {
-        super(minX, minY, minZ, maxX, maxY, maxZ);
+        super(minX, minY, minZ, maxX, maxY, maxZ, state);
         this.state = state;
     }
     
@@ -222,13 +223,13 @@ public class FRenderBox extends AlignedBox {
     
     public boolean intersectsWithFace(Facing facing, RenderInformationHolder holder, BlockPos offset) {
         switch (facing.axis) {
-            case me.srrapero720.creativecore.common.util.math.base.Axis.X:
+            case X:
                 return holder.maxY > this.minY - offset.getY() && holder.minY < this.maxY - offset.getY() && holder.maxZ > this.minZ - offset
                         .getZ() && holder.minZ < this.maxZ - offset.getZ();
-            case me.srrapero720.creativecore.common.util.math.base.Axis.Y:
+            case Y:
                 return holder.maxX > this.minX - offset.getX() && holder.minX < this.maxX - offset.getX() && holder.maxZ > this.minZ - offset
                         .getZ() && holder.minZ < this.maxZ - offset.getZ();
-            case me.srrapero720.creativecore.common.util.math.base.Axis.Z:
+            case Z:
                 return holder.maxX > this.minX - offset.getX() && holder.minX < this.maxX - offset.getX() && holder.maxY > this.minY - offset
                         .getY() && holder.minY < this.maxY - offset.getY();
         }
@@ -236,7 +237,7 @@ public class FRenderBox extends AlignedBox {
     }
     
     protected Object getRenderQuads(Facing facing) {
-        if (getFace(facing).hasCachedFans())
+        if (getFace(facing).deleteQuadCache())
             return getFace(facing).getCachedFans();
         switch (facing) {
             case DOWN:
@@ -437,7 +438,7 @@ public class FRenderBox extends AlignedBox {
         
         if (blockQuads.isEmpty())
             return Collections.emptyList();
-        RenderInformationHolder holder = new RenderInformationHolder(DefaultVertexFormat.BLOCK, facing, this.color != -1 ? this.color : defaultColor);
+        RenderInformationHolder holder = new RenderBox.RenderInformationHolder(DefaultVertexFormat.BLOCK, facing, this.color != -1 ? this.color : defaultColor);
         holder.offset = offset;
         
         List<BakedQuad> quads = new ArrayList<>();
@@ -463,19 +464,19 @@ public class FRenderBox extends AlignedBox {
             uvIndex = index + holder.uvOffset / 4;
             if (tempMinX != Float.intBitsToFloat(data[index])) {
                 if (tempU != Float.intBitsToFloat(data[uvIndex]))
-                    holder.uvInverted = me.srrapero720.creativecore.common.util.math.base.Axis.X != facing.getUAxis();
+                    holder.uvInverted = Axis.X != facing.getUAxis();
                 else
-                    holder.uvInverted = me.srrapero720.creativecore.common.util.math.base.Axis.X != facing.getVAxis();
+                    holder.uvInverted = Axis.X != facing.getVAxis();
             } else if (tempMinY != Float.intBitsToFloat(data[index + 1])) {
                 if (tempU != Float.intBitsToFloat(data[uvIndex]))
-                    holder.uvInverted = me.srrapero720.creativecore.common.util.math.base.Axis.Y != facing.getUAxis();
+                    holder.uvInverted = Axis.Y != facing.getUAxis();
                 else
-                    holder.uvInverted = me.srrapero720.creativecore.common.util.math.base.Axis.Y != facing.getVAxis();
+                    holder.uvInverted = Axis.Y != facing.getVAxis();
             } else {
                 if (tempU != Float.intBitsToFloat(data[uvIndex]))
-                    holder.uvInverted = me.srrapero720.creativecore.common.util.math.base.Axis.Z != facing.getUAxis();
+                    holder.uvInverted = Axis.Z != facing.getUAxis();
                 else
-                    holder.uvInverted = me.srrapero720.creativecore.common.util.math.base.Axis.Z != facing.getVAxis();
+                    holder.uvInverted = Axis.Z != facing.getVAxis();
             }
             
             index = 2 * holder.format.getIntegerSize();
@@ -513,7 +514,7 @@ public class FRenderBox extends AlignedBox {
         }
         
         for (BakedQuad quad : quads)
-            if (quad instanceof FBakedQuad c)
+            if (quad instanceof CreativeBakedQuad c)
                 c.updateAlpha();
         return quads;
         
@@ -541,7 +542,7 @@ public class FRenderBox extends AlignedBox {
         public BakedQuad quad;
         
         public NormalPlane normal;
-        public Ray2d ray = new Ray2d(me.srrapero720.creativecore.common.util.math.base.Axis.X, Axis.Y, 0, 0, 0, 0);
+        public Ray2d ray = new Ray2d(Axis.X, Axis.Y, 0, 0, 0, 0);
         
         public final boolean scaleAndOffset;
         
@@ -619,11 +620,11 @@ public class FRenderBox extends AlignedBox {
         
         public boolean hasBounds() {
             switch (facing.axis) {
-                case Axis.X:
+                case X:
                     return minY != 0 || maxY != 1 || minZ != 0 || maxZ != 1;
-                case Axis.Y:
+                case Y:
                     return minX != 0 || maxX != 1 || minZ != 0 || maxZ != 1;
-                case Axis.Z:
+                case Z:
                     return minX != 0 || maxX != 1 || minY != 0 || maxY != 1;
             }
             return false;
@@ -641,6 +642,7 @@ public class FRenderBox extends AlignedBox {
         @Environment(EnvType.CLIENT)
         @OnlyIn(Dist.CLIENT)
         public void generate(RenderInformationHolder holder, List<BakedQuad> quads) {
+            var ri = new RenderBox.RenderInformationHolder(holder.format, holder.format, holder.color)
             int index = 0;
             while (index < coords.length - 3) {
                 generate(holder, coords[0], coords[index + 1], coords[index + 2], coords[index + 3], quads);

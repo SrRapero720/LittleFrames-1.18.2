@@ -2,7 +2,6 @@ package me.srrapero720.creativecore.common.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import me.srrapero720.creativecore.common.gui.flow.GuiSizeRule;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -16,7 +15,6 @@ import team.creative.creativecore.common.gui.GuiChildControl;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.event.GuiEvent;
 import team.creative.creativecore.common.gui.event.GuiTooltipEvent;
-import me.srrapero720.creativecore.common.gui.integration.IGuiIntegratedParent;
 import team.creative.creativecore.common.gui.style.ControlFormatting;
 import team.creative.creativecore.common.gui.style.GuiStyle;
 import team.creative.creativecore.common.gui.style.display.StyleDisplay;
@@ -26,13 +24,12 @@ import team.creative.creativecore.common.util.text.TextBuilder;
 
 import java.util.List;
 
-public abstract class GuiControl {
+public abstract class GuiControl extends team.creative.creativecore.common.gui.GuiControl {
 
     private IGuiParent parent;
     public final String name;
     public boolean enabled = true;
 
-    public GuiSizeRule preferred;
     public boolean expandableX = false;
     public boolean expandableY = false;
 
@@ -41,17 +38,20 @@ public abstract class GuiControl {
     private List<Component> customTooltip;
 
     public GuiControl(String name) {
+        super(name);
         this.name = name;
     }
 
     // BASICS
 
+    @Override
     public boolean isClient() {
         if (parent != null)
             return parent.isClient();
         return CreativeCore.loader().getOverallSide().isClient();
     }
 
+    @Override
     public GuiControl setTooltip(List<Component> tooltip) {
         if (tooltip != null && tooltip.isEmpty())
             this.customTooltip = null;
@@ -60,119 +60,106 @@ public abstract class GuiControl {
         return this;
     }
 
+    @Override
     public GuiControl setVisible(boolean visible) {
         this.visible = visible;
         return this;
     }
 
+    @Override
     public GuiControl setFixed() {
         this.expandableX = false;
         this.expandableY = false;
         return this;
     }
 
+    @Override
     public GuiControl setFixedX() {
         this.expandableX = false;
         return this;
     }
 
+    @Override
     public GuiControl setFixedY() {
         this.expandableY = false;
         return this;
     }
 
+    @Override
     public GuiControl setExpandable() {
         this.expandableX = true;
         this.expandableY = true;
         return this;
     }
 
-    public GuiControl setUnexpandable() {
-        this.expandableX = false;
-        this.expandableY = false;
-        return this;
-    }
 
     public GuiControl setExpandableX() {
         this.expandableX = true;
         return this;
     }
 
-    public GuiControl setUnexpandableX() {
-        this.expandableX = false;
-        return this;
-    }
-
+    @Override
     public GuiControl setExpandableY() {
         this.expandableY = true;
         return this;
     }
 
-    public GuiControl setUnexpandableY() {
-        this.expandableY = false;
-        return this;
-    }
-
-    public GuiControl setDim(int width, int height) {
-        this.preferred = new GuiSizeRule.GuiFixedDimension(width, height);
-        return this;
-    }
-
-    public GuiControl setDim(GuiSizeRule dim) {
-        this.preferred = dim;
-        return this;
-    }
-
+    @Override
     public GuiControl setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }
 
+    @Override
     public boolean hasGui() {
         if (parent != null)
             return parent.hasGui();
         return false;
     }
 
+
     public void setParent(IGuiParent parent) {
         this.parent = parent;
     }
 
-    public IGuiParent getParent() {
+    @Override
+    public team.creative.creativecore.common.gui.IGuiParent getParent() {
         return parent;
     }
 
-    public IGuiIntegratedParent getIntegratedParent() {
-        return parent.getIntegratedParent();
-    }
 
+    @Override
     public boolean isExpandableX() {
         return expandableX;
     }
 
+    @Override
     public boolean isExpandableY() {
         return expandableY;
     }
 
+    @Override
     public String getNestedName() {
         if (getParent() instanceof GuiControl)
             return ((GuiControl) getParent()).getNestedName() + "." + name;
         return name;
     }
 
+    @Override
     public boolean hasLayer() {
         if (parent instanceof GuiControl)
             return ((GuiControl) parent).hasLayer();
         return false;
     }
 
+    @Override
     public GuiLayer getLayer() {
         if (parent instanceof GuiControl)
             return ((GuiControl) parent).getLayer();
         throw new RuntimeException("Invalid layer control");
     }
 
-    @Environment(EnvType.CLIENT)
+    @Override
     @OnlyIn(Dist.CLIENT)
     public GuiStyle getStyle() {
         if (parent instanceof GuiControl)
@@ -180,11 +167,15 @@ public abstract class GuiControl {
         throw new RuntimeException("Invalid layer control");
     }
 
+    @Override
     public abstract void init();
 
+    @Override
     public abstract void closed();
 
+    @Override
     public abstract void tick();
+
 
     public boolean is(String name) {
         if (this.name.equalsIgnoreCase(name))
@@ -192,6 +183,7 @@ public abstract class GuiControl {
         return false;
     }
 
+    @Override
     public boolean is(String... name) {
         for (int i = 0; i < name.length; i++) {
             if (this.name.equalsIgnoreCase(name[i]))
@@ -202,94 +194,49 @@ public abstract class GuiControl {
 
     // SIZE
 
+    @Override
     public void reflow() {
         parent.reflow();
     }
 
-    protected int minWidth(int availableWidth) {
-        return -1;
-    }
-
-    public final int getMinWidth(int availableWidth) {
-        if (preferred != null) {
-            int minWidth = preferred.minWidth(this, availableWidth);
-            if (minWidth != -1)
-                return minWidth;
-        }
-        return minWidth(availableWidth);
-    }
-
-    protected int maxWidth(int availableWidth) {
-        return -1;
-    }
-
-    public final int getMaxWidth(int availableWidth) {
-        if (preferred != null) {
-            int maxWidth = preferred.maxWidth(this, availableWidth);
-            if (maxWidth != -1)
-                return maxWidth;
-        }
-        return maxWidth(availableWidth);
-    }
-
-    protected int minHeight(int width, int availableHeight) {
-        return -1;
-    }
-
-    public final int getMinHeight(int width, int availableHeight) {
-        if (preferred != null) {
-            int minHeight = preferred.minHeight(this, width, availableHeight);
-            if (minHeight != -1)
-                return minHeight;
-        }
-        return minHeight(width, availableHeight);
-    }
-
-    protected int maxHeight(int width, int availableHeight) {
-        return -1;
-    }
-
-    public final int getMaxHeight(int width, int availableHeight) {
-        if (preferred != null) {
-            int maxHeight = preferred.maxHeight(this, width, availableHeight);
-            if (maxHeight != -1)
-                return maxHeight;
-        }
-        return maxHeight(width, availableHeight);
-    }
 
     // INTERACTION
 
-    public boolean testForDoubleClick(Rect rect, double x, double y, int button) {
-        return false;
-    }
-
+    @Override
     public boolean isInteractable() {
         return enabled && visible;
     }
 
+    @Override
     public void mouseMoved(Rect rect, double x, double y) {}
 
+    @Override
     public boolean mouseClicked(Rect rect, double x, double y, int button) {
         return false;
     }
 
+    @Override
     public boolean mouseDoubleClicked(Rect rect, double x, double y, int button) {
         return mouseClicked(rect, x, y, button);
     }
 
+    @Override
     public void mouseReleased(Rect rect, double x, double y, int button) {}
 
+    @Override
     public void mouseDragged(Rect rect, double x, double y, int button, double dragX, double dragY, double time) {}
 
+    @Override
     public boolean mouseScrolled(Rect rect, double x, double y, double delta) {
         return false;
     }
 
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         return false;
     }
 
+    @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         return false;
     }
@@ -300,6 +247,7 @@ public abstract class GuiControl {
 
     public void looseFocus() {}
 
+    @Override
     public void raiseEvent(GuiEvent event) {
         if (parent != null)
             parent.raiseEvent(event);
@@ -307,14 +255,15 @@ public abstract class GuiControl {
 
     // APPERANCE
 
+    @Override
     public abstract ControlFormatting getControlFormatting();
 
-    @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
     public int getContentOffset() {
         return getStyle().getContentOffset(getControlFormatting());
     }
 
+    @Override
     public GuiTooltipEvent getTooltipEvent(Rect rect, double x, double y) {
         List<Component> toolTip = getTooltip();
 
@@ -335,6 +284,7 @@ public abstract class GuiControl {
         return null;
     }
 
+    @Override
     public List<Component> getTooltip() {
         return null;
     }

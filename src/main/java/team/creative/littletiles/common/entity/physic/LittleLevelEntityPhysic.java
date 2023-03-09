@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.collision.CollisionCoordinator;
-import me.srrapero720.creativecore.common.util.math.matrix.IVecOrigin;
+import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.api.common.block.LittlePhysicBlock;
 import team.creative.littletiles.common.entity.INoPushEntity;
@@ -73,7 +73,7 @@ public class LittleLevelEntityPhysic implements LevelBoundsListener {
     }
     
     public AABB getBB() {
-        return getOrigin().getAABB(bb);
+        return getOrigin().getAxisAlignedBox(bb);
     }
     
     public void ignoreCollision(Runnable run) {
@@ -362,11 +362,11 @@ public class LittleLevelEntityPhysic implements LevelBoundsListener {
         
         if (parent.getOrigin().hasChanged() || parent.getOrigin().hasChanged()) {
             parent.markOriginChange();
-            parent.setBoundingBox(parent.getOrigin().getAABB(bb));
+            parent.setBoundingBox(parent.getOrigin().getAxisAlignedBox(bb));
             parent.resetOriginChange();
             bbChanged = false;
         } else if (bbChanged) {
-            parent.setBoundingBox(parent.getOrigin().getAABB(bb));
+            parent.setBoundingBox(parent.getOrigin().getAxisAlignedBox(bb));
             bbChanged = false;
         }
     }

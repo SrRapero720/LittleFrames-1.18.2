@@ -1,7 +1,7 @@
 package team.creative.littletiles.common.math.box.collection;
 
 import net.minecraft.core.BlockPos;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.type.map.HashMapList;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.block.little.tile.parent.IParentCollection;

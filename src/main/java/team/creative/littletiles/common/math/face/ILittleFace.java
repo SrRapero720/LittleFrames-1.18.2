@@ -2,7 +2,7 @@ package team.creative.littletiles.common.math.face;
 
 import java.util.List;
 
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.geo.VectorFan;
 import team.creative.littletiles.common.grid.LittleGrid;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.client.renderer.FaceInfo;
 import net.minecraft.client.renderer.FaceInfo.VertexInfo;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.geo.VectorFan;
 import team.creative.creativecore.common.util.math.vec.Vec3f;

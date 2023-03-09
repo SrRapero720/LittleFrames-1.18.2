@@ -1,15 +1,16 @@
-package me.srrapero720.creativecore.common.util.math.base;
+package me.srrapero720.waterframes.backport.math;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Mirror;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.math.vec.Vec3f;
 
-public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
+public enum AxisUtil {
     X {
         public double get(double x, double y, double z) {
             return x;
@@ -39,12 +40,12 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
             pos.setX(value);
         }
 
-        public Axis one() {
-            return Axis.Y;
+        public AxisUtil one() {
+            return AxisUtil.Y;
         }
 
-        public Axis two() {
-            return Axis.Z;
+        public AxisUtil two() {
+            return AxisUtil.Z;
         }
 
         public Facing facing(boolean positive) {
@@ -92,12 +93,12 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
             pos.setY(value);
         }
 
-        public Axis one() {
-            return Axis.Z;
+        public AxisUtil one() {
+            return AxisUtil.Z;
         }
 
-        public Axis two() {
-            return Axis.X;
+        public AxisUtil two() {
+            return AxisUtil.X;
         }
 
         public Facing facing(boolean positive) {
@@ -145,12 +146,12 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
             pos.setZ(value);
         }
 
-        public Axis one() {
-            return Axis.X;
+        public AxisUtil one() {
+            return AxisUtil.X;
         }
 
-        public Axis two() {
-            return Axis.Y;
+        public AxisUtil two() {
+            return AxisUtil.Y;
         }
 
         public Facing facing(boolean positive) {
@@ -170,10 +171,10 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
         }
     };
 
-    private Axis() {
+    private AxisUtil() {
     }
 
-    public static Axis get(Direction.Axis axis) {
+    public static AxisUtil get(Direction.Axis axis) {
         switch (axis) {
             case X:
                 return X;
@@ -186,7 +187,7 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
         }
     }
 
-    public static Axis third(Axis one, Axis two) {
+    public static AxisUtil third(AxisUtil one, AxisUtil two) {
         switch (one) {
             case X:
                 if (two == Y) {
@@ -211,7 +212,7 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
         }
     }
 
-    public static Axis getMirrorAxis(Mirror mirrorIn) {
+    public static AxisUtil getMirrorAxis(Mirror mirrorIn) {
         switch (mirrorIn) {
             case FRONT_BACK:
                 return X;
@@ -222,9 +223,9 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
         }
     }
 
-    public abstract Axis one();
+    public abstract AxisUtil one();
 
-    public abstract Axis two();
+    public abstract AxisUtil two();
 
     public abstract Facing facing(boolean var1);
 
@@ -245,7 +246,23 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
     public abstract Direction.Axis toVanilla();
 
     public Facing mirror(Facing facing) {
-        return facing.axis == this ? facing.opposite() : facing;
+        return facing.axis == revertToAxis(this) ? facing.opposite() : facing;
+    }
+
+    public static Axis revertToAxis(AxisUtil axis) {
+        return switch (axis) {
+            case X -> Axis.X;
+            case Y -> Axis.Y;
+            case Z -> Axis.Z;
+        };
+    }
+
+    public static AxisUtil convertToAxisUtil(Axis axis) {
+        return switch (axis) {
+            case X -> AxisUtil.X;
+            case Y -> AxisUtil.Y;
+            case Z -> AxisUtil.Z;
+        };
     }
 
     public Direction mirror(Direction facing) {
@@ -257,10 +274,10 @@ public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
     public abstract BlockPos mirror(BlockPos var1);
 
     public void mirror(Vec3d vec) {
-        vec.set(this, -vec.get(this));
+        vec.set(revertToAxis(this), -vec.get(revertToAxis(this)));
     }
 
     public void mirror(Vec3f vec) {
-        vec.set(this, -vec.get(this));
+        vec.set(revertToAxis(this), -vec.get(revertToAxis(this)));
     }
 }

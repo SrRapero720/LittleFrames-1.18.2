@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.client.render.tile.LittleFRenderBox;
@@ -29,60 +29,60 @@ import java.util.Random;
 
 public interface LittleBlock {
     
-    public boolean isTranslucent();
+    boolean isTranslucent();
     
-    public boolean is(ItemStack stack);
+    boolean is(ItemStack stack);
     
-    public boolean is(Block block);
+    boolean is(Block block);
     
-    public boolean is(TagKey<Block> tag);
+    boolean is(TagKey<Block> tag);
     
-    public boolean noCollision();
+    boolean noCollision();
     
-    public ItemStack getStack();
+    ItemStack getStack();
     
-    public String blockName();
+    String blockName();
     
-    public BlockState getState();
+    BlockState getState();
     
-    public boolean canBeConvertedToVanilla();
+    boolean canBeConvertedToVanilla();
     
-    public BlockState mirror(BlockState state, Axis axis, LittleVec doubledCenter);
+    BlockState mirror(BlockState state, Axis axis, LittleVec doubledCenter);
     
-    public BlockState rotate(BlockState state, Rotation rotation, LittleVec doubledCenter);
+    BlockState rotate(BlockState state, Rotation rotation, LittleVec doubledCenter);
     
-    public SoundType getSoundType();
+    SoundType getSoundType();
     
-    public float getExplosionResistance(LittleTile tile);
+    float getExplosionResistance(LittleTile tile);
     
-    public void exploded(IParentCollection parent, LittleTile tile, Explosion explosion);
+    void exploded(IParentCollection parent, LittleTile tile, Explosion explosion);
     
-    public boolean canInteract();
+    boolean canInteract();
     
-    public InteractionResult use(IParentCollection parent, LittleTile tile, LittleBox box, Player player, BlockHitResult result);
+    InteractionResult use(IParentCollection parent, LittleTile tile, LittleBox box, Player player, BlockHitResult result);
     
-    public int getLightValue();
+    int getLightValue();
     
-    public float getEnchantPowerBonus(IParentCollection parent, LittleTile tile);
+    float getEnchantPowerBonus(IParentCollection parent, LittleTile tile);
     
-    public float getFriction(IParentCollection parent, LittleTile tile, @Nullable Entity entity);
+    float getFriction(IParentCollection parent, LittleTile tile, @Nullable Entity entity);
     
-    public boolean isMaterial(Material material);
+    boolean isMaterial(Material material);
     
-    public boolean isLiquid();
+    boolean isLiquid();
     
-    public Vec3d modifyAcceleration(IParentCollection parent, LittleTile tile, Entity entity, Vec3d motion);
+    Vec3d modifyAcceleration(IParentCollection parent, LittleTile tile, Entity entity, Vec3d motion);
     
-    public LittleFRenderBox getRenderBox(LittleGrid grid, RenderType layer, LittleBox box, LittleElement element);
+    LittleFRenderBox getRenderBox(LittleGrid grid, RenderType layer, LittleBox box, LittleElement element);
     
-    public boolean canBeRenderCombined(LittleTile one, LittleTile two);
+    boolean canBeRenderCombined(LittleTile one, LittleTile two);
     
-    public boolean checkEntityCollision();
+    boolean checkEntityCollision();
     
-    public void entityCollided(IParentCollection parent, LittleTile tile, Entity entity);
+    void entityCollided(IParentCollection parent, LittleTile tile, Entity entity);
     
-    public boolean shouldUseStateForRenderType();
+    boolean shouldUseStateForRenderType();
 
-    public default void randomDisplayTick(IParentCollection parent, LittleTile tile, Random rand) {}
+    default void randomDisplayTick(IParentCollection parent, LittleTile tile, Random rand) {}
     
 }

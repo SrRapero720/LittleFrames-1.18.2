@@ -72,7 +72,7 @@ public class AABBVoxelShape extends SliceShape {
         return new Vec3d(getCornerX(corner), getCornerY(corner), getCornerZ(corner));
     }
     
-    public double getCornerValue(BoxCorner corner, me.srrapero720.creativecore.common.util.math.base.Axis axis) {
+    public double getCornerValue(BoxCorner corner, team.creative.creativecore.common.util.math.base.Axis axis) {
         return get(corner.getFacing(axis));
     }
     
@@ -144,7 +144,7 @@ public class AABBVoxelShape extends SliceShape {
         return 0;
     }
     
-    public double getMin(me.srrapero720.creativecore.common.util.math.base.Axis axis) {
+    public double getMin(team.creative.creativecore.common.util.math.base.Axis axis) {
         switch (axis) {
             case X:
                 return bb.minX;
@@ -156,7 +156,7 @@ public class AABBVoxelShape extends SliceShape {
         return 0;
     }
     
-    public double getMax(me.srrapero720.creativecore.common.util.math.base.Axis axis) {
+    public double getMax(team.creative.creativecore.common.util.math.base.Axis axis) {
         switch (axis) {
             case X:
                 return bb.maxX;
@@ -186,7 +186,7 @@ public class AABBVoxelShape extends SliceShape {
         return 0;
     }
     
-    public static double getMin(AABB bb, me.srrapero720.creativecore.common.util.math.base.Axis axis) {
+    public static double getMin(AABB bb, team.creative.creativecore.common.util.math.base.Axis axis) {
         switch (axis) {
             case X:
                 return bb.minX;
@@ -199,7 +199,7 @@ public class AABBVoxelShape extends SliceShape {
         }
     }
     
-    public static double getMax(AABB bb, me.srrapero720.creativecore.common.util.math.base.Axis axis) {
+    public static double getMax(AABB bb, team.creative.creativecore.common.util.math.base.Axis axis) {
         switch (axis) {
             case X:
                 return bb.maxX;
@@ -242,7 +242,7 @@ public class AABBVoxelShape extends SliceShape {
         return new Vec3d(getCornerX(bb, corner), getCornerY(bb, corner), getCornerZ(bb, corner));
     }
     
-    public static double getCornerValue(AABB bb, BoxCorner corner, me.srrapero720.creativecore.common.util.math.base.Axis axis) {
+    public static double getCornerValue(AABB bb, BoxCorner corner, team.creative.creativecore.common.util.math.base.Axis axis) {
         return get(bb, corner.getFacing(axis));
     }
     

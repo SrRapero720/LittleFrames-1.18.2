@@ -2,19 +2,19 @@ package me.srrapero720.creativecore.common.util.math.box;
 
 import java.util.List;
 
-import me.srrapero720.creativecore.common.util.math.matrix.IVecOrigin;
+import me.srrapero720.creativecore.common.util.math.collision.IntersectionHelper;
+import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
 import me.srrapero720.creativecore.common.util.unsafe.CreativeHackery;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.phys.AABB;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.BoxUtils;
-import me.srrapero720.creativecore.common.util.math.collision.IntersectionHelper;
 import team.creative.creativecore.common.util.math.vec.Vec2d;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 
 public class OBBVoxelShape extends AABBVoxelShape {
 
-    public me.srrapero720.creativecore.common.util.math.matrix.IVecOrigin origin;
+    public IVecOrigin origin;
 
     public static OBBVoxelShape create(AABB bb, IVecOrigin origin) {
         OBBVoxelShape shape = CreativeHackery.allocateInstance(OBBVoxelShape.class);
@@ -37,13 +37,13 @@ public class OBBVoxelShape extends AABBVoxelShape {
         return 0;
     }
 
-    public double calculateDistanceRotated(AABB other, me.srrapero720.creativecore.common.util.math.base.Axis axis, double offset) {
+    public double calculateDistanceRotated(AABB other, team.creative.creativecore.common.util.math.base.Axis axis, double offset) {
         boolean positive = offset > 0;
         Facing facing = Facing.get(axis, !positive);
         double closestValue = get(other, facing.opposite());
 
-        me.srrapero720.creativecore.common.util.math.base.Axis one = axis.one();
-        me.srrapero720.creativecore.common.util.math.base.Axis two = axis.two();
+        team.creative.creativecore.common.util.math.base.Axis one = axis.one();
+        team.creative.creativecore.common.util.math.base.Axis two = axis.two();
 
         double minOne = getMin(other, one);
         double minTwo = getMin(other, two);
@@ -157,9 +157,9 @@ public class OBBVoxelShape extends AABBVoxelShape {
         if (!intersectsWithAxis(axis, bb, other))
             return offset;
 
-        double distance = calculateDistanceRotated(other, me.srrapero720.creativecore.common.util.math.base.Axis.get(axis), offset);
+        double distance = calculateDistanceRotated(other, team.creative.creativecore.common.util.math.base.Axis.get(axis), offset);
 
-        if (distance < 0 && !equals(distance, 0))
+        if (distance < 0 && !equals(distance))
             return offset;
 
         if (offset > 0.0D) {

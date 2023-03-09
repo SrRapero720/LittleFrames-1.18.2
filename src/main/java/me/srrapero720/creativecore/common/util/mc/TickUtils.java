@@ -1,6 +1,6 @@
 package me.srrapero720.creativecore.common.util.mc;
 
-import me.srrapero720.creativecore.client.CreativeCoreClient;
+import team.creative.creativecore.client.CreativeCoreClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.level.LevelAccessor;
@@ -12,7 +12,7 @@ public class TickUtils {
     @Environment(EnvType.CLIENT)
     @OnlyIn(Dist.CLIENT)
     private static float getFrameTimeClient() {
-        return CreativeCoreClient.getFrameTime();
+        return CreativeCoreClient.getDeltaFrameTime();
     }
 
     public static float getFrameTime(LevelAccessor level) {

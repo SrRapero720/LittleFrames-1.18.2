@@ -1,6 +1,6 @@
 package team.creative.littletiles.common.animation.property;
 
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.registry.NamedHandlerRegistry;
 
 public class AnimationProperties {

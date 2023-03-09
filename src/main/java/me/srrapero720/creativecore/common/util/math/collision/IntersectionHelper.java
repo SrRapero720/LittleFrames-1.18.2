@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import me.srrapero720.creativecore.common.util.math.base.Axis;
 import org.apache.commons.lang3.BooleanUtils;
 
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.geo.Ray2d;
 import team.creative.creativecore.common.util.math.geo.VectorFan;
 import team.creative.creativecore.common.util.math.vec.Vec2d;
@@ -68,7 +68,7 @@ public class IntersectionHelper {
                 return Arrays.asList(new Vec2d(maxOne, minTwo), new Vec2d(maxOne, maxTwo), new Vec2d(minOne, maxTwo), new Vec2d(minOne, minTwo));
 
         if (insideOneMin && insideOneMax && insideTwoMin && insideTwoMax) {
-            Ray2d ray = new Ray2d(me.srrapero720.creativecore.common.util.math.base.Axis.X, me.srrapero720.creativecore.common.util.math.base.Axis.Y, 0, 0, 0, 0);
+            Ray2d ray = new Ray2d(Axis.X, Axis.Y, 0, 0, 0, 0);
             List<Vec2d> result = new ArrayList<>();
             boolean hasFoundInside;
             if (!(hasFoundInside = insideIndex != -1))
@@ -110,7 +110,7 @@ public class IntersectionHelper {
             return Collections.EMPTY_LIST;
     }
 
-    public static List<Vec2f> cutMinMax(me.srrapero720.creativecore.common.util.math.base.Axis one, me.srrapero720.creativecore.common.util.math.base.Axis two, float minOne, float minTwo, float maxOne, float maxTwo, Vec3f[] corners) {
+    public static List<Vec2f> cutMinMax(Axis one, Axis two, float minOne, float minTwo, float maxOne, float maxTwo, Vec3f[] corners) {
         if (corners.length < 3)
             return Collections.EMPTY_LIST;
 
@@ -247,7 +247,7 @@ public class IntersectionHelper {
                 float outT = 0;
                 if (before.outsideDirectionOne() != current.outsideDirectionOne()) {
                     if (BooleanUtils.isFalse(before.outsideDirectionOne()) || BooleanUtils.isFalse(current.outsideDirectionOne())) {
-                        float tempT = (float) ray.getT(me.srrapero720.creativecore.common.util.math.base.Axis.X, minOne);
+                        float tempT = (float) ray.getT(Axis.X, minOne);
                         float valueTwo = (float) (ray.originTwo + ray.directionTwo * tempT);
                         if (tempT >= 0 && tempT <= 1 && valueTwo >= minTwo && valueTwo <= maxTwo) {
                             if (tempT < inT) {
@@ -261,7 +261,7 @@ public class IntersectionHelper {
                         }
                     }
                     if (BooleanUtils.isTrue(before.outsideDirectionOne()) || BooleanUtils.isTrue(current.outsideDirectionOne())) {
-                        float tempT = (float) ray.getT(me.srrapero720.creativecore.common.util.math.base.Axis.X, maxOne);
+                        float tempT = (float) ray.getT(Axis.X, maxOne);
                         float valueTwo = (float) (ray.originTwo + ray.directionTwo * tempT);
                         if (tempT >= 0 && tempT <= 1 && valueTwo >= minTwo && valueTwo <= maxTwo) {
                             if (tempT < inT) {
@@ -278,7 +278,7 @@ public class IntersectionHelper {
 
                 if (before.outsideDirectionTwo() != current.outsideDirectionTwo()) {
                     if (BooleanUtils.isFalse(before.outsideDirectionTwo()) || BooleanUtils.isFalse(current.outsideDirectionTwo())) {
-                        float tempT = (float) ray.getT(me.srrapero720.creativecore.common.util.math.base.Axis.Y, minTwo);
+                        float tempT = (float) ray.getT(Axis.Y, minTwo);
                         float valueOne = (float) (ray.originOne + ray.directionOne * tempT);
                         if (tempT >= 0 && tempT <= 1 && valueOne >= minOne && valueOne <= maxOne) {
                             if (tempT < inT) {
@@ -292,7 +292,7 @@ public class IntersectionHelper {
                         }
                     }
                     if (BooleanUtils.isTrue(before.outsideDirectionTwo()) || BooleanUtils.isTrue(current.outsideDirectionTwo())) {
-                        float tempT = (float) ray.getT(me.srrapero720.creativecore.common.util.math.base.Axis.Y, maxTwo);
+                        float tempT = (float) ray.getT(Axis.Y, maxTwo);
                         float valueOne = (float) (ray.originOne + ray.directionOne * tempT);
                         if (tempT >= 0 && tempT <= 1 && valueOne >= minOne && valueOne <= maxOne) {
                             if (tempT < inT) {
@@ -388,7 +388,7 @@ public class IntersectionHelper {
         }
     }
 
-    private static Edge iterateLines(int offset, int count, boolean hasFoundInside, Edge edge, Ray2d ray, me.srrapero720.creativecore.common.util.math.base.Axis one, Axis two, float minOne, float minTwo, float maxOne, float maxTwo, boolean clockwise, InsideStatus[] status, Vec3f[] corners, List<Vec2f> result) {
+    private static Edge iterateLines(int offset, int count, boolean hasFoundInside, Edge edge, Ray2d ray, Axis one, Axis two, float minOne, float minTwo, float maxOne, float maxTwo, boolean clockwise, InsideStatus[] status, Vec3f[] corners, List<Vec2f> result) {
         float beforeOne = corners[offset].get(one);
         float beforeTwo = corners[offset].get(two);
 

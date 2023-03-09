@@ -29,8 +29,9 @@ public abstract class FRenderBoxFace {
     public abstract List<VectorFan> getCachedFans();
     
     public abstract float getScale();
+
     
-    private static abstract class FRenderBoxFaceStatic extends FRenderBoxFace {
+    public static abstract class FRenderBoxFaceStatic extends FRenderBoxFace {
         
         @Override
         public boolean hasCachedFans() {
