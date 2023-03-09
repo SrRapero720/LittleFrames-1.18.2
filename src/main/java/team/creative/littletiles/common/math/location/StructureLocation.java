@@ -17,6 +17,9 @@ import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.exception.MissingAnimationException;
 
+import javax.annotation.concurrent.Immutable;
+
+
 public class StructureLocation {
     
     public final BlockPos pos;

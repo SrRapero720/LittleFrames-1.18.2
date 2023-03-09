@@ -14,26 +14,6 @@ license="All rights reserved"
 	#ShowItIngame
 '''
 
-[[mods]]
-	modId="littletiles"
-	version="${file.jarVersion}"
-	displayName="littletiles-mini"
-	displayURL="https://www.curseforge.com/minecraft/mc-mods/littleframes-1-18-2"
-	authors="SrRapero720 | CoolDCB"
-	description='''
-		Wrapped dependency
-'''
-
-[[mods]]
-	modId="littleframes"
-	version="${file.jarVersion}"
-	displayName="littletiles-mini"
-	displayURL="https://www.curseforge.com/minecraft/mc-mods/littleframes-1-18-2"
-	authors="SrRapero720 | CoolDCB"
-	description='''
-		Wrapped dependency
-'''
-
 
 [[dependencies.waterframes]]
 	modId = "forge"
