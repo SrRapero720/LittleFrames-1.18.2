@@ -35,4 +35,4 @@ license="All rights reserved"
     mandatory=false
     ordering="BEFORE"
     side="BOTH"
-    versionRange="[2.6,)"
+    versionRange="[1.2,)"

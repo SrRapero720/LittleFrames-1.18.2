@@ -61,7 +61,7 @@ public class LittleAnimationHandlers extends LevelHandlers<LittleAnimationHandle
         List<LittleAnimationHandlerServer> handlers = getHandlers(level);
         if (handlers.size() == 1)
             return handlers.get(0);
-        return null;
+        return new LittleAnimationHandlerServer(level);
     }
     
     @SubscribeEvent

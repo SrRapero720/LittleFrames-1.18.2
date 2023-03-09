@@ -32,17 +32,17 @@ public abstract class EntityMixin {
     public void pick(double reach, float partialTicks, boolean fluid, CallbackInfoReturnable<HitResult> info) {
         //Vec3 pos, Vec3 view, Vec3 look - missing
         // Work around
-        var pos = this.getEyePosition(partialTicks);
-        var view = this.getViewVector(partialTicks);
-        var look = pos.add(view.x * reach, view.y * reach, view.z * reach);
-
-
-        Entity entity = asEntity();
-        HitResult result = info.getReturnValue();
-        double reachDistance = result != null ? pos.distanceTo(result.getLocation()) : (entity instanceof Player p ? PlayerUtils.getReach(p) : 4);
-        LittleHitResult hit = LittleAnimationHandlers.get(entity.level).getHit(pos, look, reachDistance);
-        if (hit != null)
-            info.setReturnValue(hit);
+//        var pos = this.getEyePosition(partialTicks);
+//        var view = this.getViewVector(partialTicks);
+//        var look = pos.add(view.x * reach, view.y * reach, view.z * reach);
+//
+//
+//        Entity entity = asEntity();
+//        HitResult result = info.getReturnValue();
+//        double reachDistance = result != null ? pos.distanceTo(result.getLocation()) : (entity instanceof Player p ? PlayerUtils.getReach(p) : 4);
+//        LittleHitResult hit = LittleAnimationHandlers.get(entity.level).getHit(pos, look, reachDistance);
+//        if (hit != null)
+//            info.setReturnValue(hit);
     }
     
 }

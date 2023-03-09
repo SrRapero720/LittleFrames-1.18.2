@@ -72,9 +72,7 @@ public class BlockCollisionsMixin {
     
     @Inject(method = "<init>(Lnet/minecraft/world/level/CollisionGetter;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Z)V", at = @At("RETURN"), require = 1)
     private void constructorEnd(CollisionGetter level, @Nullable Entity entity, AABB bb, boolean onlySuffocatingBlocks, CallbackInfo info) {
-        Iterable<VoxelShape> shapes = LittleAnimationHandlers.get((Level) collisionGetter).collisionExcept(entity, box, (Level) collisionGetter);
-        if (shapes != null)
-            extraShapes = shapes.iterator();
+
     }
     
 }
