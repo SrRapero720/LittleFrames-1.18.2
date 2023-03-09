@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.PacketListener;
+import net.minecraft.network.protocol.Packet;
 import team.creative.creativecore.common.network.type.NetworkFieldTypeClass;
 import team.creative.creativecore.common.network.type.NetworkFieldTypes;
 import team.creative.creativecore.common.util.math.base.Facing;
@@ -68,6 +70,25 @@ public class LittlePacketTypes {
             }
             
         }, TileLocation.class);
+        NetworkFieldTypes.register(new NetworkFieldTypeClass<>() {
+
+            @Override
+            protected void writeContent(Packet packet, FriendlyByteBuf buffer) {
+
+            }
+
+            @Override
+            protected Packet readContent(FriendlyByteBuf buffer) {
+                return new Packet() {
+                    @Override
+                    public void write(FriendlyByteBuf p_131343_) {}
+
+                    @Override
+                    public void handle(PacketListener p_131342_) {}
+                };
+            }
+        }, Packet.class);
+
         NetworkFieldTypes.register(new NetworkFieldTypeClass<StructureLocation>() {
             
             @Override
