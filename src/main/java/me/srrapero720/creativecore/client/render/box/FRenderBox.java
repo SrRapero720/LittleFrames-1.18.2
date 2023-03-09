@@ -237,7 +237,7 @@ public class FRenderBox extends RenderBox {
     }
     
     protected Object getRenderQuads(Facing facing) {
-        if (getFace(facing).deleteQuadCache())
+        if (getFace(facing).hasCachedFans())
             return getFace(facing).getCachedFans();
         switch (facing) {
             case DOWN:
@@ -438,7 +438,7 @@ public class FRenderBox extends RenderBox {
         
         if (blockQuads.isEmpty())
             return Collections.emptyList();
-        RenderInformationHolder holder = new RenderBox.RenderInformationHolder(DefaultVertexFormat.BLOCK, facing, this.color != -1 ? this.color : defaultColor);
+        var holder = new RenderBox.RenderInformationHolder(DefaultVertexFormat.BLOCK, facing, this.color != -1 ? this.color : defaultColor);
         holder.offset = offset;
         
         List<BakedQuad> quads = new ArrayList<>();
@@ -514,10 +514,8 @@ public class FRenderBox extends RenderBox {
         }
         
         for (BakedQuad quad : quads)
-            if (quad instanceof CreativeBakedQuad c)
-                c.updateAlpha();
+            if (quad instanceof CreativeBakedQuad c) {}//                c.updateAlpha();
         return quads;
-        
     }
     
     private static int uvOffset(VertexFormat format) {
@@ -641,8 +639,7 @@ public class FRenderBox extends RenderBox {
         @Override
         @Environment(EnvType.CLIENT)
         @OnlyIn(Dist.CLIENT)
-        public void generate(RenderInformationHolder holder, List<BakedQuad> quads) {
-            var ri = new RenderBox.RenderInformationHolder(holder.format, holder.format, holder.color)
+        public void generate(RenderBox.RenderInformationHolder holder, List<BakedQuad> quads) {
             int index = 0;
             while (index < coords.length - 3) {
                 generate(holder, coords[0], coords[index + 1], coords[index + 2], coords[index + 3], quads);
