@@ -75,8 +75,6 @@ public class LittleTiles {
         NETWORK.registerType(LittleLevelInitPacket.class, LittleLevelInitPacket::new);
         NETWORK.registerType(LittleLevelPhysicPacket.class, LittleLevelPhysicPacket::new);
         
-        CreativeConfigRegistry.ROOT.registerValue(MODID, CONFIG = new LittleTilesConfig());
-        
         LittleActionRegistry.register(LittleActions.class, LittleActions::new);
         LittleActionRegistry.register(LittleActionActivated.class, LittleActionActivated::new);
         LittleActionRegistry.register(LittleActionColorBoxes.class, LittleActionColorBoxes::new);
