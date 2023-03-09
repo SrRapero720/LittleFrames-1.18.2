@@ -1,5 +1,7 @@
 package team.creative.littletiles.server.level.little;
 
+import me.srrapero720.waterframes.backport.packets.SrvPlayerActionPacket;
+import me.srrapero720.waterframes.backport.packets.SrvboundUseItemPacket;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
@@ -12,7 +14,6 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketUtils;
@@ -21,7 +22,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.network.ServerPlayerConnection;
-import net.minecraft.server.network.TextFilter;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,7 +35,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CommandBlock;
 import net.minecraft.world.level.block.GameMasterBlock;
-import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.CommandBlockEntity;
+import net.minecraft.world.level.block.entity.JigsawBlockEntity;
+import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraftforge.common.ForgeHooks;
@@ -45,11 +48,11 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.packet.level.LittleLevelPacket;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Objects;
 
 public class LittleServerPlayerHandler implements ServerPlayerConnection, PacketListener, ServerGamePacketListener {
@@ -77,12 +80,12 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public ServerPlayer getPlayer() {
+    public @NotNull ServerPlayer getPlayer() {
         return player;
     }
 
     @Override
-    public Connection getConnection() {
+    public @NotNull Connection getConnection() {
         return player.connection.getConnection();
     }
 
@@ -91,42 +94,42 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handlePlayerInput(ServerboundPlayerInputPacket packet) {
+    public void handlePlayerInput(@NotNull ServerboundPlayerInputPacket packet) {
         getVanilla().handlePlayerInput(packet);
     }
 
     @Override
-    public void handleMoveVehicle(ServerboundMoveVehiclePacket packet) {
+    public void handleMoveVehicle(@NotNull ServerboundMoveVehiclePacket packet) {
         getVanilla().handleMoveVehicle(packet);
     }
 
     @Override
-    public void handleAcceptTeleportPacket(ServerboundAcceptTeleportationPacket packet) {
+    public void handleAcceptTeleportPacket(@NotNull ServerboundAcceptTeleportationPacket packet) {
         getVanilla().handleAcceptTeleportPacket(packet);
     }
 
     @Override
-    public void handleRecipeBookSeenRecipePacket(ServerboundRecipeBookSeenRecipePacket packet) {
+    public void handleRecipeBookSeenRecipePacket(@NotNull ServerboundRecipeBookSeenRecipePacket packet) {
         getVanilla().handleRecipeBookSeenRecipePacket(packet);
     }
 
     @Override
-    public void handleRecipeBookChangeSettingsPacket(ServerboundRecipeBookChangeSettingsPacket packet) {
+    public void handleRecipeBookChangeSettingsPacket(@NotNull ServerboundRecipeBookChangeSettingsPacket packet) {
         getVanilla().handleRecipeBookChangeSettingsPacket(packet);
     }
 
     @Override
-    public void handleSeenAdvancements(ServerboundSeenAdvancementsPacket packet) {
+    public void handleSeenAdvancements(@NotNull ServerboundSeenAdvancementsPacket packet) {
         getVanilla().handleSeenAdvancements(packet);
     }
 
     @Override
-    public void handleCustomCommandSuggestions(ServerboundCommandSuggestionPacket packet) {
+    public void handleCustomCommandSuggestions(@NotNull ServerboundCommandSuggestionPacket packet) {
         getVanilla().handleCustomCommandSuggestions(packet);
     }
 
     @Override
-    public void handleSetCommandBlock(ServerboundSetCommandBlockPacket packet) {
+    public void handleSetCommandBlock(@NotNull ServerboundSetCommandBlockPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (!this.server.isCommandBlockEnabled())
             this.player.sendMessage(new TranslatableComponent("advMode.notEnabled"), ChatType.SYSTEM, Util.NIL_UUID);
@@ -155,7 +158,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
                     default -> Blocks.COMMAND_BLOCK.defaultBlockState();
                 };
 
-                BlockState blockstate2 = blockstate1.setValue(CommandBlock.FACING, direction).setValue(CommandBlock.CONDITIONAL, Boolean.valueOf(packet.isConditional()));
+                BlockState blockstate2 = blockstate1.setValue(CommandBlock.FACING, direction).setValue(CommandBlock.CONDITIONAL, packet.isConditional());
                 if (blockstate2 != blockstate) {
                     level.setBlock(blockpos, blockstate2, 2);
                     blockentity.setBlockState(blockstate2);
@@ -180,7 +183,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleSetCommandMinecart(ServerboundSetCommandMinecartPacket packet) {
+    public void handleSetCommandMinecart(@NotNull ServerboundSetCommandMinecartPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (!this.server.isCommandBlockEnabled())
             this.player.sendMessage(new TranslatableComponent("advMode.notEnabled"), ChatType.SYSTEM, Util.NIL_UUID);
@@ -202,22 +205,22 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handlePickItem(ServerboundPickItemPacket packet) {
+    public void handlePickItem(@NotNull ServerboundPickItemPacket packet) {
         getVanilla().handlePickItem(packet);
     }
 
     @Override
-    public void handleRenameItem(ServerboundRenameItemPacket packet) {
+    public void handleRenameItem(@NotNull ServerboundRenameItemPacket packet) {
         getVanilla().handleRenameItem(packet);
     }
 
     @Override
-    public void handleSetBeaconPacket(ServerboundSetBeaconPacket packet) {
+    public void handleSetBeaconPacket(@NotNull ServerboundSetBeaconPacket packet) {
         getVanilla().handleSetBeaconPacket(packet);
     }
 
     @Override
-    public void handleSetStructureBlock(ServerboundSetStructureBlockPacket packet) {
+    public void handleSetStructureBlock(@NotNull ServerboundSetStructureBlockPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (this.player.canUseGameMasterBlocks()) {
             BlockPos blockpos = packet.getPos();
@@ -267,7 +270,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleSetJigsawBlock(ServerboundSetJigsawBlockPacket packet) {
+    public void handleSetJigsawBlock(@NotNull ServerboundSetJigsawBlockPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (this.player.canUseGameMasterBlocks()) {
             BlockPos blockpos = packet.getPos();
@@ -287,7 +290,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleJigsawGenerate(ServerboundJigsawGeneratePacket packet) {
+    public void handleJigsawGenerate(@NotNull ServerboundJigsawGeneratePacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (this.player.canUseGameMasterBlocks()) {
             BlockEntity blockentity = level.getBlockEntity(packet.getPos());
@@ -297,17 +300,17 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleSelectTrade(ServerboundSelectTradePacket packet) {
+    public void handleSelectTrade(@NotNull ServerboundSelectTradePacket packet) {
         getVanilla().handleSelectTrade(packet);
     }
 
     @Override
-    public void handleEditBook(ServerboundEditBookPacket packet) {
+    public void handleEditBook(@NotNull ServerboundEditBookPacket packet) {
         getVanilla().handleEditBook(packet);
     }
 
     @Override
-    public void handleEntityTagQuery(ServerboundEntityTagQuery packet) {
+    public void handleEntityTagQuery(@NotNull ServerboundEntityTagQuery packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (this.player.hasPermissions(2)) {
             Entity entity = level.getEntity(packet.getEntityId());
@@ -317,7 +320,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleBlockEntityTagQuery(ServerboundBlockEntityTagQuery packet) {
+    public void handleBlockEntityTagQuery(@NotNull ServerboundBlockEntityTagQuery packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         if (this.player.hasPermissions(2)) {
             BlockEntity blockentity = level.getBlockEntity(packet.getPos());
@@ -327,12 +330,12 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleMovePlayer(ServerboundMovePlayerPacket packet) {
+    public void handleMovePlayer(@NotNull ServerboundMovePlayerPacket packet) {
         getVanilla().handleMovePlayer(packet);
     }
 
     @Override
-    public void handlePlayerAction(ServerboundPlayerActionPacket packet) {
+    public void handlePlayerAction(@NotNull ServerboundPlayerActionPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
         BlockPos blockpos = packet.getPos();
         this.player.resetLastActionTime();
@@ -362,8 +365,8 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
             case START_DESTROY_BLOCK:
             case ABORT_DESTROY_BLOCK:
             case STOP_DESTROY_BLOCK:
-                handleBlockBreakAction(blockpos, packet.getAction(), packet.getDirection(), level.getMaxBuildHeight(), packet.getSequence());
-                ackBlockChangesUpTo(packet.getSequence());
+                handleBlockBreakAction(blockpos, packet.getAction(), packet.getDirection(), level.getMaxBuildHeight(), ((SrvPlayerActionPacket) packet).getSequence());
+                ackBlockChangesUpTo(((SrvPlayerActionPacket) packet).getSequence());
                 return;
             default:
                 throw new IllegalArgumentException("Invalid player action");
@@ -371,9 +374,9 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleUseItem(ServerboundUseItemPacket packet) {
+    public void handleUseItem(@NotNull ServerboundUseItemPacket packet) {
         PacketUtils.ensureRunningOnSameThread(packet, this, level);
-        this.ackBlockChangesUpTo(packet.getSequence());
+        this.ackBlockChangesUpTo(((SrvboundUseItemPacket) packet).getSequence());
         InteractionHand interactionhand = packet.getHand();
         ItemStack itemstack = this.player.getItemInHand(interactionhand);
         this.player.resetLastActionTime();
@@ -383,27 +386,27 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleTeleportToEntityPacket(ServerboundTeleportToEntityPacket packet) {
+    public void handleTeleportToEntityPacket(@NotNull ServerboundTeleportToEntityPacket packet) {
         getVanilla().handleTeleportToEntityPacket(packet);
     }
 
     @Override
-    public void handleResourcePackResponse(ServerboundResourcePackPacket packet) {
+    public void handleResourcePackResponse(@NotNull ServerboundResourcePackPacket packet) {
         getVanilla().handleResourcePackResponse(packet);
     }
 
     @Override
-    public void handlePaddleBoat(ServerboundPaddleBoatPacket packet) {
+    public void handlePaddleBoat(@NotNull ServerboundPaddleBoatPacket packet) {
         getVanilla().handlePaddleBoat(packet);
     }
 
     @Override
-    public void handlePong(ServerboundPongPacket packet) {
+    public void handlePong(@NotNull ServerboundPongPacket packet) {
         getVanilla().handlePong(packet);
     }
 
     @Override
-    public void onDisconnect(Component component) {
+    public void onDisconnect(@NotNull Component component) {
         getVanilla().onDisconnect(component);
     }
 
@@ -414,7 +417,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void send(Packet<?> packet) {
+    public void send(@NotNull Packet<?> packet) {
         this.send(packet, (ServerGamePacketListener) packet);
     }
 
@@ -432,98 +435,98 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
     }
 
     @Override
-    public void handleSetCarriedItem(ServerboundSetCarriedItemPacket packet) {
+    public void handleSetCarriedItem(@NotNull ServerboundSetCarriedItemPacket packet) {
         getVanilla().handleSetCarriedItem(packet);
     }
 
     @Override
-    public void handleChat(ServerboundChatPacket packet) {
+    public void handleChat(@NotNull ServerboundChatPacket packet) {
         getVanilla().handleChat(packet);
     }
 
     @Override
-    public void handleAnimate(ServerboundSwingPacket packet) {
+    public void handleAnimate(@NotNull ServerboundSwingPacket packet) {
         getVanilla().handleAnimate(packet);
     }
 
     @Override
-    public void handlePlayerCommand(ServerboundPlayerCommandPacket packet) {
+    public void handlePlayerCommand(@NotNull ServerboundPlayerCommandPacket packet) {
         getVanilla().handlePlayerCommand(packet);
     }
 
     @Override
-    public void handleInteract(ServerboundInteractPacket packet) {
+    public void handleInteract(@NotNull ServerboundInteractPacket packet) {
         getVanilla().handleInteract(packet);
     }
 
     @Override
-    public void handleClientCommand(ServerboundClientCommandPacket packet) {
+    public void handleClientCommand(@NotNull ServerboundClientCommandPacket packet) {
         getVanilla().handleClientCommand(packet);
     }
 
     @Override
-    public void handleContainerClose(ServerboundContainerClosePacket packet) {
+    public void handleContainerClose(@NotNull ServerboundContainerClosePacket packet) {
         getVanilla().handleContainerClose(packet);
     }
 
     @Override
-    public void handleContainerClick(ServerboundContainerClickPacket packet) {
+    public void handleContainerClick(@NotNull ServerboundContainerClickPacket packet) {
         getVanilla().handleContainerClick(packet);
     }
 
     @Override
-    public void handlePlaceRecipe(ServerboundPlaceRecipePacket packet) {
+    public void handlePlaceRecipe(@NotNull ServerboundPlaceRecipePacket packet) {
         getVanilla().handlePlaceRecipe(packet);
     }
 
     @Override
-    public void handleContainerButtonClick(ServerboundContainerButtonClickPacket packet) {
+    public void handleContainerButtonClick(@NotNull ServerboundContainerButtonClickPacket packet) {
         getVanilla().handleContainerButtonClick(packet);
     }
 
     @Override
-    public void handleSetCreativeModeSlot(ServerboundSetCreativeModeSlotPacket packet) {
+    public void handleSetCreativeModeSlot(@NotNull ServerboundSetCreativeModeSlotPacket packet) {
         getVanilla().handleSetCreativeModeSlot(packet);
     }
 
     @Override
-    public void handleSignUpdate(ServerboundSignUpdatePacket packet) {
+    public void handleSignUpdate(@NotNull ServerboundSignUpdatePacket packet) {
 //        List<String> list = Stream.of(packet.getLines()).map(ChatFormatting::stripFormatting).collect(Collectors.toList());
 //        ((ServerGamePacketListenerImplAccessor) getVanilla()).callFilterTextPacket(list).thenAcceptAsync((lines) -> this.updateSignText(packet, lines), this.server);
     }
 
     @Override
-    public void handleUseItemOn(ServerboundUseItemOnPacket p_133783_) {
+    public void handleUseItemOn(@NotNull ServerboundUseItemOnPacket p_133783_) {
 
     }
 
     @Override
-    public void handleKeepAlive(ServerboundKeepAlivePacket packet) {
+    public void handleKeepAlive(@NotNull ServerboundKeepAlivePacket packet) {
         getVanilla().handleKeepAlive(packet);
     }
 
     @Override
-    public void handlePlayerAbilities(ServerboundPlayerAbilitiesPacket packet) {
+    public void handlePlayerAbilities(@NotNull ServerboundPlayerAbilitiesPacket packet) {
         getVanilla().handlePlayerAbilities(packet);
     }
 
     @Override
-    public void handleClientInformation(ServerboundClientInformationPacket packet) {
+    public void handleClientInformation(@NotNull ServerboundClientInformationPacket packet) {
         getVanilla().handleClientInformation(packet);
     }
 
     @Override
-    public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
+    public void handleCustomPayload(@NotNull ServerboundCustomPayloadPacket packet) {
         getVanilla().handleCustomPayload(packet); // not sure if it makes sense, but for now there is nothing else to do here
     }
 
     @Override
-    public void handleChangeDifficulty(ServerboundChangeDifficultyPacket packet) {
+    public void handleChangeDifficulty(@NotNull ServerboundChangeDifficultyPacket packet) {
         getVanilla().handleChangeDifficulty(packet);
     }
 
     @Override
-    public void handleLockDifficulty(ServerboundLockDifficultyPacket packet) {
+    public void handleLockDifficulty(@NotNull ServerboundLockDifficultyPacket packet) {
         getVanilla().handleLockDifficulty(packet);
     }
 
@@ -571,7 +574,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
         return this.player.gameMode.getGameModeForPlayer();
     }
 
-    public void handleBlockBreakAction(BlockPos pos, ServerboundPlayerActionPacket.Action action, Direction direction, int buildHeight, int sequence) {
+    public void handleBlockBreakAction(BlockPos pos, SrvPlayerActionPacket.Action action, Direction direction, int buildHeight, int sequence) {
         PlayerInteractEvent.LeftClickBlock event = ForgeHooks.onLeftClickBlock(player, pos, direction);
         if (event.isCanceled() || (!this.isCreative() && event.getResult() == Event.Result.DENY))
             return;
@@ -582,7 +585,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
             send(new ClientboundBlockUpdatePacket(pos, this.level.getBlockState(pos)));
             this.debugLogging(pos, false, sequence, "too high");
         } else {
-            if (action == ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK) {
+            if (action == SrvPlayerActionPacket.Action.START_DESTROY_BLOCK) {
                 if (!this.level.mayInteract(this.player, pos)) {
                     send(new ClientboundBlockUpdatePacket(pos, this.level.getBlockState(pos)));
                     this.debugLogging(pos, false, sequence, "may not interact");
@@ -624,7 +627,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
                     this.debugLogging(pos, true, sequence, "actual start of destroying");
                     this.lastSentState = i;
                 }
-            } else if (action == ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK) {
+            } else if (action == SrvPlayerActionPacket.Action.STOP_DESTROY_BLOCK) {
                 if (pos.equals(this.destroyPos)) {
                     int j = this.gameTicks - this.destroyProgressStart;
                     BlockState blockstate1 = this.level.getBlockState(pos);
@@ -647,7 +650,7 @@ public class LittleServerPlayerHandler implements ServerPlayerConnection, Packet
                 }
 
                 this.debugLogging(pos, true, sequence, "stopped destroying");
-            } else if (action == ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK) {
+            } else if (action == SrvPlayerActionPacket.Action.ABORT_DESTROY_BLOCK) {
                 this.isDestroyingBlock = false;
                 if (!Objects.equals(this.destroyPos, pos)) {
                     LOGGER.warn("Mismatch in destroy block pos: {} {}", this.destroyPos, pos);

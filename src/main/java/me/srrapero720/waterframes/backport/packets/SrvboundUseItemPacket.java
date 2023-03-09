@@ -1,19 +1,22 @@
-package net.minecraft.network.protocol.game;
+package me.srrapero720.waterframes.backport.packets;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerGamePacketListener;
 import net.minecraft.world.InteractionHand;
 
-public class ServerboundUseItemPacket implements Packet<ServerGamePacketListener> {
+public class SrvboundUseItemPacket extends net.minecraft.network.protocol.game.ServerboundUseItemPacket implements Packet<ServerGamePacketListener> {
    private final InteractionHand hand;
    private final int sequence;
 
-   public ServerboundUseItemPacket(InteractionHand p_238011_, int p_238012_) {
+   public SrvboundUseItemPacket(InteractionHand p_238011_, int p_238012_) {
+      super(p_238011_);
       this.hand = p_238011_;
       this.sequence = p_238012_;
    }
 
-   public ServerboundUseItemPacket(FriendlyByteBuf p_179798_) {
+   public SrvboundUseItemPacket(FriendlyByteBuf p_179798_) {
+      super(p_179798_);
       this.hand = p_179798_.readEnum(InteractionHand.class);
       this.sequence = p_179798_.readVarInt();
    }
