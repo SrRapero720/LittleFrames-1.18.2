@@ -9,7 +9,7 @@ import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.math.vec.Vec3f;
 
-public enum Axis {
+public enum Axis extends team.creative.creativecore.common.util.math.base.Axis {
     X {
         public double get(double x, double y, double z) {
             return x;

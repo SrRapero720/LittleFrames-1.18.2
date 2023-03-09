@@ -26,7 +26,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 import me.srrapero720.creativecore.common.gui.handler.GuiCreator;
-import me.srrapero720.creativecore.common.util.math.base.Axis;
+import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.box.BoxCorner;
