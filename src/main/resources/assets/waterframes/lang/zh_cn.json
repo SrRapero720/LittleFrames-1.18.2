@@ -1,7 +1,7 @@
 {
-    "block.littleframes.creative_pic_frame": "Creative Picture Frame",
-    "label.littleframes.not_whitelisted": "URL不在白名单, 无法保存!",
-    "label.littleframes.whitelist_warning": "警告: URL白名单未启用",
+    "block.waterframes.creative_pic_frame": "Creative Picture Frame",
+    "label.waterframes.not_whitelisted": "URL不在白名单, 无法保存!",
+    "label.waterframes.whitelist_warning": "警告: URL白名单未启用",
     "gui.creative_frame.flipx": "翻转 (x轴)",
     "gui.creative_frame.flipy": "翻转 (y轴)",
     "gui.creative_frame.posx.left": "左移 (x)",
@@ -33,11 +33,11 @@
     "download.exception.notfound": "没有找到",
     "download.exception.invalid": "无法下载图像",
     "download.exception.gif": "加载GIF动画失败",
-    "config.littleframes.sizeLimitation.commment": "最大框架大小(米)",
-    "config.littleframes.maxRenderDistance.comment": "最大渲染距离(米)",
-    "config.littleframes.onlyOps.comment": "是否只有op(管理员)可以编辑画框",
-    "config.littleframes.disableAdventure.comment": "如果是, 则玩家在冒险模式将无法编辑画框",
-    "config.littleframes.onlyCreative.comment": "如果是, 则只有在创造模式可以编辑画框",
-    "config.littleframes.whitelistEnabled.comment": "如果是, 则只有白名单中列出的url可用于画框",
-    "config.littleframes.whitelist.comment": "可用在画框里的url列表"
+    "config.waterframes.sizeLimitation.commment": "最大框架大小(米)",
+    "config.waterframes.maxRenderDistance.comment": "最大渲染距离(米)",
+    "config.waterframes.onlyOps.comment": "是否只有op(管理员)可以编辑画框",
+    "config.waterframes.disableAdventure.comment": "如果是, 则玩家在冒险模式将无法编辑画框",
+    "config.waterframes.onlyCreative.comment": "如果是, 则只有在创造模式可以编辑画框",
+    "config.waterframes.whitelistEnabled.comment": "如果是, 则只有白名单中列出的url可用于画框",
+    "config.waterframes.whitelist.comment": "可用在画框里的url列表"
 }

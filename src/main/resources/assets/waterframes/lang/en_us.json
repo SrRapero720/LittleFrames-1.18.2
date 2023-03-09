@@ -1,7 +1,7 @@
 {
-    "block.littleframes.creative_pic_frame": "Creative Picture Frame",
-    "label.littleframes.not_whitelisted": "URL not whitelisted, cannot save",
-    "label.littleframes.whitelist_warning": "Warning: URL Whitelist not enabled",
+    "block.waterframes.creative_pic_frame": "Creative Picture Frame",
+    "label.waterframes.not_whitelisted": "URL not whitelisted, cannot save",
+    "label.waterframes.whitelist_warning": "Warning: URL Whitelist not enabled",
     "gui.creative_frame.flipx": "flip (x-axis)",
     "gui.creative_frame.flipy": "flip (y-axis)",
     "gui.creative_frame.posx.left": "left (x)",
@@ -33,11 +33,11 @@
     "download.exception.notfound": "Not found",
     "download.exception.invalid": "Could not download image",
     "download.exception.gif": "Failed to parse GIF",
-    "config.littleframes.sizeLimitation.commment": "The maximum size (in blocks) for a frame",
-    "config.littleframes.maxRenderDistance.comment": "The maximum render distance (in blocks)",
-    "config.littleframes.onlyOps.comment": "True if only operators (opped players) are allowed to edit a frame",
-    "config.littleframes.disableAdventure.comment": "If true, players in adventure mode will not be able to edit frames",
-    "config.littleframes.onlyCreative.comment": "If true, only players in creative mode can edit frames",
-    "config.littleframes.whitelistEnabled.comment": "If true, only URLs listed in the whitelist can be used for a frame",
-    "config.littleframes.whitelist.comment": "A list of URLs that can be used for frames"
+    "config.waterframes.sizeLimitation.commment": "The maximum size (in blocks) for a frame",
+    "config.waterframes.maxRenderDistance.comment": "The maximum render distance (in blocks)",
+    "config.waterframes.onlyOps.comment": "True if only operators (opped players) are allowed to edit a frame",
+    "config.waterframes.disableAdventure.comment": "If true, players in adventure mode will not be able to edit frames",
+    "config.waterframes.onlyCreative.comment": "If true, only players in creative mode can edit frames",
+    "config.waterframes.whitelistEnabled.comment": "If true, only URLs listed in the whitelist can be used for a frame",
+    "config.waterframes.whitelist.comment": "A list of URLs that can be used for frames"
 }

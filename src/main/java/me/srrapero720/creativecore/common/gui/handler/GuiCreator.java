@@ -1,16 +1,12 @@
 package me.srrapero720.creativecore.common.gui.handler;
 
-import java.util.function.BiFunction;
-
 import me.srrapero720.creativecore.common.gui.creator.BlockGuiCreator;
 import me.srrapero720.creativecore.common.gui.creator.ItemGuiCreator;
-import me.srrapero720.creativecore.common.gui.packet.OpenGuiPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +18,8 @@ import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.integration.GuiScreenIntegration;
 import team.creative.creativecore.common.util.registry.NamedHandlerRegistry;
+
+import java.util.function.BiFunction;
 
 public abstract class GuiCreator {
 
@@ -50,8 +48,8 @@ public abstract class GuiCreator {
     protected void openGui(CompoundTag nbt, Player player) {
         if (player.level.isClientSide)
             CreativeCore.NETWORK.sendToServer(new me.srrapero720.creativecore.common.gui.packet.OpenGuiPacket(name, nbt));
-        else
-            OpenGuiPacket.openGuiOnServer(this, nbt, (ServerPlayer) player);
+        else {}
+//            OpenGuiPacket.openGuiOnServer(new , nbt, (ServerPlayer) player);
     }
 
     @Environment(EnvType.CLIENT)

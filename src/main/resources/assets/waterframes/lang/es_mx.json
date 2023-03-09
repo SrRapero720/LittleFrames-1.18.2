@@ -1,7 +1,7 @@
 {
-    "block.littleframes.creative_pic_frame": "Creative Picture Frame",
-    "label.littleframes.not_whitelisted": "URL no permitida, no se puede cargar",
-    "label.littleframes.whitelist_warning": "Aviso: Lista blanca de URLs no activada",
+    "block.waterframes.creative_pic_frame": "Creative Picture Frame",
+    "label.waterframes.not_whitelisted": "URL no permitida, no se puede cargar",
+    "label.waterframes.whitelist_warning": "Aviso: Lista blanca de URLs no activada",
     "gui.creative_frame.flipx": "invertir (eje X)",
     "gui.creative_frame.flipy": "invertir (eje Y)",
     "gui.creative_frame.posx.left": "izquierda (x)",
@@ -33,11 +33,11 @@
     "download.exception.notfound": "No encontrado",
     "download.exception.invalid": "No se puede cargar la imagen",
     "download.exception.gif": "Fallo al procesar el gif",
-    "config.littleframes.sizeLimitation.commment": "Tamaño maximo (en bloques) para los marcos",
-    "config.littleframes.maxRenderDistance.comment": "Distancia de renderizado maxima (en bloques)",
-    "config.littleframes.onlyOps.comment": "Activar si solo administradores (opped players) deben editar los marco",
-    "config.littleframes.disableAdventure.comment": "Si esta activo, los jugadores en modo aventura no podran editar los marco",
-    "config.littleframes.onlyCreative.comment": "Si esta activo, solo jugadores en creativo pueden editar los marcos",
-    "config.littleframes.whitelistEnabled.comment": "Si esta activo, solo las URLs listadas pueden ser utilizadas en los maros",
-    "config.littleframes.whitelist.comment": "Lista de URLs permitidas en los marcos"
+    "config.waterframes.sizeLimitation.commment": "Tamaño maximo (en bloques) para los marcos",
+    "config.waterframes.maxRenderDistance.comment": "Distancia de renderizado maxima (en bloques)",
+    "config.waterframes.onlyOps.comment": "Activar si solo administradores (opped players) deben editar los marco",
+    "config.waterframes.disableAdventure.comment": "Si esta activo, los jugadores en modo aventura no podran editar los marco",
+    "config.waterframes.onlyCreative.comment": "Si esta activo, solo jugadores en creativo pueden editar los marcos",
+    "config.waterframes.whitelistEnabled.comment": "Si esta activo, solo las URLs listadas pueden ser utilizadas en los maros",
+    "config.waterframes.whitelist.comment": "Lista de URLs permitidas en los marcos"
 }
