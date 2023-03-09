@@ -10,6 +10,7 @@ import team.creative.creativecore.common.network.CreativeNetwork;
 import team.creative.littleframes.common.packet.CreativePictureFramePacket;
 import team.creative.littleframes.common.packet.LittlePictureFramePacket;
 import team.creative.littleframes.common.structure.LittlePictureFrame;
+import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.common.structure.attribute.LittleAttributeBuilder;
 import team.creative.littletiles.common.structure.registry.LittleStructureRegistry;
 import team.creative.littletiles.common.structure.type.premade.LittleStructureBuilder;
@@ -22,7 +23,7 @@ public class LittleFrames {
     
     public static LittleFramesConfig CONFIG;
     public static final Logger LOGGER = LogManager.getLogger(LittleFrames.MODID);
-    public static final CreativeNetwork NETWORK = new CreativeNetwork("1.0", LOGGER, new ResourceLocation(LittleFrames.MODID, "main"));
+    public static final CreativeNetwork NETWORK = LittleTiles.NETWORK;
     
     public LittleFrames() {
 
