@@ -76,7 +76,7 @@ public class ConfigEventHandler {
     }
     
     public void sync(MinecraftServer server, ICreativeConfigHolder holder) {
-        CreativeCore.NETWORK.sendToClientAll(server, new ConfigurationPacket(holder, true));
+        CreativeCore.NETWORK.sendToClientAll(new ConfigurationPacket(holder, true));
     }
     
     public void sync(ICreativeConfigHolder holder, ServerPlayer player) {

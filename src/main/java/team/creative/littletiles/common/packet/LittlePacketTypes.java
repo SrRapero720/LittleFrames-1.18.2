@@ -1,6 +1,7 @@
 package team.creative.littletiles.common.packet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -152,7 +153,7 @@ public class LittlePacketTypes {
                 } else
                     buffer.writeBoolean(false);
                 
-                NetworkFieldTypes.writeMany(LittleTile.class, content, buffer);
+                NetworkFieldTypes.write(((Class) LittleTile.class), content, buffer);
                 
                 buffer.writeInt(content.children.sizeExtensions());
                 for (Entry<String, LittleGroup> extension : content.children.extensionEntries()) {
@@ -170,8 +171,8 @@ public class LittlePacketTypes {
                 
                 LittleGrid grid = LittleGrid.get(buffer.readInt());
                 LittleGroup group = new LittleGroup(buffer.readBoolean() ? buffer.readAnySizeNbt() : null, children);
-                group.addAll(grid, NetworkFieldTypes.readMany(LittleTile.class, buffer));
-                
+                group.addAll(grid, Collections.singleton(NetworkFieldTypes.read(LittleTile.class, buffer)));
+
                 int extensionCount = buffer.readInt();
                 for (int i = 0; i < extensionCount; i++)
                     group.children.addExtension(buffer.readUtf(), NetworkFieldTypes.read(LittleGroup.class, buffer));
