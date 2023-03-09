@@ -24,24 +24,24 @@ import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.box.BoxCorner;
 import team.creative.creativecore.common.util.math.box.BoxFace;
 import team.creative.littleframes.client.display.FrameDisplay;
-import team.creative.littleframes.common.block.BECreativePictureFrame;
+import team.creative.littleframes.common.block.BEPictureFrameF;
 import team.creative.littleframes.common.block.BlockCreativePictureFrame;
 
 @OnlyIn(Dist.CLIENT)
-public class CreativePictureFrameRenderer implements BlockEntityRenderer<BECreativePictureFrame> {
+public class CreativePictureFrameRenderer implements BlockEntityRenderer<BEPictureFrameF> {
     
     @Override
-    public boolean shouldRenderOffScreen(BECreativePictureFrame frame) {
+    public boolean shouldRenderOffScreen(BEPictureFrameF frame) {
         return frame.getSizeX() > 16 || frame.getSizeY() > 16;
     }
     
     @Override
-    public boolean shouldRender(BECreativePictureFrame frame, Vec3 vec) {
+    public boolean shouldRender(BEPictureFrameF frame, Vec3 vec) {
         return Vec3.atCenterOf(frame.getBlockPos()).closerThan(vec, frame.renderDistance);
     }
     
     @Override
-    public void render(BECreativePictureFrame frame, float partialTicks, PoseStack pose, MultiBufferSource buffer, int p_112311_, int p_112312_) {
+    public void render(BEPictureFrameF frame, float partialTicks, PoseStack pose, MultiBufferSource buffer, int p_112311_, int p_112312_) {
         if (frame.isURLEmpty() || frame.alpha == 0) {
             if (frame.display != null)
                 frame.display.release();

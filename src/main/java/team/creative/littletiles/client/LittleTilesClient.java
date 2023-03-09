@@ -19,10 +19,10 @@ import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.jetbrains.annotations.NotNull;
-import team.creative.creativecore.client.CreativeCoreClient;
-import team.creative.creativecore.client.render.box.RenderBox;
-import team.creative.creativecore.client.render.model.CreativeBlockModel;
-import team.creative.creativecore.client.render.model.CreativeItemBoxModel;
+import me.srrapero720.creativecore.client.CreativeCoreClient;
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
+import me.srrapero720.creativecore.client.render.model.FBlockModel;
+import me.srrapero720.creativecore.client.render.model.FItemBoxModel;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.client.level.LevelHandlersClient;
@@ -98,10 +98,10 @@ public class LittleTilesClient {
     }
 
     public static void modelEvent(ModelRegistryEvent event) {
-        CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleTiles.MODID, "empty"), new CreativeBlockModel() {
+        CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleTiles.MODID, "empty"), new FBlockModel() {
 
             @Override
-            public List<? extends RenderBox> getBoxes(BlockState state, ModelDataMap data, Random source) {
+            public List<? extends FRenderBox> getBoxes(BlockState state, ModelDataMap data, Random source) {
                 return Collections.EMPTY_LIST;
             }
 
@@ -110,11 +110,11 @@ public class LittleTilesClient {
                 return modelData;
             }
         });
-        CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "blockingredient"), new CreativeItemBoxModel(new ModelResourceLocation("miencraft", "stone", "inventory")) {
+        CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "blockingredient"), new FItemBoxModel(new ModelResourceLocation("miencraft", "stone", "inventory")) {
 
                 @Override
-                public List<? extends RenderBox> getBoxes(ItemStack stack, boolean translucent) {
-                    List<RenderBox> cubes = new ArrayList<>();
+                public List<? extends FRenderBox> getBoxes(ItemStack stack, boolean translucent) {
+                    List<FRenderBox> cubes = new ArrayList<>();
                     BlockIngredientEntry ingredient = ItemBlockIngredient.loadIngredient(stack);
                     if (ingredient == null)
                         return null;
@@ -123,7 +123,7 @@ public class LittleTilesClient {
                     LittleGrid context = LittleGrid.defaultGrid();
                     long pixels = (long) (volume * context.count3d);
                     if (pixels < context.count * context.count)
-                        cubes.add(new RenderBox(0.4F, 0.4F, 0.4F, 0.6F, 0.6F, 0.6F, ingredient.block.getState()));
+                        cubes.add(new FRenderBox(0.4F, 0.4F, 0.4F, 0.6F, 0.6F, 0.6F, ingredient.block.getState()));
                     else {
                         long remainingPixels = pixels;
                         long planes = pixels / context.count2d;
@@ -134,15 +134,15 @@ public class LittleTilesClient {
                         float height = (float) (planes * context.pixelLength);
 
                         if (planes > 0)
-                            cubes.add(new RenderBox(0.0F, 0.0F, 0.0F, 1.0F, height, 1.0F, ingredient.block.getState()));
+                            cubes.add(new FRenderBox(0.0F, 0.0F, 0.0F, 1.0F, height, 1.0F, ingredient.block.getState()));
 
                         float width = (float) (rows * context.pixelLength);
 
                         if (rows > 0)
-                            cubes.add(new RenderBox(0.0F, height, 0.0F, 1.0F, height + (float) context.pixelLength, width, ingredient.block.getState()));
+                            cubes.add(new FRenderBox(0.0F, height, 0.0F, 1.0F, height + (float) context.pixelLength, width, ingredient.block.getState()));
 
                         if (remainingPixels > 0)
-                            cubes.add(new RenderBox(0.0F, height, width, 1.0F, height + (float) context.pixelLength, width + (float) context.pixelLength, ingredient.block
+                            cubes.add(new FRenderBox(0.0F, height, width, 1.0F, height + (float) context.pixelLength, width + (float) context.pixelLength, ingredient.block
                                 .getState()));
                     }
                     return cubes;

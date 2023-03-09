@@ -1,7 +1,7 @@
 package team.creative.littletiles.common.math.box;
 
 import net.minecraft.core.BlockPos;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.math.vec.VectorUtils;

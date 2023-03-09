@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.box.BoxCorner;
@@ -29,7 +29,7 @@ import team.creative.creativecore.common.util.math.vec.RangedBitSet;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.math.vec.Vec3f;
 import team.creative.creativecore.common.util.type.map.HashMapList;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.block.little.tile.parent.IParentCollection;
@@ -1197,32 +1197,32 @@ public class LittleBox {
     // ================Rendering================
     
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid) {
-        return new LittleRenderBox(grid, this);
+    public LittleFRenderBox getRenderingBox(LittleGrid grid) {
+        return new LittleFRenderBox(grid, this);
     }
     
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid, LittleVec vec) {
+    public LittleFRenderBox getRenderingBox(LittleGrid grid, LittleVec vec) {
         LittleBox box = copy();
         box.add(vec);
-        return new LittleRenderBox(grid, box);
+        return new LittleFRenderBox(grid, box);
     }
     
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid, BlockState state) {
-        return new LittleRenderBox(grid, this, state);
+    public LittleFRenderBox getRenderingBox(LittleGrid grid, BlockState state) {
+        return new LittleFRenderBox(grid, this, state);
     }
     
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid, BlockState state, LittleVec vec) {
+    public LittleFRenderBox getRenderingBox(LittleGrid grid, BlockState state, LittleVec vec) {
         LittleBox box = copy();
         box.add(vec);
-        return new LittleRenderBox(grid, box, state);
+        return new LittleFRenderBox(grid, box, state);
     }
     
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid, LittleElement element) {
-        return new LittleRenderBox(grid, this, element);
+    public LittleFRenderBox getRenderingBox(LittleGrid grid, LittleElement element) {
+        return new LittleFRenderBox(grid, this, element);
     }
     
     // ================Faces================

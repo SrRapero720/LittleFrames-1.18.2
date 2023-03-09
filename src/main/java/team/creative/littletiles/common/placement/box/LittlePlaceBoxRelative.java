@@ -3,7 +3,7 @@ package team.creative.littletiles.common.placement.box;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.action.LittleActionException;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.LittleBox;
@@ -26,8 +26,8 @@ public class LittlePlaceBoxRelative extends LittlePlaceBox {
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderBox(LittleGrid grid, LittleVec vec) {
-        LittleRenderBox cube = super.getRenderBox(grid, vec);
+    public LittleFRenderBox getRenderBox(LittleGrid grid, LittleVec vec) {
+        LittleFRenderBox cube = super.getRenderBox(grid, vec);
         cube.color = relativeType.annotation.color();
         return cube;
     }

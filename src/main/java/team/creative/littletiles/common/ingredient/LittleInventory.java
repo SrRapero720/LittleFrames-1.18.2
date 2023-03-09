@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import team.creative.creativecore.common.util.inventory.InventoryUtils;
+import me.srrapero720.creativecore.common.util.inventory.InventoryUtils;
 import team.creative.creativecore.common.util.mc.LevelUtils;
 import team.creative.littletiles.api.common.ingredient.ILittleIngredientInventory;
 import team.creative.littletiles.api.common.ingredient.ILittleIngredientSupplier;

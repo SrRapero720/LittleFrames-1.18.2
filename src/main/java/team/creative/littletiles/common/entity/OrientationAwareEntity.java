@@ -1,7 +1,7 @@
 package team.creative.littletiles.common.entity;
 
 import team.creative.creativecore.common.util.math.collision.CollisionCoordinator;
-import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
+import me.srrapero720.creativecore.common.util.math.matrix.IVecOrigin;
 
 public interface OrientationAwareEntity {
     

@@ -25,8 +25,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
-import team.creative.creativecore.common.gui.handler.GuiCreator;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.gui.handler.GuiCreator;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.box.BoxCorner;
@@ -38,7 +38,7 @@ import team.creative.littleframes.LittleFrames;
 import team.creative.littleframes.client.display.FrameDisplay;
 import team.creative.littleframes.client.gui.GuiLittlePictureFrame;
 import team.creative.littleframes.client.texture.TextureCache;
-import team.creative.littleframes.common.block.BECreativePictureFrame;
+import team.creative.littleframes.common.block.BEPictureFrameF;
 import team.creative.littleframes.common.packet.LittlePictureFramePacket;
 import team.creative.littletiles.common.block.little.tile.LittleTileContext;
 import team.creative.littletiles.common.block.little.tile.parent.IStructureParentCollection;
@@ -97,7 +97,7 @@ public class LittlePictureFrame extends LittleStructure {
     
     @OnlyIn(Dist.CLIENT)
     public String getURL() {
-        return BECreativePictureFrame.replaceVariables(url);
+        return BEPictureFrameF.replaceVariables(url);
     }
     
     public String getRealURL() {

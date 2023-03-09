@@ -1,7 +1,7 @@
 package team.creative.littletiles.common.action;
 
 import net.minecraft.world.entity.player.Player;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
 
 public class LittleActions extends LittleAction<Boolean> {

@@ -13,7 +13,7 @@ import com.mojang.blaze3d.platform.MemoryTracker;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import team.creative.creativecore.client.CreativeCoreClient;
+import me.srrapero720.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littleframes.client.texture.TextureCache;
 import team.creative.littleframes.client.vlc.VLCDiscovery;

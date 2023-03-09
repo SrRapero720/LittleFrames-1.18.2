@@ -6,10 +6,10 @@ import java.util.function.BiFunction;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.client.render.box.RenderBox;
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.littletiles.LittleTilesRegistry;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.block.little.tile.parent.IStructureParentCollection;
 import team.creative.littletiles.common.math.box.LittleBox;
@@ -44,10 +44,10 @@ public class LittleSignalCable extends LittleSignalCableBase implements ISignalS
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void render(SurroundingBox box, LittleBox overallBox, List<LittleRenderBox> cubes) {
+    public void render(SurroundingBox box, LittleBox overallBox, List<LittleFRenderBox> cubes) {
         super.render(box, overallBox, cubes);
         
-        LittleRenderBox block = (LittleRenderBox) new LittleRenderBox(box.getGrid(), overallBox, LittleTilesRegistry.CLEAN.get().defaultBlockState()).setColor(color);
+        LittleFRenderBox block = (LittleFRenderBox) new LittleFRenderBox(box.getGrid(), overallBox, LittleTilesRegistry.CLEAN.get().defaultBlockState()).setColor(color);
         block.allowOverlap = true;
         cubes.add(block);
     }
@@ -60,15 +60,15 @@ public class LittleSignalCable extends LittleSignalCableBase implements ISignalS
         
         @Override
         @OnlyIn(Dist.CLIENT)
-        public List<RenderBox> getItemPreview(LittleGroup previews, boolean translucent) {
-            List<RenderBox> cubes = new ArrayList<>();
+        public List<FRenderBox> getItemPreview(LittleGroup previews, boolean translucent) {
+            List<FRenderBox> cubes = new ArrayList<>();
             int color = getColor(previews);
             float size = (float) ((Math.sqrt(bandwidth) * 1F / 32F + 0.05) * 1.4);
             cubes = new ArrayList<>();
-            cubes.add(new RenderBox(0, 0.5F - size, 0.5F - size, size * 2, 0.5F + size, 0.5F + size, LittleTilesRegistry.CLEAN.get()).setColor(color));
-            cubes.add(new RenderBox(0 + size * 2, 0.5F - size * 0.8F, 0.5F - size * 0.8F, 1 - size * 2, 0.5F + size * 0.8F, 0.5F + size * 0.8F, LittleTilesRegistry.SINGLE_CABLE
+            cubes.add(new FRenderBox(0, 0.5F - size, 0.5F - size, size * 2, 0.5F + size, 0.5F + size, LittleTilesRegistry.CLEAN.get()).setColor(color));
+            cubes.add(new FRenderBox(0 + size * 2, 0.5F - size * 0.8F, 0.5F - size * 0.8F, 1 - size * 2, 0.5F + size * 0.8F, 0.5F + size * 0.8F, LittleTilesRegistry.SINGLE_CABLE
                     .get()).setColor(color).setKeepUV(true));
-            cubes.add(new RenderBox(1 - size * 2, 0.5F - size, 0.5F - size, 1, 0.5F + size, 0.5F + size, LittleTilesRegistry.CLEAN.get()).setColor(color));
+            cubes.add(new FRenderBox(1 - size * 2, 0.5F - size, 0.5F - size, 1, 0.5F + size, 0.5F + size, LittleTilesRegistry.CLEAN.get()).setColor(color));
             return cubes;
         }
         

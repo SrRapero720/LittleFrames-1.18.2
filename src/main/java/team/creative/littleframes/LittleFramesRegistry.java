@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import team.creative.littleframes.common.block.BECreativePictureFrame;
+import team.creative.littleframes.common.block.BEPictureFrameF;
 import team.creative.littleframes.common.block.BlockCreativePictureFrame;
 import team.creative.littleframes.watercore_supplier.DefaultTab;
 
@@ -40,8 +40,8 @@ public class LittleFramesRegistry {
     
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, LittleFrames.MODID);
     
-    public static final RegistryObject<BlockEntityType<BECreativePictureFrame>> BE_CREATIVE_FRAME = registerBlockEntity("creative_pic_frame", () -> BlockEntityType.Builder
-            .of(BECreativePictureFrame::new, CREATIVE_PICTURE_FRAME.get()));
+    public static final RegistryObject<BlockEntityType<BEPictureFrameF>> BE_CREATIVE_FRAME = registerBlockEntity("creative_pic_frame", () -> BlockEntityType.Builder
+            .of(BEPictureFrameF::new, CREATIVE_PICTURE_FRAME.get()));
     
     public static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerBlockEntity(String name, Supplier<BlockEntityType.Builder<T>> sup) {
         return BLOCK_ENTITIES.register(name, () -> sup.get().build(Util.fetchChoiceType(References.BLOCK_ENTITY, name)));

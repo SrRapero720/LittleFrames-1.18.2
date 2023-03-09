@@ -6,7 +6,7 @@ import java.util.HashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import team.creative.creativecore.common.level.NeighborUpdateCollector;
+import me.srrapero720.creativecore.common.level.NeighborUpdateCollector;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.mc.BlockTile;
 

@@ -11,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.client.render.box.RenderBox;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.block.little.tile.parent.IStructureParentCollection;
@@ -109,7 +109,7 @@ public class LittleStructureType {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public List<RenderBox> getPositingCubes(Level level, BlockPos pos, ItemStack stack) {
+    public List<FRenderBox> getPositingCubes(Level level, BlockPos pos, ItemStack stack) {
         return null;
     }
     
@@ -237,7 +237,7 @@ public class LittleStructureType {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public List<RenderBox> getItemPreview(LittleGroup previews, boolean translucent) {
+    public List<FRenderBox> getItemPreview(LittleGroup previews, boolean translucent) {
         return null;
     }
     

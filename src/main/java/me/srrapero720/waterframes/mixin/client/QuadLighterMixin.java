@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import team.creative.creativecore.client.render.model.CreativeQuadLighter;
+import me.srrapero720.creativecore.client.render.model.FQuadLighter;
 
 @Mixin(value = VertexLighterFlat.class, remap = false)
-public abstract class QuadLighterMixin extends QuadGatheringTransformer implements CreativeQuadLighter {
+public abstract class QuadLighterMixin extends QuadGatheringTransformer implements FQuadLighter {
     @Unique public int customTint = -1;
     @Shadow private int tint;
 

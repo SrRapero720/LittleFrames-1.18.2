@@ -14,17 +14,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import team.creative.creativecore.client.render.box.RenderBox;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.mc.ColorUtils;
-import team.creative.creativecore.common.util.type.list.CopyArrayCollection;
+import me.srrapero720.creativecore.common.util.type.list.CopyArrayCollection;
 import team.creative.creativecore.common.util.type.map.HashMapList;
 import team.creative.littletiles.api.common.block.LittleBlock;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.block.little.tile.collection.LittleCollection;
-import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.block.little.tile.parent.IParentCollection;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.ingredient.BlockIngredientEntry;
@@ -381,12 +380,12 @@ public final class LittleTile extends LittleElement implements Iterable<LittleBo
         return block.canBeRenderCombined(this, tile);
     }
     
-    public void addPlaceBoxes(LittleGrid grid, List<RenderBox> boxes, LittleVec offset) {
+    public void addPlaceBoxes(LittleGrid grid, List<FRenderBox> boxes, LittleVec offset) {
         for (LittleBox box : this.boxes)
-            boxes.add(new RenderBox(box.getBox(grid, offset)));
+            boxes.add(new FRenderBox(box.getBox(grid, offset)));
     }
     
-    public void addRenderingBoxes(LittleGrid grid, List<RenderBox> boxes) {
+    public void addRenderingBoxes(LittleGrid grid, List<FRenderBox> boxes) {
         for (LittleBox box : this.boxes)
             boxes.add(box.getRenderingBox(grid, this));
     }

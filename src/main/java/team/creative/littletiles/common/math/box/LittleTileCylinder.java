@@ -1,6 +1,6 @@
 package team.creative.littletiles.common.math.box;
 
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 
 public class LittleTileCylinder extends LittleBox {

@@ -5,17 +5,15 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import team.creative.creativecore.common.gui.Align;
-import team.creative.creativecore.common.gui.GuiControl;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
-import team.creative.creativecore.common.gui.controls.inventory.GuiInventoryGrid;
+import me.srrapero720.creativecore.common.gui.controls.inventory.GuiInventoryGrid;
 import team.creative.creativecore.common.gui.controls.inventory.GuiPlayerInventoryGrid;
 import team.creative.creativecore.common.gui.controls.parent.GuiScrollY;
 import team.creative.creativecore.common.gui.controls.simple.GuiButton;
 import team.creative.creativecore.common.gui.flow.GuiFlow;
 import team.creative.creativecore.common.gui.sync.GuiSyncLocal;
-import team.creative.creativecore.common.util.inventory.InventoryUtils;
-import team.creative.creativecore.common.util.math.geo.Rect;
+import me.srrapero720.creativecore.common.util.inventory.InventoryUtils;
 import team.creative.littletiles.common.structure.type.LittleStorage;
 
 public class GuiStorage extends GuiLayer {

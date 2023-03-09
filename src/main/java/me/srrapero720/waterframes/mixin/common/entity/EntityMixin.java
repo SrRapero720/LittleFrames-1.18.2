@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import team.creative.creativecore.common.util.mc.PlayerUtils;
+import me.srrapero720.creativecore.common.util.mc.PlayerUtils;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
 import team.creative.littletiles.common.math.vec.LittleHitResult;
 

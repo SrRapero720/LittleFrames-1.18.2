@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.littletiles.client.render.cache.BlockBufferCache;
 import team.creative.littletiles.client.render.level.LittleChunkDispatcher;
 import team.creative.littletiles.client.render.mc.RenderChunkExtender;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.structure.LittleStructure;
 
@@ -35,7 +35,7 @@ public class BERenderManager {
     private boolean requireRenderingBoundingBoxUpdate = false;
 
     private final BlockBufferCache bufferCache = new BlockBufferCache();
-    public final HashMap<RenderType, List<LittleRenderBox>> boxCache = new HashMap<>();
+    public final HashMap<RenderType, List<LittleFRenderBox>> boxCache = new HashMap<>();
 
     public BERenderManager(BETiles be) {
         this.be = be;

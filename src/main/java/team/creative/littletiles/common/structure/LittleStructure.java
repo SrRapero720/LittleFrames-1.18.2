@@ -34,14 +34,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.type.list.Pair;
 import team.creative.creativecore.common.util.type.map.HashMapList;
 import team.creative.littletiles.LittleTiles;
-import team.creative.littletiles.LittleTilesRegistry;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.block.little.tile.LittleTileContext;
@@ -918,7 +917,7 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void getRenderingBoxes(BlockPos pos, RenderType layer, List<LittleRenderBox> boxes) {
+    public void getRenderingBoxes(BlockPos pos, RenderType layer, List<LittleFRenderBox> boxes) {
     }
 
     public VoxelShape getExtraShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {

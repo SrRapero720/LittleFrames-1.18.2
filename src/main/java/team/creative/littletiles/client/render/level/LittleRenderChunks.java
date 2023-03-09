@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.core.SectionPos;
-import team.creative.creativecore.common.util.type.itr.InverseConsecutiveIterator;
-import team.creative.creativecore.common.util.type.itr.InverseListIterator;
-import team.creative.creativecore.common.util.type.itr.NestedIterator;
+import me.srrapero720.creativecore.common.util.type.itr.InverseConsecutiveIterator;
+import me.srrapero720.creativecore.common.util.type.itr.InverseListIterator;
+import me.srrapero720.creativecore.common.util.type.itr.NestedIterator;
 
 public class LittleRenderChunks implements Iterable<LittleRenderChunk> {
 

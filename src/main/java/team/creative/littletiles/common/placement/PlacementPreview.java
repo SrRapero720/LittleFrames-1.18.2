@@ -1,35 +1,22 @@
 package team.creative.littletiles.common.placement;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.level.ISubLevel;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
-import team.creative.littletiles.api.common.tool.ILittlePlacer;
-import team.creative.littletiles.client.LittleTilesClient;
-import team.creative.littletiles.common.action.LittleAction;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroupAbsolute;
 import team.creative.littletiles.common.entity.level.LittleEntity;
-import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.ingredient.LittleIngredients;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
-import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
-import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecGrid;
 import team.creative.littletiles.common.placement.mode.PlacementMode;
-import team.creative.littletiles.common.placement.second.InsideFixedHandler;
-import team.creative.littletiles.common.placement.second.SecondModeHandler;
 import team.creative.littletiles.common.structure.exception.MissingAnimationException;
 
 /** PlacementPosition + Previews -> PlacementPreview (can be rendered) + Player/ Cause -> Placement */

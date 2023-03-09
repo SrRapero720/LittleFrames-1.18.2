@@ -21,11 +21,11 @@ import team.creative.creativecore.common.util.text.TextListBuilder;
 import team.creative.littleframes.LittleFrames;
 import team.creative.littleframes.client.texture.TextureCache;
 import team.creative.littleframes.client.texture.TextureSeeker;
-import team.creative.littleframes.common.block.BECreativePictureFrame;
+import team.creative.littleframes.common.block.BEPictureFrameF;
 
 public class GuiCreativePictureFrame extends GuiLayer {
     
-    public BECreativePictureFrame frame;
+    public BEPictureFrameF frame;
     
     public float scaleMultiplier;
     
@@ -84,11 +84,11 @@ public class GuiCreativePictureFrame extends GuiLayer {
         frame.markDirty();
     });
     
-    public GuiCreativePictureFrame(BECreativePictureFrame frame) {
+    public GuiCreativePictureFrame(BEPictureFrameF frame) {
         this(frame, 16);
     }
     
-    public GuiCreativePictureFrame(BECreativePictureFrame frame, int scaleSize) {
+    public GuiCreativePictureFrame(BEPictureFrameF frame, int scaleSize) {
         super("creative_frame", 200, 210);
         this.frame = frame;
         this.scaleMultiplier = 1F / (scaleSize);

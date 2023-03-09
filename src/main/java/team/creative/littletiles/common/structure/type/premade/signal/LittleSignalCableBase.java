@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.client.render.box.RenderBox;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.vec.VectorUtils;
@@ -25,7 +25,7 @@ import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.creativecore.common.util.type.list.Pair;
 import team.creative.creativecore.common.util.type.map.HashMapList;
 import team.creative.littletiles.LittleTilesRegistry;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
@@ -408,7 +408,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void getRenderingBoxes(BlockPos pos, RenderType layer, List<LittleRenderBox> cubes) {
+    public void getRenderingBoxes(BlockPos pos, RenderType layer, List<LittleFRenderBox> cubes) {
         if (ColorUtils.isInvisible(color))
             return;
         
@@ -429,7 +429,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
     }
     
     @OnlyIn(Dist.CLIENT)
-    public void renderFace(Facing facing, LittleGrid grid, LittleBox renderBox, int distance, Axis axis, Axis one, Axis two, boolean positive, boolean oneSidedRenderer, List<LittleRenderBox> cubes) {
+    public void renderFace(Facing facing, LittleGrid grid, LittleBox renderBox, int distance, Axis axis, Axis one, Axis two, boolean positive, boolean oneSidedRenderer, List<LittleFRenderBox> cubes) {
         if (positive) {
             renderBox.setMin(axis, renderBox.getMax(axis));
             renderBox.setMax(axis, renderBox.getMax(axis) + distance);
@@ -438,7 +438,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
             renderBox.setMin(axis, renderBox.getMin(axis) - distance);
         }
         
-        LittleRenderBox cube = renderBox.getRenderingBox(grid, LittleTilesRegistry.SINGLE_CABLE.get().defaultBlockState().setValue(BlockStateProperties.AXIS, axis.toVanilla()));
+        LittleFRenderBox cube = renderBox.getRenderingBox(grid, LittleTilesRegistry.SINGLE_CABLE.get().defaultBlockState().setValue(BlockStateProperties.AXIS, axis.toVanilla()));
         if (!oneSidedRenderer) {
             if (positive)
                 cube.setMax(axis, cube.getMin(axis) + cube.getSize(axis) / 2);
@@ -460,7 +460,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
     }
     
     @OnlyIn(Dist.CLIENT)
-    public void render(SurroundingBox box, LittleBox overallBox, List<LittleRenderBox> cubes) {
+    public void render(SurroundingBox box, LittleBox overallBox, List<LittleFRenderBox> cubes) {
         
         for (int i = 0; i < faces.length; i++) {
             if (faces[i] == null)
@@ -626,10 +626,10 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
         
         @Override
         @OnlyIn(Dist.CLIENT)
-        public List<RenderBox> getPositingCubes(Level level, BlockPos pos, ItemStack stack) {
+        public List<FRenderBox> getPositingCubes(Level level, BlockPos pos, ItemStack stack) {
             
             try {
-                List<RenderBox> cubes = new ArrayList<>();
+                List<FRenderBox> cubes = new ArrayList<>();
                 for (int i = 0; i < 6; i++) {
                     Facing facing = Facing.values()[i];
                     
@@ -638,7 +638,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
                         for (LittleStructure structure : ((BETiles) blockEntity).loadedStructures()) {
                             if (structure instanceof ISignalStructureBase && ((ISignalStructureBase) structure).getBandwidth() == bandwidth && ((ISignalStructureBase) structure)
                                     .canConnect(facing.opposite())) {
-                                RenderBox cube = new RenderBox(new AlignedBox(structure.getSurroundingBox().getAABB()
+                                FRenderBox cube = new FRenderBox(new AlignedBox(structure.getSurroundingBox().getAABB()
                                         .move(-blockEntity.getBlockPos().getX(), -blockEntity.getBlockPos().getY(), -blockEntity.getBlockPos().getZ())));
                                 cube.setMin(facing.axis, 0);
                                 cube.setMax(facing.axis, 1);
@@ -655,10 +655,10 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
                         if (structure instanceof ISignalStructureBase && ((ISignalStructureBase) structure).getBandwidth() == bandwidth) {
                             AABB box = structure.getSurroundingBox().getAABB()
                                     .move(-blockEntity.getBlockPos().getX(), -blockEntity.getBlockPos().getY(), -blockEntity.getBlockPos().getZ());
-                            RenderBox cube;
+                            FRenderBox cube;
                             
                             if (((ISignalStructureBase) structure).canConnect(Facing.WEST) || ((ISignalStructureBase) structure).canConnect(Facing.EAST)) {
-                                cube = new RenderBox(new AlignedBox(box));
+                                cube = new FRenderBox(new AlignedBox(box));
                                 if (((ISignalStructureBase) structure).canConnect(Facing.WEST))
                                     cube.setMin(Axis.X, 0);
                                 if (((ISignalStructureBase) structure).canConnect(Facing.EAST))
@@ -667,7 +667,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
                             }
                             
                             if (((ISignalStructureBase) structure).canConnect(Facing.DOWN) || ((ISignalStructureBase) structure).canConnect(Facing.UP)) {
-                                cube = new RenderBox(new AlignedBox(box));
+                                cube = new FRenderBox(new AlignedBox(box));
                                 if (((ISignalStructureBase) structure).canConnect(Facing.DOWN))
                                     cube.setMin(Axis.Y, 0);
                                 if (((ISignalStructureBase) structure).canConnect(Facing.UP))
@@ -676,7 +676,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
                             }
                             
                             if (((ISignalStructureBase) structure).canConnect(Facing.NORTH) || ((ISignalStructureBase) structure).canConnect(Facing.SOUTH)) {
-                                cube = new RenderBox(new AlignedBox(box));
+                                cube = new FRenderBox(new AlignedBox(box));
                                 if (((ISignalStructureBase) structure).canConnect(Facing.NORTH))
                                     cube.setMin(Axis.Z, 0);
                                 if (((ISignalStructureBase) structure).canConnect(Facing.SOUTH))
@@ -689,7 +689,7 @@ public abstract class LittleSignalCableBase extends LittleStructurePremade imple
                 }
                 if (cubes.isEmpty())
                     return null;
-                for (RenderBox cube : cubes)
+                for (FRenderBox cube : cubes)
                     cube.color = ColorUtils.rgba(255, 255, 255, 90);
                 return cubes;
             } catch (CorruptedConnectionException | NotYetConnectedException e) {}

@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.collision.CollisionCoordinator;
-import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
+import me.srrapero720.creativecore.common.util.math.matrix.IVecOrigin;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.api.common.block.LittlePhysicBlock;
 import team.creative.littletiles.common.entity.INoPushEntity;

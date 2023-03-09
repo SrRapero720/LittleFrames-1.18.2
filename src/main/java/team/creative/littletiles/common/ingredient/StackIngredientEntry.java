@@ -1,7 +1,7 @@
 package team.creative.littletiles.common.ingredient;
 
 import net.minecraft.world.item.ItemStack;
-import team.creative.creativecore.common.util.inventory.InventoryUtils;
+import me.srrapero720.creativecore.common.util.inventory.InventoryUtils;
 
 public class StackIngredientEntry {
     

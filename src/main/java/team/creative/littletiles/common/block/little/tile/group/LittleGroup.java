@@ -17,12 +17,12 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.client.render.box.RenderBox;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.creativecore.common.util.mc.LanguageUtils;
-import team.creative.creativecore.common.util.type.Bunch;
+import me.srrapero720.creativecore.common.util.type.Bunch;
 import team.creative.creativecore.common.util.type.itr.FunctionIterator;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
@@ -153,14 +153,14 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public static void shrinkCubesToOneBlock(List<? extends RenderBox> cubes) {
+    public static void shrinkCubesToOneBlock(List<? extends FRenderBox> cubes) {
         float minX = Float.POSITIVE_INFINITY;
         float minY = Float.POSITIVE_INFINITY;
         float minZ = Float.POSITIVE_INFINITY;
         float maxX = Float.NEGATIVE_INFINITY;
         float maxY = Float.NEGATIVE_INFINITY;
         float maxZ = Float.NEGATIVE_INFINITY;
-        for (RenderBox box : cubes) {
+        for (FRenderBox box : cubes) {
             minX = Math.min(minX, box.minX);
             minY = Math.min(minY, box.minY);
             minZ = Math.min(minZ, box.minZ);
@@ -184,7 +184,7 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
         float offsetX2 = (1 - sizeX * scale) * 0.5F;
         float offsetY2 = (1 - sizeY * scale) * 0.5F;
         float offsetZ2 = (1 - sizeZ * scale) * 0.5F;
-        for (RenderBox box : cubes) {
+        for (FRenderBox box : cubes) {
             box.add(offsetX, offsetY, offsetZ);
             box.scale(scale);
             box.add(offsetX2, offsetY2, offsetZ2);
@@ -708,14 +708,14 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public List<RenderBox> getPlaceBoxes(LittleVec offset) {
-        List<RenderBox> boxes = new ArrayList<>();
+    public List<FRenderBox> getPlaceBoxes(LittleVec offset) {
+        List<FRenderBox> boxes = new ArrayList<>();
         addPlaceBoxes(boxes, offset);
         return boxes;
     }
     
     @OnlyIn(Dist.CLIENT)
-    protected void addPlaceBoxes(List<RenderBox> boxes, LittleVec offset) {
+    protected void addPlaceBoxes(List<FRenderBox> boxes, LittleVec offset) {
         for (LittleTile tile : content)
             tile.addPlaceBoxes(grid, boxes, offset);
         if (hasStructure()) {
@@ -741,19 +741,19 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public List<RenderBox> getRenderingBoxes(boolean translucent) {
-        List<RenderBox> boxes = new ArrayList<>();
+    public List<FRenderBox> getRenderingBoxes(boolean translucent) {
+        List<FRenderBox> boxes = new ArrayList<>();
         addRenderingBoxes(boxes, translucent);
         return boxes;
     }
     
     @OnlyIn(Dist.CLIENT)
-    protected void addRenderingBoxes(List<RenderBox> boxes, boolean translucent) {
+    protected void addRenderingBoxes(List<FRenderBox> boxes, boolean translucent) {
         for (LittleTile tile : content)
             if (tile.isTranslucent() == translucent)
                 tile.addRenderingBoxes(grid, boxes);
         if (hasStructure()) {
-            List<RenderBox> structureBoxes = getStructureType().getItemPreview(this, translucent);
+            List<FRenderBox> structureBoxes = getStructureType().getItemPreview(this, translucent);
             if (structureBoxes != null)
                 boxes.addAll(structureBoxes);
         }

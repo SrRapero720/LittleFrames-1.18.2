@@ -29,7 +29,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.handler.BlockGuiCreator;
-import team.creative.creativecore.common.gui.handler.GuiCreator;
+import me.srrapero720.creativecore.common.gui.handler.GuiCreator;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.littleframes.LittleFrames;
@@ -104,18 +104,18 @@ public class BlockCreativePictureFrame extends BaseEntityBlock implements BlockG
     
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return BECreativePictureFrame::tick;
+        return BEPictureFrameF::tick;
     }
     
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BECreativePictureFrame(pos, state);
+        return new BEPictureFrameF(pos, state);
     }
     
     @Override
     public GuiLayer create(CompoundTag nbt, Level level, BlockPos pos, BlockState state, Player player) {
         BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof BECreativePictureFrame frame)
+        if (be instanceof BEPictureFrameF frame)
             return new GuiCreativePictureFrame(frame);
         return null;
     }

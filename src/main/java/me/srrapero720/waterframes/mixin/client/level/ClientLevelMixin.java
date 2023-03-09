@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.client.multiplayer.ClientChunkCache;
 import net.minecraft.client.multiplayer.ClientLevel;
-import team.creative.creativecore.common.util.unsafe.CreativeHackery;
+import me.srrapero720.creativecore.common.util.unsafe.CreativeHackery;
 import team.creative.littletiles.client.level.little.LittleClientChunkCache;
 import team.creative.littletiles.client.level.little.LittleClientLevel;
 

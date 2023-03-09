@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import team.creative.creativecore.common.network.CreativePacket;
-import team.creative.littleframes.common.block.BECreativePictureFrame;
+import team.creative.littleframes.common.block.BEPictureFrameF;
 
 public class CreativePictureFramePacket extends CreativePacket {
     
@@ -24,7 +24,7 @@ public class CreativePictureFramePacket extends CreativePacket {
     @Override
     public void executeClient(Player player) {
         BlockEntity be = player.level.getBlockEntity(pos);
-        if (be instanceof BECreativePictureFrame frame) {
+        if (be instanceof BEPictureFrameF frame) {
             frame.playing = playing;
             frame.tick = tick;
             if (frame.display != null) {

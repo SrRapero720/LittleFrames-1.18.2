@@ -1,6 +1,6 @@
 package team.creative.littleframes.client.display;
 
-import team.creative.creativecore.client.CreativeCoreClient;
+import me.srrapero720.creativecore.client.CreativeCoreClient;
 import team.creative.littleframes.client.texture.TextureCache;
 
 public class FramePictureDisplay extends FrameDisplay {

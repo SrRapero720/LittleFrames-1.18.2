@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import team.creative.creativecore.common.util.math.box.AABBVoxelShape;
+import me.srrapero720.creativecore.common.util.math.box.AABBVoxelShape;
 import team.creative.littletiles.server.level.little.LittleServerChunkCache;
 import team.creative.littletiles.server.level.little.LittleServerLevel;
 

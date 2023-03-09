@@ -16,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.box.BoxCorner;
@@ -29,8 +29,8 @@ import team.creative.creativecore.common.util.math.utils.BooleanUtils;
 import team.creative.creativecore.common.util.math.utils.IntegerUtils;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.math.vec.Vec3f;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
-import team.creative.littletiles.client.render.tile.LittleRenderBoxTransformable;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBoxTransformable;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.volume.LittleBoxReturnedVolume;
@@ -1021,20 +1021,20 @@ public class LittleTransformableBox extends LittleBox {
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid) {
-        return new LittleRenderBoxTransformable(grid, this);
+    public LittleFRenderBox getRenderingBox(LittleGrid grid) {
+        return new LittleFRenderBoxTransformable(grid, this);
     }
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid, BlockState state) {
-        return new LittleRenderBoxTransformable(grid, this, state);
+    public LittleFRenderBox getRenderingBox(LittleGrid grid, BlockState state) {
+        return new LittleFRenderBoxTransformable(grid, this, state);
     }
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderingBox(LittleGrid grid, LittleElement element) {
-        return new LittleRenderBoxTransformable(grid, this, element);
+    public LittleFRenderBox getRenderingBox(LittleGrid grid, LittleElement element) {
+        return new LittleFRenderBoxTransformable(grid, this, element);
     }
     
     @Override

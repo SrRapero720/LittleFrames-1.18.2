@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.grid.LittleGrid;
@@ -63,8 +63,8 @@ public interface IParentCollection extends Iterable<LittleTile>, ILevelProvider 
     }
     
     @OnlyIn(value = Dist.CLIENT)
-    public default LittleRenderBox getRenderingBox(LittleTile tile, LittleBox box, RenderType layer) {
-        LittleRenderBox renderBox = box.getRenderingBox(getGrid(), tile);
+    public default LittleFRenderBox getRenderingBox(LittleTile tile, LittleBox box, RenderType layer) {
+        LittleFRenderBox renderBox = box.getRenderingBox(getGrid(), tile);
         if (renderBox != null && isStructure() && LittleStructureAttribute.emissive(getAttribute()))
             renderBox.emissive = true;
         return renderBox;

@@ -3,7 +3,7 @@ package team.creative.littletiles.common.structure.signal.logic;
 import java.text.ParseException;
 import java.util.Iterator;
 
-import team.creative.creativecore.common.util.type.itr.ArrayIterator;
+import me.srrapero720.creativecore.common.util.type.itr.ArrayIterator;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.signal.SignalState;
 import team.creative.littletiles.common.structure.signal.SignalState.SignalStateSize;

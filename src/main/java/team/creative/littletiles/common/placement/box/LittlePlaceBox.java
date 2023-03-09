@@ -3,7 +3,7 @@ package team.creative.littletiles.common.placement.box;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.action.LittleActionException;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.LittleBox;
@@ -20,7 +20,7 @@ public abstract class LittlePlaceBox {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderBox(LittleGrid grid, LittleVec offset) {
+    public LittleFRenderBox getRenderBox(LittleGrid grid, LittleVec offset) {
         return box.getRenderingBox(grid, offset);
     }
     

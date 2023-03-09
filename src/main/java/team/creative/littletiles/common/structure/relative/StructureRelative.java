@@ -1,7 +1,7 @@
 package team.creative.littletiles.common.structure.relative;
 
 import net.minecraft.core.BlockPos;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;

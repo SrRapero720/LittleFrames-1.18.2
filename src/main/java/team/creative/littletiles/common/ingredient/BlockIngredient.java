@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import team.creative.creativecore.common.util.mc.LanguageUtils;
-import team.creative.creativecore.common.util.mc.TooltipUtils;
+import me.srrapero720.creativecore.common.util.mc.TooltipUtils;
 import team.creative.creativecore.common.util.text.TextBuilder;
 import team.creative.creativecore.common.util.type.map.LinkedHashMapDouble;
 import team.creative.littletiles.common.grid.LittleGrid;

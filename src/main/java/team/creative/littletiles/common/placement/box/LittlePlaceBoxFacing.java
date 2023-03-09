@@ -3,10 +3,10 @@ package team.creative.littletiles.common.placement.box;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.creative.creativecore.common.util.math.base.Axis;
+import me.srrapero720.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.littletiles.LittleTilesRegistry;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.action.LittleActionException;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.grid.LittleGrid;
@@ -28,10 +28,10 @@ public class LittlePlaceBoxFacing extends LittlePlaceBox {
     
     @Override
     @OnlyIn(Dist.CLIENT)
-    public LittleRenderBox getRenderBox(LittleGrid grid, LittleVec offset) {
+    public LittleFRenderBox getRenderBox(LittleGrid grid, LittleVec offset) {
         LittleBox box = this.box.copy();
         box.add(offset);
-        LittleRenderBox cube = new LittleRenderBox(grid, box, new LittleElement(LittleTilesRegistry.CLEAN.get().defaultBlockState(), color));
+        LittleFRenderBox cube = new LittleFRenderBox(grid, box, new LittleElement(LittleTilesRegistry.CLEAN.get().defaultBlockState(), color));
         float thickness = 1 / 32F;
         Axis axis = facing.axis;
         if (facing.positive) {

@@ -8,7 +8,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import team.creative.creativecore.common.util.math.box.AABBVoxelShape;
+import me.srrapero720.creativecore.common.util.math.box.AABBVoxelShape;
 
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerImplMixin {

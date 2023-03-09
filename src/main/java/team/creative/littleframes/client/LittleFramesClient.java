@@ -17,14 +17,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.jetbrains.annotations.NotNull;
-import team.creative.creativecore.client.CreativeCoreClient;
-import team.creative.creativecore.client.render.box.RenderBox;
-import team.creative.creativecore.client.render.model.CreativeBlockModel;
-import team.creative.creativecore.client.render.model.CreativeItemBoxModel;
+import me.srrapero720.creativecore.client.CreativeCoreClient;
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
+import me.srrapero720.creativecore.client.render.model.FBlockModel;
+import me.srrapero720.creativecore.client.render.model.FItemBoxModel;
 import team.creative.littleframes.LittleFrames;
 import team.creative.littleframes.LittleFramesRegistry;
 import team.creative.littleframes.client.texture.TextureCache;
-import team.creative.littleframes.common.block.BECreativePictureFrame;
+import team.creative.littleframes.common.block.BEPictureFrameF;
 import team.creative.littleframes.common.block.BlockCreativePictureFrame;
 
 import java.util.Collections;
@@ -44,15 +44,15 @@ public class LittleFramesClient {
         CreativeCoreClient.registerClientConfig(LittleFrames.MODID);
         
         CreativeCoreClient
-                .registerItemModel(new ResourceLocation(LittleFrames.MODID, "creative_pic_frame"), new CreativeItemBoxModel(new ModelResourceLocation("minecraft", "stone", "inventory")) {
+                .registerItemModel(new ResourceLocation(LittleFrames.MODID, "creative_pic_frame"), new FItemBoxModel(new ModelResourceLocation("minecraft", "stone", "inventory")) {
                     
                     @Override
-                    public List<? extends RenderBox> getBoxes(ItemStack stack, boolean translucent) {
-                        return Collections.singletonList(new RenderBox(0, 0, 0, BlockCreativePictureFrame.frameThickness, 1, 1, Blocks.OAK_PLANKS));
+                    public List<? extends FRenderBox> getBoxes(ItemStack stack, boolean translucent) {
+                        return Collections.singletonList(new FRenderBox(0, 0, 0, BlockCreativePictureFrame.frameThickness, 1, 1, Blocks.OAK_PLANKS));
                     }
                 });
         
-        CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleFrames.MODID, "creative_pic_frame"), new CreativeBlockModel() {
+        CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleFrames.MODID, "creative_pic_frame"), new FBlockModel() {
             
             public final ModelProperty<Boolean> visibility = new ModelProperty<>();
             public final ModelDataMap visible = new ModelDataMap.Builder().withInitial(visibility, true).build();
@@ -61,16 +61,16 @@ public class LittleFramesClient {
             @Override
             public @NotNull ModelDataMap getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelDataMap modelData) {
                 BlockEntity be = level.getBlockEntity(pos);
-                if (be instanceof BECreativePictureFrame frame)
+                if (be instanceof BEPictureFrameF frame)
                     return frame.visibleFrame ? visible : invisible;
                 return visible;
             }
             
             @Override
-            public List<? extends RenderBox> getBoxes(BlockState state, ModelDataMap data, Random source) {
+            public List<? extends FRenderBox> getBoxes(BlockState state, ModelDataMap data, Random source) {
                 if (Boolean.FALSE.equals(data.getData(visibility)))
                     return Collections.EMPTY_LIST;
-                RenderBox box = new RenderBox(BlockCreativePictureFrame.box(state.getValue(BlockCreativePictureFrame.FACING)), Blocks.OAK_PLANKS);
+                FRenderBox box = new FRenderBox(BlockCreativePictureFrame.box(state.getValue(BlockCreativePictureFrame.FACING)), Blocks.OAK_PLANKS);
                 return Collections.singletonList(box);
             }
         });

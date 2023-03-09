@@ -2,7 +2,7 @@ package team.creative.littletiles.common.ingredient;
 
 import net.minecraft.ChatFormatting;
 import team.creative.creativecore.common.util.mc.LanguageUtils;
-import team.creative.creativecore.common.util.mc.TooltipUtils;
+import me.srrapero720.creativecore.common.util.mc.TooltipUtils;
 import team.creative.creativecore.common.util.text.TextBuilder;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.block.little.tile.LittleTile;

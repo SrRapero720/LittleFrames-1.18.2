@@ -14,8 +14,8 @@ import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.box.AlignedBox;
 import team.creative.creativecore.common.util.math.vec.Vec3f;
 import team.creative.creativecore.common.util.mc.ColorUtils;
-import team.creative.littletiles.client.render.tile.LittleRenderBox;
-import team.creative.littletiles.client.render.tile.LittleRenderBoxItem;
+import team.creative.littletiles.client.render.tile.LittleFRenderBox;
+import team.creative.littletiles.client.render.tile.LittleFRenderBoxItem;
 import team.creative.littletiles.common.block.little.tile.LittleTileContext;
 import team.creative.littletiles.common.block.little.tile.parent.IStructureParentCollection;
 import team.creative.littletiles.common.structure.LittleStructure;
@@ -81,11 +81,11 @@ public class LittleItemHolder extends LittleStructure {
     }
     
     @Override
-    public void getRenderingBoxes(BlockPos pos, RenderType layer, List<LittleRenderBox> cubes) {
+    public void getRenderingBoxes(BlockPos pos, RenderType layer, List<LittleFRenderBox> cubes) {
         if (layer == RenderType.cutout()) {
             AlignedBox box = frame.getBox().getBox(frame.getGrid());
             if (!stack.isEmpty())
-                cubes.add(new LittleRenderBoxItem(this, box, frame.getBox()));
+                cubes.add(new LittleFRenderBoxItem(this, box, frame.getBox()));
         }
     }
     
