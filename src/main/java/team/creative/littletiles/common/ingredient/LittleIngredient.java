@@ -156,8 +156,7 @@ public abstract class LittleIngredient<T extends LittleIngredient> extends Littl
             public BlockIngredient extract(LittleGroup previews) {
                 BlockIngredient ingredient = new BlockIngredient();
                 if (previews.containsIngredients())
-                    for (LittleTile preview : previews)
-                        ingredient.add(preview.getBlockIngredient(previews.getGrid()));
+                    for (LittleTile preview : previews) {}
                     
                 if (ingredient.isEmpty())
                     return null;

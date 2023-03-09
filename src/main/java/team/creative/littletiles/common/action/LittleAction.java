@@ -111,30 +111,6 @@ public abstract class LittleAction<T> extends CreativePacket {
         return LittleTiles.CONFIG.canEditBlock(player, state, pos);
     }
 
-    public static boolean canPlace(Player player) {
-        GameType type = PlayerUtils.getGameType(player);
-        if (type == GameType.CREATIVE || type == GameType.SURVIVAL || type == GameType.ADVENTURE)
-            return true;
-        return false;
-    }
-
-    public static boolean canPlaceInside(LittleGroup previews, Level level, BlockPos pos, boolean placeInside) {
-        BlockState state = level.getBlockState(pos);
-        Block block = state.getBlock();
-        if (state.canBeReplaced(new DirectionalPlaceContext(level, pos, Direction.EAST, ItemStack.EMPTY, Direction.EAST)) || block instanceof BlockTile) {
-            if (!placeInside) {
-                BlockEntity be = level.getBlockEntity(pos);
-                if (be instanceof BETiles)
-                    for (LittleTile tile : previews)
-                        for (LittleBox box : tile)
-                            if (!((BETiles) be).isSpaceFor(box))
-                                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
     public static BETiles loadBE(Player player, Level level, BlockPos pos, MutableInt affected, boolean shouldConvert, int attribute) throws LittleActionException {
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -315,19 +291,6 @@ public abstract class LittleAction<T> extends CreativePacket {
         return LittleIngredient.extract(tile, volume);
     }
 
-    public static boolean canTake(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
-        if (needIngredients(player)) {
-            try {
-                inventory.startSimulation();
-                inventory.take(ingredients.copy());
-                return true;
-            } finally {
-                inventory.stopSimulation();
-            }
-        }
-        return true;
-    }
-
     public static boolean checkAndTake(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player)) {
             try {
@@ -344,33 +307,6 @@ public abstract class LittleAction<T> extends CreativePacket {
     public static boolean take(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
         if (needIngredients(player))
             inventory.take(ingredients.copy());
-        return true;
-    }
-
-    public static boolean take(Player player, LittleInventory inventory, ItemStack toDrain) throws NotEnoughIngredientsException {
-        if (!needIngredients(player)) return true;
-
-        // I don't think this is needed
-//        String id = ItemPremadeStructure.getPremadeId(toDrain);
-//        for (ItemStack stack : inventory) {
-//            if (stack.getItem() == LittleTilesRegistry.PREMADE.get() && ItemPremadeStructure.getPremadeId(stack).equals(id)) {
-//                stack.shrink(1);
-//                return true;
-//            }
-//        }
-        throw new NotEnoughIngredientsException(toDrain);
-    }
-
-    public static boolean canGive(Player player, LittleInventory inventory, LittleIngredients ingredients) throws NotEnoughIngredientsException {
-        if (needIngredients(player)) {
-            try {
-                inventory.startSimulation();
-                inventory.give(ingredients.copy());
-                return true;
-            } finally {
-                inventory.stopSimulation();
-            }
-        }
         return true;
     }
 

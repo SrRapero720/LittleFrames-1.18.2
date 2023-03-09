@@ -1,5 +1,6 @@
 package team.creative.littleframes;
 
+import me.srrapero720.waterframes.WaterFrames;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,7 @@ import team.creative.littletiles.common.structure.type.premade.LittleStructureBu
 
 public class LittleFrames {
 
-    public static final String MODID = "littleframes";
+    public static final String MODID = WaterFrames.ID;
 
     
     public static LittleFramesConfig CONFIG;

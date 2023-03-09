@@ -73,7 +73,6 @@ import team.creative.littletiles.common.structure.signal.component.ISignalStruct
 import team.creative.littletiles.common.structure.signal.component.SignalComponentType;
 import team.creative.littletiles.common.structure.signal.input.InternalSignalInput;
 import team.creative.littletiles.common.structure.signal.output.InternalSignalOutput;
-import team.creative.littletiles.common.structure.signal.output.SignalExternalOutputHandler;
 import team.creative.littletiles.common.structure.signal.schedule.ISignalSchedulable;
 
 public abstract class LittleStructure implements ISignalSchedulable, ILevelPositionProvider {
@@ -85,7 +84,6 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
 
     public final LevelChildrenList children = new LevelChildrenList(this);
 
-    private HashMap<Integer, SignalExternalOutputHandler> externalHandler;
     private final InternalSignalInput[] inputs;
     private final InternalSignalOutput[] outputs;
 
@@ -404,18 +402,6 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
                 field.set(this, failedLoadingRelative(nbt, field));
         }
 
-        if (nbt.contains("s")) {
-            ListTag list = nbt.getList("s", 10);
-            externalHandler = new HashMap<>();
-            for (int i = 0; i < list.size(); i++) {
-                try {
-                    SignalExternalOutputHandler handler = new SignalExternalOutputHandler(this, list.getCompound(i));
-                    externalHandler.put(handler.index, handler);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         loadExtra(nbt);
         if (inputs != null)
             for (int i = 0; i < inputs.length; i++)
@@ -476,12 +462,6 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
         else
             nbt.remove("n");
 
-        if (externalHandler != null && !externalHandler.isEmpty()) {
-            ListTag list = new ListTag();
-            for (SignalExternalOutputHandler handler : externalHandler.values())
-                list.add(handler.write(preview));
-            nbt.put("s", list);
-        }
         if (inputs != null)
             for (int i = 0; i < inputs.length; i++)
                 inputs[i].save(preview, nbt);
@@ -639,9 +619,6 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
     }
 
     protected void processSignalChanges() {
-        if (externalHandler != null && !externalHandler.isEmpty())
-            for (SignalExternalOutputHandler handler : externalHandler.values())
-                handler.update();
         if (outputs != null)
             for (int i = 0; i < outputs.length; i++)
                 outputs[i].update();
@@ -690,26 +667,6 @@ public abstract class LittleStructure implements ISignalSchedulable, ILevelPosit
         if (outputs != null && id < outputs.length)
             return outputs[id];
         return null;
-    }
-
-    public int internalOutputCount() {
-        return outputs == null ? 0 : outputs.length;
-    }
-
-    public SignalExternalOutputHandler getExternalOutput(int index) {
-        return externalHandler.get(index);
-    }
-
-    public boolean hasExternalOutputs() {
-        return externalHandler != null && !externalHandler.isEmpty();
-    }
-
-    public Iterable<SignalExternalOutputHandler> externalOutputs() {
-        return externalHandler.values();
-    }
-
-    public void setExternalOutputs(HashMap<Integer, SignalExternalOutputHandler> handlers) {
-        this.externalHandler = handlers;
     }
 
     public void performInternalOutputChange(InternalSignalOutput output) {

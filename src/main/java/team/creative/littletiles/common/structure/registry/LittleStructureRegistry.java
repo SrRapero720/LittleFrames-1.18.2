@@ -1,7 +1,5 @@
 package team.creative.littletiles.common.structure.registry;
 
-import java.util.function.BiFunction;
-
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -18,19 +16,13 @@ import team.creative.littletiles.common.structure.registry.ingredient.StructureI
 import team.creative.littletiles.common.structure.registry.ingredient.StructureIngredientRule.StructureIngredientScalerVolume;
 import team.creative.littletiles.common.structure.registry.premade.LittlePremadeRegistry;
 import team.creative.littletiles.common.structure.signal.logic.SignalMode;
-import team.creative.littletiles.common.structure.type.LittleChair;
-import team.creative.littletiles.common.structure.type.LittleFixedStructure;
-import team.creative.littletiles.common.structure.type.LittleItemHolder;
-import team.creative.littletiles.common.structure.type.LittleLadder;
-import team.creative.littletiles.common.structure.type.LittleLight;
-import team.creative.littletiles.common.structure.type.LittleNoClipStructure;
-import team.creative.littletiles.common.structure.type.LittleStorage;
-import team.creative.littletiles.common.structure.type.LittleStorage.LittleStorageType;
-import team.creative.littletiles.common.structure.type.LittleStructureMessage;
+import team.creative.littletiles.common.structure.type.*;
 import team.creative.littletiles.common.structure.type.bed.LittleBed;
 import team.creative.littletiles.common.structure.type.door.LittleDoor;
 import team.creative.littletiles.common.structure.type.premade.LittleStructureBuilder;
 import team.creative.littletiles.common.structure.type.premade.LittleStructureBuilder.LittleStructureBuilderType;
+
+import java.util.function.BiFunction;
 
 public class LittleStructureRegistry {
     
@@ -57,7 +49,6 @@ public class LittleStructureRegistry {
                 .addIngredient(StructureIngredientRule.SINGLE, () -> new ItemIngredient(CreativeIngredient.parse(ItemTags.BEDS)));
         register("chair", LittleChair.class, LittleChair::new, LittleAttributeBuilder.NONE).addInput("occupied", 1);
         
-        register(new LittleStorageType("storage", LittleStorage.class, LittleStorage::new, LittleAttributeBuilder.NONE).addInput("accessed", 1).addInput("filled", 16));
         register("noclip", LittleNoClipStructure.class, LittleNoClipStructure::new, new LittleAttributeBuilder().noCollision().collisionListener()).addInput("players", 4)
                 .addInput("entities", 4);
         

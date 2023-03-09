@@ -1,5 +1,6 @@
 package team.creative.littletiles;
 
+import me.srrapero720.waterframes.WaterFrames;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -41,7 +42,7 @@ import team.creative.littletiles.server.LittleTilesServer;
 
 public class LittleTiles {
     
-    public static final String MODID = "littletiles";
+    public static final String MODID = WaterFrames.ID;
     
     public static LittleTilesConfig CONFIG;
     public static final Logger LOGGER = LogManager.getLogger(LittleTiles.MODID);
@@ -54,8 +55,7 @@ public class LittleTiles {
     }
     
     public static void init(final FMLCommonSetupEvent event) {
-        
-        IngredientRules.loadRules();
+
         LittleStructureRegistry.initStructures();
         
         NETWORK.registerType(ActionMessagePacket.class, ActionMessagePacket::new);
@@ -84,38 +84,15 @@ public class LittleTiles {
         LittleActionRegistry.register(LittleActionDestroyBoxes.class, LittleActionDestroyBoxes::new);
         LittleActionRegistry.register(LittleActionDestroyBoxesFiltered.class, LittleActionDestroyBoxesFiltered::new);
         LittleActionRegistry.register(LittleActionDestroy.class, LittleActionDestroy::new);
-        
-//        MinecraftForge.EVENT_BUS.register(new LittleBedEventHandler());
+
         MinecraftForge.EVENT_BUS.register(LittleAnimationHandlers.class);
-        // MinecraftForge.EVENT_BUS.register(ChiselAndBitsConveration.class);
         MinecraftForge.EVENT_BUS.register(new LittleSignalHandler());
         
         LittleTilesServer.init(event);
         
-        //MinecraftForge.EVENT_BUS.register(ChiselAndBitsConveration.class);
-        
         MinecraftForge.EVENT_BUS.register(EntitySizeHandler.class);
         
         STORAGE_BLOCKS = BlockTags.create(new ResourceLocation(MODID, "storage_blocks"));
-        
-        CraftingHelper.register(new ResourceLocation(MODID, "structure"), StructureIngredientSerializer.INSTANCE);
-    }
-    
-    /*public static List<LittleDoor> findDoors(LittleAnimationHandler handler, AABB box) {
-        List<LittleDoor> doors = new ArrayList<>();
-        for (LittleLevelEntity entity : handler.entities)
-            try {
-                if (entity.getStructure() instanceof LittleDoor && entity.getBoundingBox().intersects(box) && !doors.contains(entity.getStructure()))
-                    doors.add(((LittleDoor) entity.getStructure()).getParentDoor());
-            } catch (CorruptedConnectionException | NotYetConnectedException e) {}
-        return doors;
-    }*/
-    
-    protected boolean checkStructureName(LittleStructure structure, String[] args) {
-        for (int i = 0; i < args.length; i++)
-            if (structure.name != null && structure.name.equalsIgnoreCase(args[i]))
-                return true;
-        return false;
     }
     
 }
