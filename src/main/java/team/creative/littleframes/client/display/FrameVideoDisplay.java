@@ -13,7 +13,7 @@ import com.mojang.blaze3d.platform.MemoryTracker;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
-import me.srrapero720.creativecore.client.CreativeCoreClient;
+import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littleframes.client.texture.TextureCache;
 import team.creative.littleframes.client.vlc.VLCDiscovery;
@@ -133,7 +133,7 @@ public class FrameVideoDisplay extends FrameDisplay {
     public int getVolume(float volume, float minDistance, float maxDistance) {
         if (player == null)
             return 0;
-        float distance = (float) pos.distance(Minecraft.getInstance().player.getPosition(CreativeCoreClient.getFrameTime()));
+        float distance = (float) pos.distance(Minecraft.getInstance().player.getPosition(CreativeCoreClient.getDeltaFrameTime()));
         if (minDistance > maxDistance) {
             float temp = maxDistance;
             maxDistance = minDistance;
@@ -177,7 +177,7 @@ public class FrameVideoDisplay extends FrameDisplay {
                         player.mediaPlayer().controls().setPause(!realPlaying);
                     
                     if (player.mediaPlayer().status().isSeekable()) {
-                        long time = tick * tickTime + (realPlaying ? (long) (CreativeCoreClient.getFrameTime() * tickTime) : 0);
+                        long time = tick * tickTime + (realPlaying ? (long) (CreativeCoreClient.getDeltaFrameTime() * tickTime) : 0);
                         if (time > player.mediaPlayer().status().time() && loop)
                             time %= player.mediaPlayer().status().length();
                         if (Math.abs(time - player.mediaPlayer().status().time()) > ACCEPTABLE_SYNC_TIME && Math.abs(time - lastCorrectedTime) > ACCEPTABLE_SYNC_TIME) {

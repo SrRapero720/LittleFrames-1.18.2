@@ -15,14 +15,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.jetbrains.annotations.NotNull;
-import me.srrapero720.creativecore.client.CreativeCoreClient;
+import team.creative.creativecore.client.CreativeCoreClient;
 import me.srrapero720.creativecore.client.render.box.FRenderBox;
 import me.srrapero720.creativecore.client.render.model.FBlockModel;
 import me.srrapero720.creativecore.client.render.model.FItemBoxModel;
+import team.creative.creativecore.client.render.box.RenderBox;
+import team.creative.creativecore.client.render.model.CreativeBlockModel;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.client.level.LevelHandlersClient;
@@ -75,11 +78,6 @@ public class LittleTilesClient {
     }
 
     private static void setup(final FMLClientSetupEvent event) {
-//        LEVEL_HANDLERS.register(LittleActionHandlerClient::new, x -> ACTION_HANDLER = x);
-//        LEVEL_HANDLERS.register(LittleAnimationHandlerClient::new, x -> ANIMATION_HANDLER = x);
-//        LEVEL_HANDLERS.register(LittleInteractionHandlerClient::new, x -> INTERACTION_HANDLER = x);
-//        LEVEL_HANDLERS.register(ITEM_RENDER_CACHE = new ItemRenderCache());
-
         ReloadableResourceManager reloadableResourceManager = (ReloadableResourceManager) mc.getResourceManager();
         reloadableResourceManager.registerReloadListener((p_10638_, p_10639_, p_10640_, p_10641_, p_10642_, p_10643_) -> CompletableFuture.runAsync(() -> {
             LittleChunkDispatcher.currentRenderState++;
@@ -89,65 +87,23 @@ public class LittleTilesClient {
 
         blockEntityRenderer = new BETilesRenderer();
         BlockEntityRenderers.register(LittleTilesRegistry.BE_TILES_TYPE_RENDERED.get(), x -> blockEntityRenderer);
-
-        ResourceLocation filled = new ResourceLocation(LittleTiles.MODID, "filled");
-        ClampedItemPropertyFunction function = (stack, level, entity, x) -> ((ItemColorIngredient) stack.getItem()).getColor(stack) / (float) ColorIngredient.BOTTLE_SIZE;
     }
 
     public static void modelLoader(ModelRegistryEvent event) {
     }
 
     public static void modelEvent(ModelRegistryEvent event) {
-        CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleTiles.MODID, "empty"), new FBlockModel() {
-
+        CreativeCoreClient.registerBlockModel(new ResourceLocation(LittleTiles.MODID, "empty"), new CreativeBlockModel() {
             @Override
-            public List<? extends FRenderBox> getBoxes(BlockState state, ModelDataMap data, Random source) {
+            public List<? extends RenderBox> getBoxes(BlockState blockState, IModelData iModelData, Random random) {
                 return Collections.EMPTY_LIST;
             }
 
             @Override
-            public @NotNull ModelDataMap getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelDataMap modelData) {
-                return modelData;
+            public @NotNull IModelData getModelData(@NotNull BlockAndTintGetter blockAndTintGetter, @NotNull BlockPos blockPos, @NotNull BlockState blockState, @NotNull IModelData iModelData) {
+                return iModelData;
             }
         });
-        CreativeCoreClient.registerItemModel(new ResourceLocation(LittleTiles.MODID, "blockingredient"), new FItemBoxModel(new ModelResourceLocation("miencraft", "stone", "inventory")) {
-
-                @Override
-                public List<? extends FRenderBox> getBoxes(ItemStack stack, boolean translucent) {
-                    List<FRenderBox> cubes = new ArrayList<>();
-                    BlockIngredientEntry ingredient = ItemBlockIngredient.loadIngredient(stack);
-                    if (ingredient == null)
-                        return null;
-
-                    double volume = Math.min(1, ingredient.value);
-                    LittleGrid context = LittleGrid.defaultGrid();
-                    long pixels = (long) (volume * context.count3d);
-                    if (pixels < context.count * context.count)
-                        cubes.add(new FRenderBox(0.4F, 0.4F, 0.4F, 0.6F, 0.6F, 0.6F, ingredient.block.getState()));
-                    else {
-                        long remainingPixels = pixels;
-                        long planes = pixels / context.count2d;
-                        remainingPixels -= planes * context.count2d;
-                        long rows = remainingPixels / context.count;
-                        remainingPixels -= rows * context.count;
-
-                        float height = (float) (planes * context.pixelLength);
-
-                        if (planes > 0)
-                            cubes.add(new FRenderBox(0.0F, 0.0F, 0.0F, 1.0F, height, 1.0F, ingredient.block.getState()));
-
-                        float width = (float) (rows * context.pixelLength);
-
-                        if (rows > 0)
-                            cubes.add(new FRenderBox(0.0F, height, 0.0F, 1.0F, height + (float) context.pixelLength, width, ingredient.block.getState()));
-
-                        if (remainingPixels > 0)
-                            cubes.add(new FRenderBox(0.0F, height, width, 1.0F, height + (float) context.pixelLength, width + (float) context.pixelLength, ingredient.block
-                                .getState()));
-                    }
-                    return cubes;
-                }
-            });
     }
 
 }

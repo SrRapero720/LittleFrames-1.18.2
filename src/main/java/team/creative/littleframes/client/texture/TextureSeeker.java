@@ -201,6 +201,7 @@ public class TextureSeeker extends Thread {
         } finally {
             if (connection instanceof HttpURLConnection httpConnection)
                 httpConnection.disconnect();
+
         }
     }
     
