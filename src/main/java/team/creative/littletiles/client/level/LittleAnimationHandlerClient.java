@@ -89,7 +89,7 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
     private final ProcessorMailbox<Runnable> mailbox;
     private final Executor executor;
 
-    private final Set<BlockEntity> globalBlockEntities = Sets.newHashSet();
+    private static final Set<BlockEntity> globalBlockEntities = Sets.newHashSet();
 
     public LittleAnimationHandlerClient(Level level) {
         super(level);
@@ -203,13 +203,11 @@ public class LittleAnimationHandlerClient extends LittleAnimationHandler impleme
 
     public CompletableFuture<Void> uploadChunkLayer(BufferBuilder rendered, LittleVertexBuffer buffer) {
         return CompletableFuture.runAsync(() -> {
-            buffer.bind();
-            buffer.upload(rendered);
-            LittleVertexBuffer.unbind();
-//            TODO: Make a mixin to BufferBuilder to get Access into Buffer params. No problems then ignore
-//            if (!buffer.isInvalid()) {
-//
-//            }
+            if (!buffer.isInvalid()) {
+                buffer.bind();
+                buffer.upload(rendered);
+                LittleVertexBuffer.unbind();
+            }
         }, this.toUpload::add);
     }
 

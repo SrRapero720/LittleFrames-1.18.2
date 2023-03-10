@@ -230,7 +230,7 @@ public class LittleRenderChunk implements RenderChunkExtender {
             this.globalBlockEntities.addAll(blockEntities);
         }
 
-//        LittleTilesClient.ANIMATION_HANDLER.updateGlobalBlockEntities(set1, set);
+        LittleTilesClient.ANIMATION_HANDLER.updateGlobalBlockEntities(set1, set);
     }
 
     public static enum ChunkTaskResult {

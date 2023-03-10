@@ -29,7 +29,9 @@ import team.creative.creativecore.client.render.model.CreativeBlockModel;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.client.level.LevelHandlersClient;
+import team.creative.littletiles.client.level.LittleAnimationHandlerClient;
 import team.creative.littletiles.client.render.block.BETilesRenderer;
+import team.creative.littletiles.client.render.block.LittleBlockClientRegistry;
 import team.creative.littletiles.client.render.level.LittleChunkDispatcher;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.ingredient.BlockIngredientEntry;
@@ -50,7 +52,7 @@ public class LittleTilesClient {
 
     public static final LevelHandlersClient LEVEL_HANDLERS = new LevelHandlersClient();
 //    public static LittleActionHandlerClient ACTION_HANDLER;
-//    public static LittleAnimationHandlerClient ANIMATION_HANDLER;
+    public static LittleAnimationHandlerClient ANIMATION_HANDLER;
 //    public static LittleInteractionHandlerClient INTERACTION_HANDLER;
 //    public static ItemRenderCache ITEM_RENDER_CACHE;
 
@@ -81,6 +83,7 @@ public class LittleTilesClient {
         ReloadableResourceManager reloadableResourceManager = (ReloadableResourceManager) mc.getResourceManager();
         reloadableResourceManager.registerReloadListener((p_10638_, p_10639_, p_10640_, p_10641_, p_10642_, p_10643_) -> CompletableFuture.runAsync(() -> {
             LittleChunkDispatcher.currentRenderState++;
+            LittleBlockClientRegistry.clearCache();
         }, p_10643_));
 
         CreativeCoreClient.registerClientConfig(LittleTiles.MODID);
