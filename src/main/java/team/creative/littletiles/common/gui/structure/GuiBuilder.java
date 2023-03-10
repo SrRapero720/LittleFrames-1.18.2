@@ -10,7 +10,7 @@ import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.gui.controls.collection.GuiComboBoxMapped;
 import team.creative.creativecore.common.gui.controls.collection.GuiStackSelector;
-import me.srrapero720.creativecore.common.gui.controls.inventory.GuiInventoryGrid;
+import team.creative.creativecore.common.gui.controls.inventory.GuiInventoryGrid;
 import team.creative.creativecore.common.gui.controls.inventory.GuiPlayerInventoryGrid;
 import team.creative.creativecore.common.gui.controls.parent.GuiLeftRightBox;
 import team.creative.creativecore.common.gui.controls.simple.GuiButton;

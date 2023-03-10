@@ -89,8 +89,6 @@ public class LittleTiles {
         LittleTilesServer.init(event);
         
         MinecraftForge.EVENT_BUS.register(EntitySizeHandler.class);
-        
-        STORAGE_BLOCKS = BlockTags.create(new ResourceLocation(MODID, "storage_blocks"));
     }
     
 }

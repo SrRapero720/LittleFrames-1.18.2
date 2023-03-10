@@ -1,5 +1,6 @@
 package me.srrapero720.waterframes;
 
+import net.minecraft.commands.Commands;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,7 +38,6 @@ public class WaterFrames {
         LittleFramesRegistry.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         LittleFramesRegistry.BLOCK_ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
-
     private void loadLittleTiles() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(LittleTiles::init);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> LittleTilesClient.load(FMLJavaModLoadingContext.get().getModEventBus()));

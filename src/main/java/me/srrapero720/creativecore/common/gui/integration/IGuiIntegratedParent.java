@@ -2,7 +2,7 @@ package me.srrapero720.creativecore.common.gui.integration;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import me.srrapero720.creativecore.common.gui.GuiControl;
+import team.creative.creativecore.common.gui.GuiControl;
 import me.srrapero720.creativecore.common.gui.IGuiParent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
