@@ -21,6 +21,7 @@ import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ChunkEvent;
 import me.srrapero720.waterframes.mixin.client.level.ClientChunkCacheAccessor;
+import org.jetbrains.annotations.NotNull;
 
 public class LittleClientChunkCache extends ClientChunkCache {
 
@@ -68,7 +69,7 @@ public class LittleClientChunkCache extends ClientChunkCache {
     }
 
     @Override
-    public LittleClientLevel getLevel() {
+    public @NotNull LittleClientLevel getLevel() {
         return (LittleClientLevel) super.getLevel();
     }
 

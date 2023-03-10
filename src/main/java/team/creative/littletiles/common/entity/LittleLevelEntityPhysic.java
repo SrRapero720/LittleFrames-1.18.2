@@ -1,10 +1,7 @@
-package team.creative.littletiles.common.entity.physic;
-
-import java.util.function.Predicate;
+package team.creative.littletiles.common.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import team.creative.creativecore.common.util.math.base.Facing;
@@ -12,16 +9,12 @@ import team.creative.creativecore.common.util.math.collision.CollisionCoordinato
 import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.api.common.block.LittlePhysicBlock;
-import team.creative.littletiles.common.entity.INoPushEntity;
-import team.creative.littletiles.common.entity.level.LittleEntity;
 import team.creative.littletiles.common.level.little.BlockUpdateLevelSystem;
 import team.creative.littletiles.common.level.little.LevelBoundsListener;
 import team.creative.littletiles.common.level.little.LittleLevel;
 
 public class LittleLevelEntityPhysic implements LevelBoundsListener {
-    
-    protected static final Predicate<Entity> noAnimation = x -> !(x.getFirstPassenger() instanceof INoPushEntity);
-    
+
     public final LittleEntity parent;
     
     private double minX;

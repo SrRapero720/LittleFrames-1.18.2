@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import me.srrapero720.creativecore.common.util.math.box.OBBVoxelShape;
-import team.creative.littletiles.common.entity.level.LittleEntity;
+import team.creative.littletiles.common.entity.LittleEntity;
 import team.creative.littletiles.common.math.vec.LittleHitResult;
 
 public abstract class LittleAnimationHandler extends LevelHandler {

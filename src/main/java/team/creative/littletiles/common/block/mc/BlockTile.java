@@ -1,13 +1,5 @@
 package team.creative.littletiles.common.block.mc;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.function.Consumer;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,17 +19,8 @@ import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.BedBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -72,10 +55,8 @@ import team.creative.creativecore.common.util.type.list.Pair;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.api.common.block.LittlePhysicBlock;
-import team.creative.littletiles.client.LittleTilesClient;
 import team.creative.littletiles.client.action.LittleActionHandlerClient;
 import team.creative.littletiles.client.render.block.BlockTileRenderProperties;
-import team.creative.littletiles.common.action.LittleActionDestroy;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.entity.BETilesRendered;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
@@ -86,12 +67,16 @@ import team.creative.littletiles.common.block.little.tile.parent.ParentCollectio
 import team.creative.littletiles.common.block.little.tile.parent.StructureParentCollection;
 import team.creative.littletiles.common.level.little.LittleLevel;
 import team.creative.littletiles.common.math.box.LittleBox;
-import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.attribute.LittleStructureAttribute;
 import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
-import team.creative.littletiles.common.structure.type.bed.ILittleBedPlayerExtension;
 import team.creative.littletiles.server.LittleTilesServer;
+
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Consumer;
 
 public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     
@@ -282,22 +267,7 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
         
         return shape;
     }
-    
-    @OnlyIn(Dist.CLIENT)
-    public VoxelShape getSelectionShape(BlockGetter level, BlockPos pos) {
-        LittleTileContext tileContext = LittleTileContext.selectFocused(level, pos, Minecraft.getInstance().player);
-        if (tileContext.isComplete()) {
-            if (selectEntireBlock(Minecraft.getInstance().player, LittleActionHandlerClient.isUsingSecondMode()))
-                return tileContext.parent.getBE().getBlockShape();
-            if (LittleTiles.CONFIG.rendering.highlightStructureBox && tileContext.parent.isStructure())
-                try {
-                    return tileContext.parent.getStructure().getSurroundingBox().getShape(pos);
-                } catch (CorruptedConnectionException | NotYetConnectedException e) {}
-            return tileContext.box.getShape(tileContext.parent.getGrid());
-        }
-        return Shapes.empty();
-    }
-    
+
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         BETiles be = loadBE(level, pos);
@@ -352,33 +322,8 @@ public class BlockTile extends BaseEntityBlock implements LittlePhysicBlock {
     public void setBedOccupied(BlockState state, Level world, BlockPos pos, LivingEntity sleeper, boolean occupied) {}
     
     @Override
-    public boolean isBed(BlockState state, BlockGetter level, BlockPos pos, @Nullable Entity entity) {
-        return getBed(level, pos, entity) != null;
-    }
-    
-    public LittleStructure getBed(BlockGetter level, BlockPos pos, @Nullable Entity entity) {
-        if (!(entity instanceof Player))
-            return null;
-        BETiles be = loadBE(level, pos);
-        if (be != null)
-            for (LittleStructure structure : be.loadedStructures())
-                if (structure == ((ILittleBedPlayerExtension) entity).getBed())
-                    return structure;
-        return null;
-    }
-    
-    @Override
     public Direction getBedDirection(BlockState state, LevelReader world, BlockPos pos) {
         return Direction.SOUTH;
-    }
-    
-    @Override
-    public Optional<Vec3> getRespawnPosition(BlockState state, EntityType<?> type, LevelReader level, BlockPos pos, float orientation, @Nullable LivingEntity entity) {
-        LittleStructure bed = getBed(level, pos, entity);
-        if (bed != null && level instanceof Level && level.dimensionType().bedWorks())
-            return BedBlock.findStandUpPosition(type, level, pos, orientation);
-
-        return Optional.empty();
     }
     
     @Override

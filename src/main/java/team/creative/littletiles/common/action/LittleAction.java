@@ -1,34 +1,19 @@
 package team.creative.littletiles.common.action;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
+import me.srrapero720.creativecore.common.util.mc.PlayerUtils;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.event.world.BlockEvent;
-import org.apache.commons.lang3.mutable.MutableInt;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.DirectionalPlaceContext;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.GlassBlock;
-import net.minecraft.world.level.block.HalfTransparentBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StainedGlassBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
@@ -38,11 +23,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import org.apache.commons.lang3.mutable.MutableInt;
 import team.creative.creativecore.common.network.CreativePacket;
 import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.mc.ColorUtils;
-import me.srrapero720.creativecore.common.util.mc.PlayerUtils;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.api.common.ingredient.ILittleIngredientInventory;
 import team.creative.littletiles.common.block.entity.BETiles;
@@ -56,7 +42,7 @@ import team.creative.littletiles.common.block.mc.BlockTile;
 import team.creative.littletiles.common.config.LittleTilesConfig.AreaProtected;
 import team.creative.littletiles.common.config.LittleTilesConfig.NotAllowedToConvertBlockException;
 import team.creative.littletiles.common.config.LittleTilesConfig.NotAllowedToPlaceColorException;
-import team.creative.littletiles.common.entity.level.LittleEntity;
+import team.creative.littletiles.common.entity.LittleEntity;
 import team.creative.littletiles.common.ingredient.LittleIngredient;
 import team.creative.littletiles.common.ingredient.LittleIngredients;
 import team.creative.littletiles.common.ingredient.LittleInventory;
@@ -65,10 +51,14 @@ import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.LittleBoxAbsolute;
 import team.creative.littletiles.common.packet.update.BlockUpdate;
 import team.creative.littletiles.common.packet.update.BlocksUpdate;
-import team.creative.littletiles.common.placement.PlacementPreview;
 import team.creative.littletiles.common.structure.LittleStructure;
 import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class LittleAction<T> extends CreativePacket {
 
@@ -173,12 +163,6 @@ public abstract class LittleAction<T> extends CreativePacket {
 
     private static Method WorldEditEvent = loadWorldEditEvent();
     private static Object worldEditInstance = null;
-
-    public static void sendBlockResetToClient(LevelAccessor level, Player player, PlacementPreview preview) {
-        if (!(player instanceof ServerPlayer))
-            return;
-        LittleTiles.NETWORK.sendToClient(new BlocksUpdate(level, preview.getPositions()), (ServerPlayer) player);
-    }
 
     public static void sendBlockResetToClient(LevelAccessor level, Player player, BlockPos pos) {
         if (!(player instanceof ServerPlayer))

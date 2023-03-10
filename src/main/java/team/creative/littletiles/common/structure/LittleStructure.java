@@ -1,23 +1,12 @@
 package team.creative.littletiles.common.structure;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -62,11 +51,7 @@ import team.creative.littletiles.common.structure.connection.block.StructureBloc
 import team.creative.littletiles.common.structure.connection.children.LevelChildrenList;
 import team.creative.littletiles.common.structure.connection.children.StructureChildConnection;
 import team.creative.littletiles.common.structure.directional.StructureDirectionalField;
-import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
-import team.creative.littletiles.common.structure.exception.MissingChildException;
-import team.creative.littletiles.common.structure.exception.MissingParentException;
-import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
-import team.creative.littletiles.common.structure.exception.RemovedStructureException;
+import team.creative.littletiles.common.structure.exception.*;
 import team.creative.littletiles.common.structure.signal.LittleSignalHandler;
 import team.creative.littletiles.common.structure.signal.component.ISignalComponent;
 import team.creative.littletiles.common.structure.signal.component.ISignalStructureComponent;
@@ -74,6 +59,12 @@ import team.creative.littletiles.common.structure.signal.component.SignalCompone
 import team.creative.littletiles.common.structure.signal.input.InternalSignalInput;
 import team.creative.littletiles.common.structure.signal.output.InternalSignalOutput;
 import team.creative.littletiles.common.structure.signal.schedule.ISignalSchedulable;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 public abstract class LittleStructure implements ISignalSchedulable, ILevelPositionProvider {
     public final LittleStructureType type;

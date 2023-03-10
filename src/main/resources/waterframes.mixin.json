@@ -7,7 +7,6 @@
     "common.block.StateHolderAccessor",
     "common.collision.BlockCollisionsMixin",
     "common.entity.EntityMixin",
-    "common.entity.PlayerBedMixin",
     "common.entity.PrimedTntAccessor",
     "common.level.BlockBehaviourAccessor",
     "server.level.ChunkMapAccessor",

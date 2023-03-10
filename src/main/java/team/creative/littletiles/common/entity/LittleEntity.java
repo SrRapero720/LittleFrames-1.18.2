@@ -1,7 +1,6 @@
-package team.creative.littletiles.common.entity.level;
+package team.creative.littletiles.common.entity;
 
-import javax.annotation.Nullable;
-
+import me.srrapero720.creativecore.common.util.type.itr.FilterIterator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -17,25 +16,16 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.level.IOrientatedLevel;
 import team.creative.creativecore.common.level.ISubLevel;
-import team.creative.creativecore.common.util.math.collision.CollisionCoordinator;
 import team.creative.creativecore.common.util.math.matrix.ChildVecOrigin;
 import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
-import me.srrapero720.creativecore.common.util.type.itr.FilterIterator;
 import team.creative.littletiles.client.level.little.LittleClientLevel;
 import team.creative.littletiles.client.render.entity.LittleLevelRenderManager;
-import team.creative.littletiles.common.entity.INoPushEntity;
-import team.creative.littletiles.common.entity.OrientationAwareEntity;
-import team.creative.littletiles.common.entity.physic.LittleLevelEntityPhysic;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
 import team.creative.littletiles.common.level.little.LittleChunkSerializer;
 import team.creative.littletiles.common.level.little.LittleLevel;
@@ -48,41 +38,42 @@ import team.creative.littletiles.common.structure.exception.CorruptedConnectionE
 import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
 import team.creative.littletiles.common.structure.relative.StructureAbsolute;
 import team.creative.littletiles.server.level.little.LittleServerLevel;
-import team.creative.littletiles.server.level.little.SubServerLevel;
 
-public abstract class LittleEntity extends Entity implements OrientationAwareEntity, INoPushEntity {
-    
-    private Iterable<OrientationAwareEntity> childrenItr = () -> new FilterIterator<OrientationAwareEntity>(entities(), OrientationAwareEntity.class);
-    
+import javax.annotation.Nullable;
+
+public abstract class LittleEntity extends Entity {
+
+    private final Iterable<LittleEntity> childrenItr = () -> new FilterIterator<>(entities(), LittleEntity.class);
+
     private LittleSubLevel subLevel;
     private StructureAbsolute center;
     private IVecOrigin origin;
     protected boolean hasOriginChanged = false;
     private StructureConnection structure;
-    
+
     public final LittleLevelEntityPhysic physic = new LittleLevelEntityPhysic(this);
-    
+
     public double initalOffX;
     public double initalOffY;
     public double initalOffZ;
     public double initalRotX;
     public double initalRotY;
     public double initalRotZ;
-    
+
     // ================Constructors================
-    
+
     public LittleEntity(EntityType<?> type, Level level) {
         super(type, level);
     }
-    
+
     public LittleEntity(EntityType<?> type, Level level, LittleSubLevel subLevel, StructureAbsolute center, LocalStructureLocation location) {
         super(type, level);
         setSubLevel(subLevel);
         setCenter(center);
         this.structure = new StructureConnection((Level) subLevel, location);
-        
+
         setPos(center.baseOffset.getX(), center.baseOffset.getY(), center.baseOffset.getZ());
-        
+
         physic.ignoreCollision(() -> {
             initialTick();
             this.initalOffX = origin.offX();
@@ -92,33 +83,31 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
             this.initalRotY = origin.rotY();
             this.initalRotZ = origin.rotZ();
         });
-        
+
         origin.tick();
     }
-    
+
     public boolean isReal() {
         if (level instanceof ISubLevel sub)
             level = sub.getRealLevel();
         return !(level instanceof IOrientatedLevel);
     }
-    
+
     // ================Origin================
-    
-    @Override
+
     public void markOriginChange() {
         hasOriginChanged = true;
-        for (OrientationAwareEntity child : children())
+        for (LittleEntity child : children())
             child.markOriginChange();
     }
-    
+
     public void resetOriginChange() {
         hasOriginChanged = false;
     }
-    
+
     @Override
     protected void defineSynchedData() {}
-    
-    @Override
+
     public IVecOrigin getOrigin() {
         return origin;
     }
@@ -126,19 +115,7 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
     public LittleSubLevel getSubLevel() {
         return subLevel;
     }
-    
-    public Level getRealLevel() {
-        if (level instanceof ISubLevel sub)
-            return sub.getRealLevel();
-        return level;
-    }
-    
-    public LittleEntity getTopLevelEntity() {
-        if (level instanceof ISubLevel sub)
-            return ((LittleEntity) sub.getHolder()).getTopLevelEntity();
-        return this;
-    }
-    
+
     public CompoundTag saveExtraClientData() {
         CompoundTag nbt = new CompoundTag();
         nbt.put("physic", physic.save());
@@ -146,7 +123,6 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
     }
     
     public void initSubLevelClient(StructureAbsolute absolute, CompoundTag extraData) {
-        setSubLevel(SubServerLevel.createSubLevel(level));
         setCenter(absolute);
         physic.load(extraData.getCompound("physic"));
     }
@@ -165,11 +141,10 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
         this.center = center;
         this.subLevel.setOrigin(center.rotationCenter);
         this.origin = this.subLevel.getOrigin();
-        for (OrientationAwareEntity entity : children())
+        for (LittleEntity entity : children())
             entity.parentVecOriginChange(origin);
     }
-    
-    @Override
+
     public void parentVecOriginChange(IVecOrigin origin) {
         ((ChildVecOrigin) origin).parent = origin;
     }
@@ -180,11 +155,6 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
     
     public void markRemoved() {
         // TODO THINK ABOUT WHAT TO DO WITH THIS METHOD
-    }
-    
-    @Override
-    public void moveAndRotateAnimation(CollisionCoordinator coordinator) {
-        physic.moveAndRotateAnimation(coordinator);
     }
     
     public AABB getRealBB() {
@@ -205,7 +175,7 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
         return ((LittleLevel) subLevel).entities();
     }
     
-    public Iterable<OrientationAwareEntity> children() {
+    public Iterable<LittleEntity> children() {
         return childrenItr;
     }
     
@@ -221,8 +191,7 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
     public abstract void initialTick();
     
     public abstract void onTick();
-    
-    @Override
+
     public void performTick() {
         
         origin.tick();
@@ -253,7 +222,6 @@ public abstract class LittleEntity extends Entity implements OrientationAwareEnt
     
     @Override
     public void readAdditionalSaveData(CompoundTag nbt) {
-        setSubLevel(SubServerLevel.createSubLevel(level));
         
         physic.load(nbt.getCompound("physic"));
         

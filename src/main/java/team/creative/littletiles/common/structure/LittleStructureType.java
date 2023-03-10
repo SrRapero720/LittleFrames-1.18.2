@@ -1,17 +1,11 @@
 package team.creative.littletiles.common.structure;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
-
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import me.srrapero720.creativecore.client.render.box.FRenderBox;
 import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
@@ -22,8 +16,6 @@ import team.creative.littletiles.common.ingredient.LittleIngredient;
 import team.creative.littletiles.common.ingredient.LittleIngredients;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecGrid;
-import team.creative.littletiles.common.placement.box.LittlePlaceBox;
-import team.creative.littletiles.common.placement.box.LittlePlaceBoxRelative;
 import team.creative.littletiles.common.structure.attribute.LittleAttributeBuilder;
 import team.creative.littletiles.common.structure.directional.StructureDirectional;
 import team.creative.littletiles.common.structure.directional.StructureDirectionalField;
@@ -33,6 +25,12 @@ import team.creative.littletiles.common.structure.registry.ingredient.StructureI
 import team.creative.littletiles.common.structure.signal.input.InternalSignalInput;
 import team.creative.littletiles.common.structure.signal.logic.SignalMode;
 import team.creative.littletiles.common.structure.signal.output.InternalSignalOutput;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class LittleStructureType {
     
@@ -139,31 +137,7 @@ public class LittleStructureType {
         if (grid.count > group.getGrid().count)
             group.convertTo(grid);
     }
-    
-    public List<LittlePlaceBox> getSpecialBoxes(LittleGroup group) {
-        if (directional.isEmpty())
-            return new ArrayList<>();
-        
-        List<LittlePlaceBox> placePreviews = new ArrayList<>();
-        
-        for (StructureDirectionalField field : directional) {
-            Object value = field.create(group.getStructureTag());
-            LittlePlaceBoxRelative tile = getPlaceBox(value, field, group);
-            if (tile == null)
-                continue;
-            
-            if (field.getGrid(value).count < group.getGrid().count)
-                tile.convertTo(field.getGrid(value), group.getGrid());
-            
-            placePreviews.add(tile);
-        }
-        return placePreviews;
-    }
-    
-    protected LittlePlaceBoxRelative getPlaceBox(Object value, StructureDirectionalField type, LittleGroup previews) {
-        return type.getPlaceBox(value, previews);
-    }
-    
+
     public LittleGrid getMinContext(LittleGroup group) {
         LittleGrid context = LittleGrid.min();
         

@@ -218,16 +218,16 @@ public class GuiCreativePictureFrame extends GuiLayer {
         GuiParent flip = new GuiParent(GuiFlow.STACK_X);
         add(flip);
         
-        flip.add(new GuiCheckBox("flipX", frame.flipX).setTranslate("gui.creative_frame.flipx"));
-        flip.add(new GuiCheckBox("flipY", frame.flipY).setTranslate("gui.creative_frame.flipy"));
+        flip.add(new GuiCheckBox("flipX", frame.flipX).setTranslate("gui.waterframes.flipx"));
+        flip.add(new GuiCheckBox("flipY", frame.flipY).setTranslate("gui.waterframes.flipy"));
         
         GuiParent align = new GuiParent(GuiFlow.STACK_X);
         add(align);
         
         align.add(new GuiStateButton("posX", frame.min.x == 0 ? 0 : frame.max.x == 1 ? 2 : 1, new TextListBuilder()
-                .addTranslated("gui.creative_frame.posx.", "left", "center", "right")));
+                .addTranslated("gui.waterframes.posx.", "left", "center", "right")));
         align.add(new GuiStateButton("posY", frame.min.y == 0 ? 0 : frame.max.y == 1 ? 2 : 1, new TextListBuilder()
-                .addTranslated("gui.creative_frame.posy.", "top", "center", "bottom")));
+                .addTranslated("gui.waterframes.posy.", "top", "center", "bottom")));
         
         GuiTable table = new GuiTable();
         add(table);
@@ -235,26 +235,26 @@ public class GuiCreativePictureFrame extends GuiLayer {
         GuiColumn right;
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.creative_frame.rotation").append(":")));
+        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.waterframes.rotation").append(":")));
         right.add(new GuiSlider("rotation", frame.rotation, 0, 360).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.creative_frame.transparency").append(":")));
+        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.waterframes.transparency").append(":")));
         right.add(new GuiSlider("transparency", frame.alpha, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("b_label").setTitle(new TranslatableComponent("gui.creative_frame.brightness").append(":")));
+        left.add(new GuiLabel("b_label").setTitle(new TranslatableComponent("gui.waterframes.brightness").append(":")));
         right.add(new GuiSlider("brightness", frame.brightness, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("d_label").setTitle(new TranslatableComponent("gui.creative_frame.distance").append(":")));
+        left.add(new GuiLabel("d_label").setTitle(new TranslatableComponent("gui.waterframes.distance").append(":")));
         right.add(new GuiSteppedSlider("distance", frame.renderDistance, 5, 1024).setExpandableX());
         
         GuiParent rendering = new GuiParent(GuiFlow.STACK_X);
         add(rendering);
         
-        rendering.add(new GuiCheckBox("visibleFrame", frame.visibleFrame).setTranslate("gui.creative_frame.visibleFrame"));
-        rendering.add(new GuiCheckBox("bothSides", frame.bothSides).setTranslate("gui.creative_frame.bothSides"));
+        rendering.add(new GuiCheckBox("visibleFrame", frame.visibleFrame).setTranslate("gui.waterframes.visibleFrame"));
+        rendering.add(new GuiCheckBox("bothSides", frame.bothSides).setTranslate("gui.waterframes.bothSides"));
         
         GuiParent play = new GuiParent(GuiFlow.STACK_X);
         add(play);
@@ -263,14 +263,14 @@ public class GuiCreativePictureFrame extends GuiLayer {
         play.add(new GuiIconButton("pause", GuiIcon.PAUSE, button -> PAUSE.send(EndTag.INSTANCE)));
         play.add(new GuiIconButton("stop", GuiIcon.STOP, button -> STOP.send(EndTag.INSTANCE)));
         
-        play.add(new GuiCheckBox("loop", frame.loop).setTranslate("gui.creative_frame.loop"));
-        play.add(new GuiLabel("v_label").setTranslate("gui.creative_frame.volume"));
+        play.add(new GuiCheckBox("loop", frame.loop).setTranslate("gui.waterframes.loop"));
+        play.add(new GuiLabel("v_label").setTranslate("gui.waterframes.volume"));
         play.add(new GuiSlider("volume", frame.volume, 0, 1));
         
         GuiParent range = new GuiParent(GuiFlow.STACK_X);
         add(range);
         
-        range.add(new GuiLabel("range_label").setTranslate("gui.creative_frame.range"));
+        range.add(new GuiLabel("range_label").setTranslate("gui.waterframes.range"));
         range.add(new GuiSteppedSlider("range_min", (int) frame.minDistance, 0, 512).setExpandableX());
         range.add(new GuiSteppedSlider("range_max", (int) frame.maxDistance, 0, 512).setExpandableX());
         
@@ -286,7 +286,7 @@ public class GuiCreativePictureFrame extends GuiLayer {
                 else if (frame.cache != null)
                     frame.cache.reload();
             }
-        }).setTranslate("gui.creative_frame.reload").setTooltip(new TextBuilder().translate("gui.creative_frame.reloadtooltip").build()));
+        }).setTranslate("gui.waterframes.reload").setTooltip(new TextBuilder().translate("gui.waterframes.reloadtooltip").build()));
         
     }
 

@@ -200,57 +200,7 @@ public class LittleInventory implements Iterable<ItemStack> {
         
         return ingredient;
     }
-    
-    protected boolean takeFromStacks(LittleIngredients ingredients, LittleIngredients overflow) {
-        for (int i = 0; i < size(); i++) {
-            
-            if (ingredients.isEmpty())
-                return true;
-            
-            ItemStack stack = get(i);
-            
-            if (stack.isEmpty())
-                continue;
-            
-            LittleIngredients stackIngredients = LittleIngredient.extractWithoutCount(stack, false);
-            if (stackIngredients != null) {
-                int amount = ingredients.getMinimumCount(stackIngredients, stack.getCount());
-                if (amount > -1) {
-                    stackIngredients.scale(amount);
-                    overflow.add(ingredients.sub(stackIngredients));
-                    stack.shrink(amount);
-                    continue;
-                }
-            }
-            
-            LittleIngredient[] content = ingredients.getContent();
-            for (int j = 0; j < content.length; j++)
-                if (content[j] != null)
-                    if (LittleIngredient.handleExtra(content[j], stack, overflow))
-                        content[j] = null;
-                    
-            if (ingredients.isEmpty())
-                return true;
-            
-        }
-        
-        for (int i = 0; i < subInventories.size(); i++)
-            if (subInventories.get(i).takeFromStacks(ingredients, overflow))
-                return true;
-            
-        for (int i = 0; i < size(); i++) {
-            
-            if (ingredients.isEmpty())
-                return true;
-            
-            ItemStack stack = get(i);
-            if (stack.getItem() instanceof ILittleIngredientSupplier)
-                ((ILittleIngredientSupplier) stack.getItem()).requestIngredients(stack, ingredients, overflow, this);
-        }
-        
-        return ingredients.isEmpty();
-    }
-    
+
     public void take(LittleIngredients ingredients) throws NotEnoughIngredientsException {
         for (LittleIngredient ingredient : ingredients.getContent())
             if (ingredient != null)
@@ -258,7 +208,6 @@ public class LittleInventory implements Iterable<ItemStack> {
             
         if (!ingredients.isEmpty()) { // Try to drain remaining ingredients from inventory
             LittleIngredients overflow = new LittleIngredients();
-            takeFromStacks(ingredients, overflow);
             
             if (!ingredients.isEmpty())
                 throw new NotEnoughIngredientsException(ingredients);

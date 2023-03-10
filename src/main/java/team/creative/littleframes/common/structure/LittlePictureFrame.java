@@ -40,6 +40,8 @@ import team.creative.littleframes.client.gui.GuiLittlePictureFrame;
 import team.creative.littleframes.client.texture.TextureCache;
 import team.creative.littleframes.common.block.BEPictureFrameF;
 import team.creative.littleframes.common.packet.LittlePictureFramePacket;
+
+
 import team.creative.littletiles.common.block.little.tile.LittleTileContext;
 import team.creative.littletiles.common.block.little.tile.parent.IStructureParentCollection;
 import team.creative.littletiles.common.gui.handler.LittleStructureGuiCreator;
@@ -292,7 +294,7 @@ public class LittlePictureFrame extends LittleStructure {
             display.release();
     }
     
-    public static enum FitMode {
+    public enum FitMode {
         CROP,
         STRETCH;
     }

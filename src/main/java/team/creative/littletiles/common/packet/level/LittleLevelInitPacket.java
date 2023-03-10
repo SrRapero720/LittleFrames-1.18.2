@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.chunk.LevelChunk;
 import team.creative.creativecore.common.network.CreativePacket;
-import team.creative.littletiles.common.entity.level.LittleEntity;
+import team.creative.littletiles.common.entity.LittleEntity;
 import team.creative.littletiles.common.level.handler.LittleAnimationHandlers;
 import team.creative.littletiles.common.level.little.LittleLevel;
 import team.creative.littletiles.common.structure.relative.StructureAbsolute;

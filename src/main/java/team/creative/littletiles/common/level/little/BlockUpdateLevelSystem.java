@@ -22,7 +22,7 @@ import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.type.itr.FunctionIterator;
 import me.srrapero720.creativecore.common.util.type.set.QuadBitSet;
 import team.creative.littletiles.LittleTiles;
-import team.creative.littletiles.common.entity.level.LittleEntity;
+import team.creative.littletiles.common.entity.LittleEntity;
 import team.creative.littletiles.common.packet.level.LittleLevelPhysicPacket;
 
 public class BlockUpdateLevelSystem {

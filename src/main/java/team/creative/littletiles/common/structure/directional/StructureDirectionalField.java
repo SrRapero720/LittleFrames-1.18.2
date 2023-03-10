@@ -1,16 +1,14 @@
 package team.creative.littletiles.common.structure.directional;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.nbt.CompoundTag;
 import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
-import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecGrid;
-import team.creative.littletiles.common.placement.box.LittlePlaceBoxRelative;
 import team.creative.littletiles.common.structure.LittleStructure;
+
+import java.lang.reflect.Field;
 
 public class StructureDirectionalField {
     
@@ -92,11 +90,7 @@ public class StructureDirectionalField {
     public void advancedScale(Object value, int from, int to) {
         type.advancedScale(value, from, to);
     }
-    
-    public LittlePlaceBoxRelative getPlaceBox(Object value, LittleGroup group) {
-        return type.getPlaceBox(value, group, this);
-    }
-    
+
     public Object getDefault() {
         return defaultValue != null ? defaultValue : type.getDefault();
     }

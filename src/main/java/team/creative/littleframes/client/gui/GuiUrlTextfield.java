@@ -44,9 +44,9 @@ public class GuiUrlTextfield extends GuiTextfield {
     @Override
     public List<Component> getTooltip() {
         if (!canUse(false))
-            return new TextBuilder().text(ChatFormatting.RED + "" + ChatFormatting.BOLD).translate("label.littleframes.not_whitelisted.name").build();
+            return new TextBuilder().text(ChatFormatting.RED + "" + ChatFormatting.BOLD).translate("label.waterframes.not_whitelisted.name").build();
         else if (!canUse(true))
-            return new TextBuilder().text(ChatFormatting.GOLD + "").translate("label.littleframes.whitelist_warning.name").build();
+            return new TextBuilder().text(ChatFormatting.GOLD + "").translate("label.waterframes.whitelist_warning.name").build();
         return null;
     }
     

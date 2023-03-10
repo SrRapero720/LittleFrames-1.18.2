@@ -24,7 +24,7 @@ public class LittleFramesRegistry {
     // ITEMS
     
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, LittleFrames.MODID);
-    public static final CreativeModeTab TAB = new DefaultTab("LittleFrames", "");
+    public static final CreativeModeTab TAB = new DefaultTab("waterframes", "");
     
     // BLOCKS
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, LittleFrames.MODID);

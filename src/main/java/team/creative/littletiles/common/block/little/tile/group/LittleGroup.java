@@ -1,28 +1,18 @@
 package team.creative.littletiles.common.block.little.tile.group;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
-
+import me.srrapero720.creativecore.client.render.box.FRenderBox;
+import me.srrapero720.creativecore.common.util.type.Bunch;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import me.srrapero720.creativecore.client.render.box.FRenderBox;
 import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
-import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.creativecore.common.util.mc.LanguageUtils;
-import me.srrapero720.creativecore.common.util.type.Bunch;
 import team.creative.creativecore.common.util.type.itr.FunctionIterator;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
@@ -33,12 +23,13 @@ import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.box.volume.LittleVolumes;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecGrid;
-import team.creative.littletiles.common.placement.PlacementHelper;
-import team.creative.littletiles.common.placement.box.LittlePlaceBox;
 import team.creative.littletiles.common.structure.LittleStructureType;
 import team.creative.littletiles.common.structure.attribute.LittleStructureAttribute;
 import team.creative.littletiles.common.structure.connection.children.ItemChildrenList;
 import team.creative.littletiles.common.structure.registry.LittleStructureRegistry;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class LittleGroup implements Bunch<LittleTile>, IGridBased {
     
@@ -75,19 +66,7 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
             for (LittleGroup child : previews.children.all())
                 setGridSecretly(child, grid);
     }
-    
-    public static LittleGroup loadLow(CompoundTag nbt) {
-        if (nbt.getInt("count") > PlacementHelper.LOW_RESOLUTION_COUNT) {
-            LittleGroup group = new LittleGroup();
-            LittleVec max = getSize(nbt);
-            LittleVec min = getMin(nbt);
-            max.add(min);
-            group.addTile(LittleGrid.get(nbt), new LittleTile(Blocks.STONE.defaultBlockState(), ColorUtils.WHITE, new LittleBox(min, max)));
-            return group;
-        }
-        return load(nbt);
-    }
-    
+
     public static LittleGroup load(CompoundTag nbt) {
         ListTag list = nbt.getList(CHILDREN_KEY, Tag.TAG_COMPOUND);
         List<LittleGroup> children = new ArrayList<>(list.size());
@@ -628,13 +607,7 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
         min.invert();
         move(new LittleVecGrid(min, grid));
     }
-    
-    public List<LittlePlaceBox> getSpecialBoxes() {
-        if (hasStructure())
-            return getStructureType().getSpecialBoxes(this);
-        return Collections.EMPTY_LIST;
-    }
-    
+
     public void add(LittleGroup group) {
         sameGrid(group, () -> {
             content.addAll(group);
@@ -706,28 +679,7 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
             positions.add(box.getMinVec().getBlockPos(grid).offset(pos));
         return positions;
     }
-    
-    @OnlyIn(Dist.CLIENT)
-    public List<FRenderBox> getPlaceBoxes(LittleVec offset) {
-        List<FRenderBox> boxes = new ArrayList<>();
-        addPlaceBoxes(boxes, offset);
-        return boxes;
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    protected void addPlaceBoxes(List<FRenderBox> boxes, LittleVec offset) {
-        for (LittleTile tile : content)
-            tile.addPlaceBoxes(grid, boxes, offset);
-        if (hasStructure()) {
-            List<LittlePlaceBox> structureBoxes = getStructureType().getSpecialBoxes(this);
-            if (structureBoxes != null)
-                for (LittlePlaceBox box : structureBoxes)
-                    boxes.add(box.getRenderBox(grid, offset));
-        }
-        for (LittleGroup child : children.all())
-            child.addPlaceBoxes(boxes, offset);
-    }
-    
+
     public boolean hasTranslucentBlocks() {
         for (LittleTile tile : content)
             if (tile.isTranslucent())
@@ -739,28 +691,7 @@ public class LittleGroup implements Bunch<LittleTile>, IGridBased {
                 return true;
         return false;
     }
-    
-    @OnlyIn(Dist.CLIENT)
-    public List<FRenderBox> getRenderingBoxes(boolean translucent) {
-        List<FRenderBox> boxes = new ArrayList<>();
-        addRenderingBoxes(boxes, translucent);
-        return boxes;
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    protected void addRenderingBoxes(List<FRenderBox> boxes, boolean translucent) {
-        for (LittleTile tile : content)
-            if (tile.isTranslucent() == translucent)
-                tile.addRenderingBoxes(grid, boxes);
-        if (hasStructure()) {
-            List<FRenderBox> structureBoxes = getStructureType().getItemPreview(this, translucent);
-            if (structureBoxes != null)
-                boxes.addAll(structureBoxes);
-        }
-        for (LittleGroup child : children.all())
-            child.addRenderingBoxes(boxes, translucent);
-    }
-    
+
     public boolean isVolumeEqual(LittleGroup previews) {
         return getVolumes().equals(previews.getVolumes());
     }

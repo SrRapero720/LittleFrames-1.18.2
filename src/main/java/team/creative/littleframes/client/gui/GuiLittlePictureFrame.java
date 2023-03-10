@@ -58,7 +58,7 @@ public class GuiLittlePictureFrame extends GuiLayer {
     });
     
     public GuiLittlePictureFrame(LittlePictureFrame frame) {
-        super("little_frame");
+        super("waterframe");
         this.frame = frame;
     }
     
@@ -110,7 +110,7 @@ public class GuiLittlePictureFrame extends GuiLayer {
             error.setTranslate(frame.cache.getError());
         add(error);
         GuiStateButtonMapped<FitMode> button = new GuiStateButtonMapped<FitMode>("fit", new TextMapBuilder<FitMode>()
-                .addComponent(FitMode.values(), x -> new TranslatableComponent("gui.little_frame.fitmode." + x.name())));
+                .addComponent(FitMode.values(), x -> new TranslatableComponent("gui.waterframes.fitmode." + x.name())));
         button.select(frame.fitMode);
         add(button);
         
@@ -120,15 +120,15 @@ public class GuiLittlePictureFrame extends GuiLayer {
         GuiColumn right;
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.creative_frame.transparency").append(":")));
+        left.add(new GuiLabel("t_label").setTitle(new TranslatableComponent("gui.waterframes.transparency").append(":")));
         right.add(new GuiSlider("transparency", frame.alpha, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("b_label").setTitle(new TranslatableComponent("gui.creative_frame.brightness").append(":")));
+        left.add(new GuiLabel("b_label").setTitle(new TranslatableComponent("gui.waterframes.brightness").append(":")));
         right.add(new GuiSlider("brightness", frame.brightness, 0, 1).setExpandableX());
         
         table.addRow(new GuiRow(left = new GuiColumn(), right = new GuiColumn()));
-        left.add(new GuiLabel("d_label").setTitle(new TranslatableComponent("gui.creative_frame.distance").append(":")));
+        left.add(new GuiLabel("d_label").setTitle(new TranslatableComponent("gui.waterframes.distance").append(":")));
         right.add(new GuiSteppedSlider("distance", frame.renderDistance, 5, 1024).setExpandableX());
         
         GuiParent play = new GuiParent(GuiFlow.STACK_X);
@@ -138,10 +138,10 @@ public class GuiLittlePictureFrame extends GuiLayer {
         play.add(new GuiIconButton("pause", GuiIcon.PAUSE, x -> PAUSE.send(EndTag.INSTANCE)));
         play.add(new GuiIconButton("stop", GuiIcon.STOP, x -> STOP.send(EndTag.INSTANCE)));
         
-        play.add(new GuiCheckBox("loop", frame.loop).setTranslate("gui.creative_frame.loop"));
-        play.add(new GuiLabel("v_label").setTranslate("gui.creative_frame.volume"));
+        play.add(new GuiCheckBox("loop", frame.loop).setTranslate("gui.waterframes.loop"));
+        play.add(new GuiLabel("v_label").setTranslate("gui.waterframes.volume"));
         play.add(new GuiSlider("volume", frame.volume, 0, 1));
-        play.add(new GuiLabel("range_label").setTranslate("gui.creative_frame.range"));
+        play.add(new GuiLabel("range_label").setTranslate("gui.waterframes.range"));
         play.add(new GuiSteppedSlider("range_min", (int) frame.minDistance, 0, 512));
         play.add(new GuiSteppedSlider("range_max", (int) frame.maxDistance, 0, 512));
         
@@ -157,6 +157,6 @@ public class GuiLittlePictureFrame extends GuiLayer {
                 else if (frame.cache != null)
                     frame.cache.reload();
             }
-        }).setTranslate("gui.creative_frame.reload").setTooltip(new TextBuilder().translate("gui.creative_frame.reloadtooltip").build()));
+        }).setTranslate("gui.waterframes.reload").setTooltip(new TextBuilder().translate("gui.waterframes.reloadtooltip").build()));
     }
 }

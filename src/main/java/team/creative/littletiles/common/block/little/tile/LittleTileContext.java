@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import me.srrapero720.creativecore.common.util.mc.TickUtils;
+import team.creative.creativecore.common.util.mc.TickUtils;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.little.tile.parent.IParentCollection;
 import team.creative.littletiles.common.block.mc.BlockTile;
@@ -36,7 +36,7 @@ public class LittleTileContext {
     
     @OnlyIn(Dist.CLIENT)
     public static LittleTileContext selectFocused(BlockGetter level, BlockPos pos, Player player) {
-        return selectFocused(level, pos, player, TickUtils.getFrameTime(player.level));
+        return selectFocused(level, pos, player, TickUtils.getDeltaFrameTime(player.level));
     }
     
     @OnlyIn(Dist.CLIENT)

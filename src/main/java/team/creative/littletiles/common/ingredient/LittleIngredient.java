@@ -1,11 +1,5 @@
 package team.creative.littletiles.common.ingredient;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
@@ -14,17 +8,17 @@ import net.minecraft.world.level.block.Block;
 import team.creative.creativecore.common.util.mc.ColorUtils;
 import team.creative.creativecore.common.util.text.TextBuilder;
 import team.creative.littletiles.LittleTiles;
-import team.creative.littletiles.LittleTilesRegistry;
-import team.creative.littletiles.api.common.tool.ILittlePlacer;
 import team.creative.littletiles.common.action.LittleAction;
 import team.creative.littletiles.common.block.little.element.LittleElement;
 import team.creative.littletiles.common.block.little.registry.LittleBlockRegistry;
 import team.creative.littletiles.common.block.little.tile.LittleTile;
 import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.ingredient.NotEnoughIngredientsException.NotEnoughSpaceException;
-import team.creative.littletiles.common.item.ItemBlockIngredient;
-import team.creative.littletiles.common.item.ItemColorIngredient;
-import team.creative.littletiles.common.placement.PlacementHelper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public abstract class LittleIngredient<T extends LittleIngredient> extends LittleIngredientBase<T> {
     
@@ -74,36 +68,7 @@ public abstract class LittleIngredient<T extends LittleIngredient> extends Littl
         extract(ingredients, group, false);
         return ingredients;
     }
-    
-    public static LittleIngredients extractStructureOnly(LittleGroup group) {
-        LittleIngredients ingredients = new LittleIngredients();
-        extract(ingredients, group, true);
-        return ingredients;
-    }
-    
-    public static LittleIngredients extractWithoutCount(ItemStack stack, boolean useLTStructures) {
-        LittleIngredients ingredients = new LittleIngredients();
-        ILittlePlacer tile = PlacementHelper.getLittleInterface(stack);
-        
-        if (tile != null) {
-            if (useLTStructures && tile.hasTiles(stack) && tile.containsIngredients(stack))
-                extract(ingredients, tile.getTiles(stack), false);
-        } else
-            for (IngredientConvertionHandler handler : converationHandlers)
-                ingredients.add(handler.extract(stack));
-            
-        if (ingredients.isEmpty())
-            return null;
-        return ingredients;
-    }
-    
-    public static boolean handleExtra(LittleIngredient ingredient, ItemStack stack, LittleIngredients overflow) {
-        IngredientConvertionHandler handler = converationHandlers.get(indexOf(ingredient));
-        if (handler.requiresExtraHandler() && handler.handleExtra(ingredient, stack, overflow))
-            return true;
-        return false;
-    }
-    
+
     public static <T extends LittleIngredient> void registerType(Class<T> type, IngredientOverflowHandler<T> overflowHandler, IngredientConvertionHandler<T> converationHandler) {
         if (typesInv.containsKey(type))
             throw new RuntimeException("Duplicate found! " + types);

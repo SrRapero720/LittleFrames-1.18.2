@@ -1,8 +1,5 @@
 package team.creative.littletiles.common.structure.directional;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.Tag;
@@ -10,13 +7,14 @@ import team.creative.creativecore.common.util.math.base.Axis;
 import team.creative.creativecore.common.util.math.base.Facing;
 import team.creative.creativecore.common.util.math.transformation.Rotation;
 import team.creative.creativecore.common.util.math.vec.Vec3f;
-import team.creative.littletiles.common.block.little.tile.group.LittleGroup;
 import team.creative.littletiles.common.grid.LittleGrid;
 import team.creative.littletiles.common.math.box.LittleBox;
 import team.creative.littletiles.common.math.vec.LittleVec;
 import team.creative.littletiles.common.math.vec.LittleVecGrid;
-import team.creative.littletiles.common.placement.box.LittlePlaceBoxRelative;
 import team.creative.littletiles.common.structure.relative.StructureRelative;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
 
 public abstract class StructureDirectionalType<T> {
     
@@ -151,12 +149,7 @@ public abstract class StructureDirectionalType<T> {
             public void advancedScale(StructureRelative value, int from, int to) {
                 value.advancedScale(from, to);
             }
-            
-            @Override
-            public LittlePlaceBoxRelative getPlaceBox(StructureRelative value, LittleGroup previews, StructureDirectionalField field) {
-                return value.getPlaceBox(previews, field);
-            }
-            
+
             @Override
             public StructureRelative getDefault() {
                 return new StructureRelative(new LittleBox(0, 0, 0, 1, 1, 1), LittleGrid.defaultGrid());
@@ -227,9 +220,5 @@ public abstract class StructureDirectionalType<T> {
     public void advancedScale(T value, int from, int to) {
         
     }
-    
-    public LittlePlaceBoxRelative getPlaceBox(T value, LittleGroup group, StructureDirectionalField field) {
-        return null;
-    }
-    
+
 }

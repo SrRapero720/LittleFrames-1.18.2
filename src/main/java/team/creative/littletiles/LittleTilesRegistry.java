@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -18,9 +17,6 @@ import net.minecraftforge.registries.RegistryObject;
 import team.creative.littletiles.common.block.entity.BETiles;
 import team.creative.littletiles.common.block.entity.BETilesRendered;
 import team.creative.littletiles.common.block.mc.BlockTile;
-import team.creative.littletiles.common.entity.EntitySit;
-import team.creative.littletiles.common.entity.PrimedSizedTnt;
-import team.creative.littletiles.common.entity.level.LittleLevelEntity;
 
 import java.util.function.Supplier;
 
@@ -54,17 +50,10 @@ public class LittleTilesRegistry {
     // ENTITIES
     
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, LittleTiles.MODID);
-    
-    public static final RegistryObject<EntityType<PrimedSizedTnt>> SIZED_TNT_TYPE = ENTITIES
-            .register("primed_size_tnt", () -> EntityType.Builder.<PrimedSizedTnt>of(PrimedSizedTnt::new, MobCategory.MISC).build("primed_size_tnt"));
-    public static final RegistryObject<EntityType<EntitySit>> SIT_TYPE = ENTITIES
-            .register("sit", () -> EntityType.Builder.<EntitySit>of(EntitySit::new, MobCategory.MISC).build("sit"));
-    
-    public static final RegistryObject<EntityType<LittleLevelEntity>> ENTITY_LEVEL_LARGE = ENTITIES
-            .register("little_level_large", () -> EntityType.Builder.<LittleLevelEntity>of(LittleLevelEntity::new, MobCategory.MISC).build("little_level_large"));
+
     
     // DIMENSION
-    
+
     public static final ResourceKey<DimensionType> FAKE_DIMENSION = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(LittleTiles.MODID, "fake"));
     
 }

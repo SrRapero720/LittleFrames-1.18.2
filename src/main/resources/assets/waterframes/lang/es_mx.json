@@ -1,5 +1,5 @@
 {
-    "block.waterframes.creative_pic_frame": "Creative Picture Frame",
+    "block.waterframes.creative_pic_frame": "Cuadro de Imagenes",
     "label.waterframes.not_whitelisted": "URL no permitida, no se puede cargar",
     "label.waterframes.whitelist_warning": "Aviso: Lista blanca de URLs no activada",
     "gui.creative_frame.flipx": "invertir (eje X)",

@@ -31,7 +31,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeConfig;
 import team.creative.littletiles.client.level.little.LittleClientLevel;
 import team.creative.littletiles.client.render.level.LittleRenderChunk;
-import team.creative.littletiles.common.entity.level.LittleEntity;
+import team.creative.littletiles.common.entity.LittleEntity;
 
 public class LittleLevelEntityRenderer extends EntityRenderer<LittleEntity> {
 

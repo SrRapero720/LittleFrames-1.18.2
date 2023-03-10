@@ -20,10 +20,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.client.LittleTilesClient;
-import team.creative.littletiles.client.level.LittleAnimationHandlerClient;
 import team.creative.littletiles.client.render.level.LittleRenderChunk;
 import team.creative.littletiles.client.render.level.LittleRenderChunks;
-import team.creative.littletiles.common.entity.level.LittleEntity;
+import team.creative.littletiles.common.entity.LittleEntity;
 import team.creative.littletiles.common.level.little.LittleLevel;
 
 import javax.annotation.Nullable;

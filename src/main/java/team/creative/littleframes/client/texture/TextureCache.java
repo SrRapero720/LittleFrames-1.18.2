@@ -1,14 +1,13 @@
 package team.creative.littleframes.client.texture;
 
-import me.srrapero720.waterframes.gifs.GifDecoder;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.srrapero720.waterframes.gifs.GifDecoder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
-import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.BufferUtils;
