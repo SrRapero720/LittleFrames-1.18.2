@@ -9,6 +9,7 @@ import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.RenderTickEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -54,7 +55,7 @@ public class TextureCache {
     }
     
     @SubscribeEvent
-    public static void unload(ChunkEvent.Unload event) {
+    public static void unload(WorldEvent.Unload event) {
         if (event.getWorld().isClientSide()) {
             for (TextureCache cache : cached.values())
                 cache.remove();

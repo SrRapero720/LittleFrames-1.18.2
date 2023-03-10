@@ -29,7 +29,6 @@ import team.creative.littleframes.common.block.BlockCreativePictureFrame;
 
 @OnlyIn(Dist.CLIENT)
 public class CreativePictureFrameRenderer implements BlockEntityRenderer<BEPictureFrameF> {
-    
     @Override
     public boolean shouldRenderOffScreen(BEPictureFrameF frame) {
         return frame.getSizeX() > 16 || frame.getSizeY() > 16;
@@ -43,14 +42,12 @@ public class CreativePictureFrameRenderer implements BlockEntityRenderer<BEPictu
     @Override
     public void render(BEPictureFrameF frame, float partialTicks, PoseStack pose, MultiBufferSource buffer, int p_112311_, int p_112312_) {
         if (frame.isURLEmpty() || frame.alpha == 0) {
-            if (frame.display != null)
-                frame.display.release();
+            if (frame.display != null) frame.display.release();
             return;
         }
         
         FrameDisplay display = frame.requestDisplay();
-        if (display == null)
-            return;
+        if (display == null) return;
         
         display.prepare(frame.getURL(), frame.volume * Minecraft.getInstance().options
                 .getSoundSourceVolume(SoundSource.MASTER), frame.minDistance, frame.maxDistance, frame.playing, frame.loop, frame.tick);
@@ -61,8 +58,7 @@ public class CreativePictureFrameRenderer implements BlockEntityRenderer<BEPictu
         RenderSystem.setShaderColor(frame.brightness, frame.brightness, frame.brightness, frame.alpha);
         int texture = display.texture();
         
-        if (texture == -1)
-            return;
+        if (texture == -1) return;
         RenderSystem.bindTexture(texture);
         RenderSystem.setShaderTexture(0, texture);
         

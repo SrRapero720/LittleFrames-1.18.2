@@ -40,7 +40,7 @@ public class LevelRendererMixin {
 
     @Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/LevelRenderer;zTransparentOld:D", opcode = Opcodes.PUTFIELD), method = "renderChunkLayer")
     public void resortTransparency(RenderType layer, PoseStack pose, double x, double y, double z, Matrix4f projectionMatrix, CallbackInfo info) {
-//        LittleClientEventHandler.transparencySortingIndex++;
+        LittleClientEventHandler.transparencySortingIndex++;
         if (LittleTilesClient.ANIMATION_HANDLER != null)
             LittleTilesClient.ANIMATION_HANDLER.resortTransparency(layer, x, y, z);
     }

@@ -11,6 +11,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import team.creative.creativecore.common.level.IOrientatedLevel;
 import team.creative.creativecore.common.level.ISubLevel;
@@ -87,7 +88,7 @@ public class NeighborUpdateOrganizer {
     }
     
     @SubscribeEvent
-    public void unload(ChunkEvent.Unload event) {
+    public void unload(WorldEvent.Unload event) {
         positions.removeKey((Level) event.getWorld());
     }
     
