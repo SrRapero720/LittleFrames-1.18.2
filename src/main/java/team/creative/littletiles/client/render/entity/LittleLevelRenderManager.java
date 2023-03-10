@@ -19,6 +19,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littletiles.LittleTiles;
+import team.creative.littletiles.client.LittleTilesClient;
+import team.creative.littletiles.client.level.LittleAnimationHandlerClient;
 import team.creative.littletiles.client.render.level.LittleRenderChunk;
 import team.creative.littletiles.client.render.level.LittleRenderChunks;
 import team.creative.littletiles.common.entity.level.LittleEntity;
@@ -266,6 +268,7 @@ public class LittleLevelRenderManager implements Iterable<LittleRenderChunk> {
     }
 
     public void allChanged() {
+        LittleTilesClient.ANIMATION_HANDLER.allChanged();
         needsFullRenderChunkUpdate = true;
 
         if (this.lastFullRenderChunkUpdate != null)

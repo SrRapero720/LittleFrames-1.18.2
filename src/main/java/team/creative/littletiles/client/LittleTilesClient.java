@@ -29,6 +29,7 @@ import team.creative.creativecore.client.render.model.CreativeBlockModel;
 import team.creative.littletiles.LittleTiles;
 import team.creative.littletiles.LittleTilesRegistry;
 import team.creative.littletiles.client.level.LevelHandlersClient;
+import team.creative.littletiles.client.level.LittleAnimationHandlerClient;
 import team.creative.littletiles.client.render.block.BETilesRenderer;
 import team.creative.littletiles.client.render.level.LittleChunkDispatcher;
 import team.creative.littletiles.common.grid.LittleGrid;
@@ -50,7 +51,7 @@ public class LittleTilesClient {
 
     public static final LevelHandlersClient LEVEL_HANDLERS = new LevelHandlersClient();
 //    public static LittleActionHandlerClient ACTION_HANDLER;
-//    public static LittleAnimationHandlerClient ANIMATION_HANDLER;
+    public static LittleAnimationHandlerClient ANIMATION_HANDLER;
 //    public static LittleInteractionHandlerClient INTERACTION_HANDLER;
 //    public static ItemRenderCache ITEM_RENDER_CACHE;
 

@@ -20,11 +20,11 @@ public class LittleChunkDispatcher {
     public static int currentRenderState = Integer.MIN_VALUE;
     private static final Minecraft mc = Minecraft.getInstance();
 
-//    public static void onReloadRenderers(LevelRenderer levelRenderer) {
-//        if (mc.levelRenderer == levelRenderer)
-//            currentRenderState++;
-//        LittleTilesClient.ANIMATION_HANDLER.allChanged();
-//    }
+    public static void onReloadRenderers(LevelRenderer levelRenderer) {
+        if (mc.levelRenderer == levelRenderer)
+            currentRenderState++;
+        LittleTilesClient.ANIMATION_HANDLER.allChanged();
+    }
 
     public static void onOptifineMarksChunkRenderUpdateForDynamicLights(RenderChunkExtender chunk) {
         chunk.dynamicLightUpdate(true);
