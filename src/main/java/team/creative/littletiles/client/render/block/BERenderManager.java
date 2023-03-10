@@ -1,20 +1,36 @@
 package team.creative.littletiles.client.render.block;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import me.srrapero720.creativecore.client.render.face.FRenderBoxFace;
+import me.srrapero720.creativecore.client.render.face.FRenderBoxFaceSpecial;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import team.creative.creativecore.common.util.math.base.Facing;
+import team.creative.creativecore.common.util.type.list.Pair;
 import team.creative.littletiles.client.render.cache.BlockBufferCache;
+import team.creative.littletiles.client.render.cache.builder.RenderingBlockContext;
 import team.creative.littletiles.client.render.level.LittleChunkDispatcher;
 import team.creative.littletiles.client.render.mc.RenderChunkExtender;
 import team.creative.littletiles.client.render.tile.LittleFRenderBox;
 import team.creative.littletiles.common.block.entity.BETiles;
+import team.creative.littletiles.common.block.little.tile.LittleTile;
+import team.creative.littletiles.common.block.little.tile.parent.IParentCollection;
+import team.creative.littletiles.common.math.box.LittleBox;
+import team.creative.littletiles.common.math.face.LittleFace;
+import team.creative.littletiles.common.math.face.LittleFaceState;
+import team.creative.littletiles.common.math.face.LittleServerFace;
 import team.creative.littletiles.common.structure.LittleStructure;
+import team.creative.littletiles.common.structure.attribute.LittleStructureAttribute;
+import team.creative.littletiles.common.structure.exception.CorruptedConnectionException;
+import team.creative.littletiles.common.structure.exception.NotYetConnectedException;
 
 @OnlyIn(Dist.CLIENT)
 public class BERenderManager {
@@ -166,5 +182,90 @@ public class BERenderManager {
 
     public BlockBufferCache getBufferCache() {
         return bufferCache;
+    }
+
+    public void beforeBuilding(RenderingBlockContext context) {
+        if (neighbourChanged) {
+            neighbourChanged = false;
+
+            for (Map.Entry<RenderType, List<LittleFRenderBox>> entry : boxCache.entrySet()) {
+                if (entry.getValue() == null)
+                    continue;
+                for (LittleFRenderBox cube : entry.getValue())
+                    for (int k = 0; k < Facing.VALUES.length; k++) {
+                        Facing facing = Facing.VALUES[k];
+                        LittleFaceState state = cube.box.getFaceState(facing);
+
+                        if (state.outside())
+                            calculateFaces(facing, state, context, (LittleTile) cube.customData, cube);
+                    }
+            }
+        }
+    }
+
+    private void calculateFaces(Facing facing, LittleFaceState state, RenderingBlockContext context, @Nullable LittleTile tile, LittleFRenderBox cube) {
+        if (state.coveredFully()) {
+            cube.setFace(facing, FRenderBoxFace.NOT_RENDER);
+            return;
+        }
+
+        if (tile != null && tile.isTranslucent() && state.partially()) {
+            LittleFace face = cube.box.generateFace(be.getGrid(), facing);
+            BETiles toCheck = be;
+            if (state.outside()) {
+                toCheck = context.getNeighbour(facing);
+                face.move(facing);
+            }
+            if (toCheck.shouldFaceBeRendered(face, tile))
+                cube.setFace(facing, new FRenderBoxFaceSpecial(face.generateFans(), (float) face.grid.pixelLength));
+            else
+                cube.setFace(facing, FRenderBoxFace.NOT_RENDER);
+
+            cube.customData = tile;
+        } else
+            cube.setFace(facing, FRenderBoxFace.RENDER);
+    }
+
+    public List<LittleFRenderBox> getRenderingBoxes(RenderingBlockContext context, RenderType layer) {
+        List<LittleFRenderBox> cachedCubes = boxCache.get(layer);
+        if (cachedCubes != null)
+            return cachedCubes;
+
+        List<LittleFRenderBox> boxes = null;
+        LittleServerFace serverFace = new LittleServerFace(be);
+
+        for (Pair<IParentCollection, LittleTile> pair : be.allTiles()) {
+            LittleTile tile = pair.value;
+
+            if (!tile.canRenderInLayer(layer))
+                continue;
+
+            for (LittleBox box : tile) {
+                box.hasOrCreateFaceState(pair.key, tile, serverFace);
+
+                // Check for sides which does not need to be rendered
+                LittleFRenderBox cube = pair.key.getRenderingBox(tile, box, layer);
+                if (cube == null)
+                    continue;
+
+                for (int k = 0; k < Facing.VALUES.length; k++)
+                    calculateFaces(Facing.VALUES[k], cube.box.getFaceState(Facing.VALUES[k]), context, tile, cube);
+
+                if (boxes == null)
+                    boxes = new ArrayList<>();
+                boxes.add(cube);
+            }
+
+        }
+        for (LittleStructure structure : be.loadedStructures(LittleStructureAttribute.EXTRA_RENDERING))
+            try {
+                if (boxes == null)
+                    boxes = new ArrayList<>();
+                structure.checkConnections();
+                structure.getRenderingBoxes(be.getBlockPos(), layer, boxes);
+            } catch (CorruptedConnectionException | NotYetConnectedException e) {}
+
+        boxCache.put(layer, boxes);
+        return boxes;
     }
 }
