@@ -17,11 +17,11 @@ import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.littleframes.client.texture.TextureCache;
 import team.creative.littleframes.client.vlc.VLCDiscovery;
-import uk.co.caprica.vlcj.player.base.MediaPlayer;
-import uk.co.caprica.vlcj.player.component.CallbackMediaPlayerComponent;
-import uk.co.caprica.vlcj.player.embedded.videosurface.callback.BufferFormat;
-import uk.co.caprica.vlcj.player.embedded.videosurface.callback.BufferFormatCallback;
-import uk.co.caprica.vlcj.player.embedded.videosurface.callback.RenderCallback;
+import me.srrapero720.waterframes.vlcj.player.base.MediaPlayer;
+import me.srrapero720.waterframes.vlcj.player.component.CallbackMediaPlayerComponent;
+import me.srrapero720.waterframes.vlcj.player.embedded.videosurface.callback.BufferFormat;
+import me.srrapero720.waterframes.vlcj.player.embedded.videosurface.callback.BufferFormatCallback;
+import me.srrapero720.waterframes.vlcj.player.embedded.videosurface.callback.RenderCallback;
 
 public class FrameVideoDisplay extends FrameDisplay {
     

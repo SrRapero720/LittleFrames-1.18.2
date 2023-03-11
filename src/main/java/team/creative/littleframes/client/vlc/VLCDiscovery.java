@@ -3,10 +3,10 @@ package team.creative.littleframes.client.vlc;
 import team.creative.creativecore.reflection.ReflectionHelper;
 import team.creative.littleframes.LittleFrames;
 import com.sun.jna.NativeLibrary;
-import uk.co.caprica.vlcj.binding.support.runtime.RuntimeUtil;
-import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
-import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery;
-import uk.co.caprica.vlcj.factory.discovery.strategy.NativeDiscoveryStrategy;
+import me.srrapero720.waterframes.vlcj.binding.support.runtime.RuntimeUtil;
+import me.srrapero720.waterframes.vlcj.factory.MediaPlayerFactory;
+import me.srrapero720.waterframes.vlcj.factory.discovery.NativeDiscovery;
+import me.srrapero720.waterframes.vlcj.factory.discovery.strategy.NativeDiscoveryStrategy;
 
 import java.lang.ref.Reference;
 import java.lang.reflect.Field;
