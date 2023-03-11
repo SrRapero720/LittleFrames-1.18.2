@@ -1,4 +1,4 @@
-package me.srrapero720.waterframes.mixin.client;
+package me.srrapero720.waterframes.mixin;
 
 import net.minecraftforge.client.model.pipeline.QuadGatheringTransformer;
 import net.minecraftforge.client.model.pipeline.VertexLighterFlat;

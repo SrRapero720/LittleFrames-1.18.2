@@ -4,36 +4,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "waterframes.mixin.refmap.json",
   "mixins": [
-    "common.block.StateHolderAccessor",
-    "common.collision.BlockCollisionsMixin",
-    "common.entity.EntityMixin",
-    "common.entity.PrimedTntAccessor",
-    "common.level.BlockBehaviourAccessor",
-    "server.level.ChunkMapAccessor",
-    "server.level.ChunkSerializerAccessor",
-    "server.level.MinecraftServerAccessor",
-    "server.level.ServerChunkCacheAccessor",
-    "server.level.ServerChunkCacheMixin",
-    "server.level.ServerLevelMixin",
-    "server.network.ServerGamePacketListenerImplAccessor",
-    "server.network.ServerGamePacketListenerImplMixin"
+    "QuadLighterMixin"
   ],
   "client": [
-    "client.BufferBuilderAccessor",
-    "client.MultiPlayerGameModeAccessor",
-    "client.level.ClientChunkCacheAccessor",
-    "client.level.ClientLevelAccessor",
-    "client.level.ClientLevelMixin",
-    "client.network.ClientPacketListenerAccessor",
-    "client.render.CompiledChunkAccessor",
-    "client.render.GameRendererAccessor",
-    "client.render.LevelRendererAccessor",
-    "client.render.LightTextureAccessor",
-    "client.render.ParticleEngineAccessor",
-    "client.render.RebuildTaskMixin",
-    "client.render.RenderChunkMixin",
-    "client.render.VertexBufferMixin",
-    "client.render.ViewAreaAccessor"
   ],
   "minVersion": "0.8"
 }

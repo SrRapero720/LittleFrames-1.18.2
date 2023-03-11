@@ -7,7 +7,7 @@ license="All rights reserved"
 [[mods]]
 	modId="waterframes"
 	version="${file.jarVersion}"
-	displayName="WATERFraMES"
+	displayName="WATERFrAMES"
 	displayURL="https://www.curseforge.com/minecraft/mc-mods/littleframes-1-18-2"
 	authors="SrRapero720 | CoolDCB"
 	description='''

@@ -1,17 +1,18 @@
 package team.creative.littleframes;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import team.creative.creativecore.common.config.api.CreativeConfig;
 import team.creative.creativecore.common.config.sync.ConfigSynchronization;
-import me.srrapero720.creativecore.common.util.mc.PlayerUtils;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 @Deprecated(forRemoval = false)
 //TODO: Replace this class with server.LittleConfig
@@ -72,9 +73,15 @@ public class LittleFramesConfig {
         }
         return false;
     }
+
+    public static GameType getGameType(Player player) {
+        if (player instanceof ServerPlayer)
+            return ((ServerPlayer) player).gameMode.getGameModeForPlayer();
+        return Minecraft.getInstance().gameMode.getPlayerMode();
+    }
     
     public boolean canInteract(Player player, Level level) {
-        if (disableAdventure && PlayerUtils.getGameType(player) == GameType.ADVENTURE)
+        if (disableAdventure && getGameType(player) == GameType.ADVENTURE)
             return false;
         if (onlyCreative && !player.isCreative())
             return false;

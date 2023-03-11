@@ -4,7 +4,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import team.creative.littleframes.LittleFramesRegistry;
-import team.creative.littletiles.LittleTilesRegistry;
 
 public class DefaultTab extends CreativeModeTab {
     final String iconName;

@@ -89,7 +89,7 @@ public class GuiCreativePictureFrame extends GuiLayer {
     }
     
     public GuiCreativePictureFrame(BEPictureFrameF frame, int scaleSize) {
-        super("creative_frame", 200, 210);
+        super("waterframe", 250, 220);
         this.frame = frame;
         this.scaleMultiplier = 1F / (scaleSize);
     }
