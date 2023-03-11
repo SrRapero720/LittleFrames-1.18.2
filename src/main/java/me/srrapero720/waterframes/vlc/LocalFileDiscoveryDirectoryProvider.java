@@ -4,8 +4,8 @@ package me.srrapero720.waterframes.vlc;
 import java.nio.file.Path;
 
 import net.minecraftforge.fml.loading.FMLPaths;
-import me.srrapero720.waterframes.vlcj.binding.support.runtime.RuntimeUtil;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider;
+import me.srrapero720.vlcj.binding.support.runtime.RuntimeUtil;
+import me.srrapero720.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider;
 
 public class LocalFileDiscoveryDirectoryProvider implements DiscoveryDirectoryProvider {
     

@@ -26,18 +26,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import me.srrapero720.waterframes.vlcj.factory.discovery.NativeDiscovery;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.ConfigDirConfigFileDiscoveryDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.DiscoveryProviderPriority;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.JnaLibraryPathDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.LinuxWellKnownDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.MacOsWellKnownDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.SystemPathDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.UserDirConfigFileDiscoveryDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.UserDirDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.provider.WindowsInstallDirectoryProvider;
-import me.srrapero720.waterframes.vlcj.factory.discovery.strategy.BaseNativeDiscoveryStrategy;
+import me.srrapero720.vlcj.factory.discovery.NativeDiscovery;
+import me.srrapero720.vlcj.factory.discovery.provider.ConfigDirConfigFileDiscoveryDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.DiscoveryProviderPriority;
+import me.srrapero720.vlcj.factory.discovery.provider.JnaLibraryPathDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.LinuxWellKnownDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.MacOsWellKnownDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.SystemPathDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.UserDirConfigFileDiscoveryDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.UserDirDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.provider.WindowsInstallDirectoryProvider;
+import me.srrapero720.vlcj.factory.discovery.strategy.BaseNativeDiscoveryStrategy;
 
 /** Implementation of a native discovery strategy that searches a list of well-known directories.
  * <p>
@@ -46,7 +46,7 @@ import me.srrapero720.waterframes.vlcj.factory.discovery.strategy.BaseNativeDisc
  * <p>
  * By using service loader, a client application can easily add their own search directories simply by adding their own
  * implementation of a discovery directory provider to the run-time classpath, and adding/registering their provider
- * class in <code>META-INF/services/me.srrapero720.waterframes.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider</code> - the
+ * class in <code>META-INF/services/me.srrapero720.vlcj.factory.discovery.provider.DiscoveryDirectoryProvider</code> - the
  * client application need not concern itself directly with the default {@link NativeDiscovery} component.
  * <p>
  * Provider implementations have a priority. All of the standard provider implementations have a priority &lt; 0, see

@@ -19,8 +19,8 @@
 
 package me.srrapero720.waterframes.vlc;
 
-import me.srrapero720.waterframes.vlcj.binding.lib.LibC;
-import me.srrapero720.waterframes.vlcj.binding.support.runtime.RuntimeUtil;
+import me.srrapero720.vlcj.binding.lib.LibC;
+import me.srrapero720.vlcj.binding.support.runtime.RuntimeUtil;
 
 /** Default implementation of a native discovery strategy that searches directories on the Linux operating system. */
 public class LinuxNativeDiscoveryStrategyFixed extends DirectoryProviderDiscoveryStrategyFixed {

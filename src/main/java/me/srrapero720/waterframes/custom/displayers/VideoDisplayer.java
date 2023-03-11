@@ -17,11 +17,11 @@ import team.creative.creativecore.client.CreativeCoreClient;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
 import me.srrapero720.waterframes.custom.displayers.texture.TextureCache;
 import me.srrapero720.waterframes.vlc.VLCDiscovery;
-import me.srrapero720.waterframes.vlcj.player.base.MediaPlayer;
-import me.srrapero720.waterframes.vlcj.player.component.CallbackMediaPlayerComponent;
-import me.srrapero720.waterframes.vlcj.player.embedded.videosurface.callback.BufferFormat;
-import me.srrapero720.waterframes.vlcj.player.embedded.videosurface.callback.BufferFormatCallback;
-import me.srrapero720.waterframes.vlcj.player.embedded.videosurface.callback.RenderCallback;
+import me.srrapero720.vlcj.player.base.MediaPlayer;
+import me.srrapero720.vlcj.player.component.CallbackMediaPlayerComponent;
+import me.srrapero720.vlcj.player.embedded.videosurface.callback.BufferFormat;
+import me.srrapero720.vlcj.player.embedded.videosurface.callback.BufferFormatCallback;
+import me.srrapero720.vlcj.player.embedded.videosurface.callback.RenderCallback;
 
 public class VideoDisplayer extends DisplayerApi {
     

@@ -2,10 +2,10 @@ package me.srrapero720.waterframes.vlc;
 
 import com.sun.jna.NativeLibrary;
 import me.srrapero720.waterframes.WaterFrames;
-import me.srrapero720.waterframes.vlcj.binding.support.runtime.RuntimeUtil;
-import me.srrapero720.waterframes.vlcj.factory.MediaPlayerFactory;
-import me.srrapero720.waterframes.vlcj.factory.discovery.NativeDiscovery;
-import me.srrapero720.waterframes.vlcj.factory.discovery.strategy.NativeDiscoveryStrategy;
+import me.srrapero720.vlcj.binding.support.runtime.RuntimeUtil;
+import me.srrapero720.vlcj.factory.MediaPlayerFactory;
+import me.srrapero720.vlcj.factory.discovery.NativeDiscovery;
+import me.srrapero720.vlcj.factory.discovery.strategy.NativeDiscoveryStrategy;
 import team.creative.creativecore.reflection.ReflectionHelper;
 
 import java.lang.ref.Reference;
